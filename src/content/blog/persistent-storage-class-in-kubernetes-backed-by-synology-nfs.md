@@ -6,7 +6,7 @@ description: 'Now that we have a cluster up and running (see part 1
 heroImage: '/content/images/2021/06/synology-nfs.png'
 slug: 'persistent-storage-class-in-kubernetes-backed-by-synology-nfs'
 pubDate: '2021-06-25T05:08:24.000Z'
-categories: ['veeam']
+categories: ['Infrastructure']
 author: ["ben"]
 ---
 
@@ -48,63 +48,64 @@ We now need to run a few commands against the cluster with kubectl.
 
 First, add the following helm repository - you can view the [project here on github](https://github.com/kubernetes-sigs/nfs-subdir-external-provisioner) for more information. 
 
+```
     helm repo add nfs-subdir-external-provisioner https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner/
-    
-    ```
-    
-    Now that is added, you can install the chart with the following command, just switch out the nfs.server and nfs.path to your specific settings.
-    
-        helm install nfs-subdir-external-provisioner nfs-subdir-external-provisioner/nfs-subdir-external-provisioner \
-            --set nfs.server=192.168.178.140 \
-            --set nfs.path=/volume1/CLOUDNATIVE1
-        
-        ```
-        ![](/content/images/2021/06/Screen-Shot-2021-06-23-at-4.43.06-PM.png)
-        Now the storage class has been added you can confirm this by running 
-        
-            kubectl get storageclass
-            
-            ```
-            
-            You will note however that it is not the default, in my cluste the local-path storage class is still the default. To remedy we just need to issue a couple of commands, take note of the names of your storage classes and run.
-            
-            set current local-path to non-default class first
-            
-                kubectl patch storageclass local-path -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"false"}}}'
-                
-                ```
-                
-                Then set our fns class as the default
-                
-                    kubectl patch storageclass nfs-client -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
-                    
-                    ```
-                    
-                    Once that is done run **kubectl get storageclass** again to verify and you can see it now has (default) after the nfs class.
-                    ![](/content/images/2021/06/image-8.png)
-                    That's it in terms of a basic configuration, there are a few other parameters you can set during deployment and they are available on the [readme in the project on github](https://github.com/kubernetes-sigs/nfs-subdir-external-provisioner). 
-                    
-                    Now if you provision some workloads if they ask for persistent storage they will get it via the NAS, as below you can see a few that i have running here already.
-                    ![](/content/images/2021/06/image-9.png)Claims made by the cluster visible in the Synology File Station
-                    ### What next?
-                    
-                    In a followup post I will show you how to
-                    
-                    - [**Deploy Rancher **so I can login and manage my cluster](https://benyoung.blog/deploying-rancher-to-manage-a-kubernetes-cluster/), view performance metrics, deploy things a littler easier than basing away in command line
-                    - **Backup workloads** using Veeam's Kasten suite
-                    
-                    
-                    You can view the *previous items* in the series here
-                    
-                    - Setting up the [Kubernetes cluster with k3os, k3s and cloud-init](https://benyoung.blog/setting-up-a-kubernetes-cluster-with-k3s-and-k3os-via-cloud-init/)
-                    
-                    
-                
-                
-            
-            
-        
-        
-    
-    
+```
+
+Now that is added, you can install the chart with the following command, just switch out the nfs.server and nfs.path to your specific settings.
+
+```
+helm install nfs-subdir-external-provisioner nfs-subdir-external-provisioner/nfs-subdir-external-provisioner \
+--set nfs.server=192.168.178.140 \
+--set nfs.path=/volume1/CLOUDNATIVE1
+```
+
+![](/content/images/2021/06/Screen-Shot-2021-06-23-at-4.43.06-PM.png)
+Now the storage class has been added you can confirm this by running 
+
+```
+kubectl get storageclass
+```
+
+You will note however that it is not the default, in my cluste the local-path storage class is still the default. To remedy we just need to issue a couple of commands, take note of the names of your storage classes and run.
+
+set current local-path to non-default class first
+
+```
+kubectl patch storageclass local-path -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"false"}}}'
+```
+
+Then set our fns class as the default
+
+```
+kubectl patch storageclass nfs-client -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
+```
+
+Once that is done run **kubectl get storageclass** again to verify and you can see it now has (default) after the nfs class.
+![](/content/images/2021/06/image-8.png)
+That's it in terms of a basic configuration, there are a few other parameters you can set during deployment and they are available on the [readme in the project on github](https://github.com/kubernetes-sigs/nfs-subdir-external-provisioner). 
+
+Now if you provision some workloads if they ask for persistent storage they will get it via the NAS, as below you can see a few that i have running here already.
+![](/content/images/2021/06/image-9.png)Claims made by the cluster visible in the Synology File Station
+### What next?
+
+In a followup post I will show you how to
+
+- [**Deploy Rancher **so I can login and manage my cluster](https://benyoung.blog/deploying-rancher-to-manage-a-kubernetes-cluster/), view performance metrics, deploy things a littler easier than basing away in command line
+- **Backup workloads** using Veeam's Kasten suite
+
+
+You can view the *previous items* in the series here
+
+- Setting up the [Kubernetes cluster with k3os, k3s and cloud-init](https://benyoung.blog/setting-up-a-kubernetes-cluster-with-k3s-and-k3os-via-cloud-init/)
+
+
+
+
+
+
+
+
+
+
 

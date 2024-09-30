@@ -32,19 +32,19 @@ Now with the locks off the file you can begin to perform the defragmentation ope
 
 **2) **Open up a powershell window and run the following command
 
+```powershell
      esentutl /d "E:\Jetdefrag\repository.adb" /t "E:\Jetdefrag\tempdfg.edb"
-    
-    ```
-    
-    > Note the path, in Backup for Office365 a repository.adb file is created one per year (and more than one per year if your repositories are massive) so your path will be more like E:\YourRepository\2020 (2019, 2018 etc, one per year) so you will want to jump through and run this on all of them
-    
-    
-    The /d flag is the target repository (that Veeam has been using already)
-    
-    You will also see the /t flag, **this is important**, by default without this flag/switch it will use your C:\ to write the new defragmented file to before copying it back so ensure you redirect this to a drive with free space (unless you have heaps of free space on the C:\).
-    
-    Now let it do it's thing, you will see the file specified with the /t switch start to fill up and the console window does have a nifty little progress bar. Once complete you will see the following
-    ![](/content/images/2020/09/defrag-operations-esentutl.png)
-    The temp file will then be moved in place of your existing repository.adb and you are now free to start the Veeam Archiver Service again, then run a job to confirm that the database is still in tact, or you can open up the latest backup point via the Veeam Backup for Office 365 Console and browse the data via the Explorers.
+```
+
+> Note the path, in Backup for Office365 a repository.adb file is created one per year (and more than one per year if your repositories are massive) so your path will be more like E:\YourRepository\2020 (2019, 2018 etc, one per year) so you will want to jump through and run this on all of them
+
+
+The /d flag is the target repository (that Veeam has been using already)
+
+You will also see the /t flag, **this is important**, by default without this flag/switch it will use your C:\ to write the new defragmented file to before copying it back so ensure you redirect this to a drive with free space (unless you have heaps of free space on the C:\).
+
+Now let it do it's thing, you will see the file specified with the /t switch start to fill up and the console window does have a nifty little progress bar. Once complete you will see the following
+![](/content/images/2020/09/defrag-operations-esentutl.png)
+The temp file will then be moved in place of your existing repository.adb and you are now free to start the Veeam Archiver Service again, then run a job to confirm that the database is still in tact, or you can open up the latest backup point via the Veeam Backup for Office 365 Console and browse the data via the Explorers.
     
 

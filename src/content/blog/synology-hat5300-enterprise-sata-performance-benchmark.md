@@ -5,7 +5,7 @@ heroImage: '/content/images/2021/05/heading@2x.png'
 slug: 'synology-hat5300-enterprise-sata-performance-benchmark'
 pubDate: '2021-05-14T21:31:22.000Z'
 tags: ["synology"] 
-categories: ['veeam']
+categories: ['Infrastructure']
 author: ["ben"]
 ---
 

@@ -8,7 +8,7 @@
     "logoDark": "/benyoung-letterb.svg",
     "lang": "en",
     "description": "A blog where I can share my thoughts and insights on the ever-evolving world of Veeam, technology, enterprise strategy, and the fascinating intersection of automation and AI. Expect in-depth analysis, practical advice, and a dose of real-world experience from a seasoned tech professional.",
-    "pageSize": 9
+    "pageSize": 12
   },
   "features": {
     "youtube": false,
@@ -16,11 +16,11 @@
   },
   "metadata": {
     "meta_author": "Ben Young",
-    "meta_description": "Veeam Field CTO for APJ and a proud 5x Veeam Vanguard. Sharing my thoughts on technology and showcasing the art of the possible."
+    "meta_description": "Field CTO, APJ @ Veeam and 5x Veeam Vanguard. Sharing my thoughts on technology and showcasing the art of the possible."
   },
   "author": {
     "name": "Ben Young",
     "avatar": "/benyoung.jpg",
-    "bio": "Veeam Field CTO for APJ and a proud 5x Veeam Vanguard. Sharing my thoughts on technology and showcasing the art of the possible. "
+    "bio": "Field CTO, APJ @ Veeam and 5x Veeam Vanguard. Sharing my thoughts on technology and showcasing the art of the possible. "
   }
 }

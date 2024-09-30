@@ -7,7 +7,7 @@ heroImage: '/content/images/2023/05/Recalibrate-views-edge-computing.jpg'
 slug: 'time-to-recalibrate-your-views-on-edge-computing'
 pubDate: '2023-05-24T17:25:45.000Z'
 tags: ["techfieldday", "edgefieldday", "edge"] 
-categories: ['veeam']
+categories: ['TFD']
 author: ["ben"]
 ---
 

@@ -6,7 +6,7 @@ heroImage: '/content/images/2024/06/QlikAnswers.jpg'
 slug: 'qlik-answers-and-the-future-of-enterprise-search'
 pubDate: '2024-06-27T00:10:59.000Z'
 tags: ["qlik", "ai"] 
-categories: ['veeam']
+categories: ['TFD']
 author: ["ben"]
 ---
 

@@ -6,7 +6,7 @@ heroImage: '/content/images/2023/12/Ollama-Virtual-GPU-Local-Private.jpg'
 slug: 'chat-privately-using-ollama-on-your-own-infrastructure-llama2-and-mistral-on-an-nvidia-a40-48gb-gpu'
 pubDate: '2023-12-15T01:01:21.000Z'
 tags: ["nvidia", "llm", "largelanguagemodel", "ollama"] 
-categories: ['veeam']
+categories: ['AI']
 author: ["ben"]
 ---
 
@@ -25,17 +25,22 @@ Today we will looking at Ollama ([ollama.ai](ollama.ai)) which will very quickly
 ### Installing Ollama
 
 This is super simple, they have [manual install instructions](https://github.com/jmorganca/ollama/blob/main/docs/linux.md) but I just used the one-liner they also provide, as below;
+
 ```
 curl https://ollama.ai/install.sh | sh
 ```
+
 Let that do it's thing and then can use your shell to call ollama and pull down models.
 
 ### Install / pull models
 
 There is a library of models available and you can run as many of these as you need locally. New ones are being added or updated all of the time. Let's take a look at Mistral.
+
 ```
 ollama pull mistral
-```![](/content/images/2023/12/image-23.png)
+```
+
+![](/content/images/2023/12/image-23.png)
 Once model has been pulled you can rinse and repeat with other models such as Llama2.
 
 You are now ready to start using the model **locally.**
@@ -43,9 +48,11 @@ You are now ready to start using the model **locally.**
 ### Talking via the command line
 
 Choose a model then issue the run model command
+
 ```
 ollama run mistral
 ```
+
 You can begin to chat! Ask it to write code, make jokes. This is realtime by the way, pretty good performance!
 ![](/content/images/2023/12/ollama-mistral-cli.gif)
 So this is handy, by really we want to be able to integrate these into our chatbots or business applications. This is where the API comes in.
@@ -59,10 +66,13 @@ By default the API binds itself to 127.0.0.1 so external access even on the loca
 On Linux:
 
 Create a `systemd` drop-in directory and set `Environment=OLLAMA_HOST`
+
 ```
 mkdir -p /etc/systemd/system/ollama.service.d echo '[Service]' >>/etc/systemd/system/ollama.service.d/environment.confecho 'Environment="OLLAMA_HOST=0.0.0.0:11434"' >>/etc/systemd/system/ollama.service.d/environment.conf
 ```
+
 Reload `systemd` and restart Ollama:
+
 ```
 systemctl daemon-reload 
 systemctl restart ollama
@@ -72,13 +82,16 @@ Now, you can hit this on the local LAN address and expose this appopriately thro
 ### Working with the API
 
 For this its a pretty simple payload, we can POST to /api/generate with at minimum the model and prompt to get some data back.
+
 ```
 {
   "model": "mistral",
   "prompt": "Tell me 3 dad jokes about christmas."
 }
 ```
+
 You will note though when calling this manually, we actually by default get the streaming response back as a tonne of json objects. Extract below.
+
 ```
 {
     "model": "mistral",
@@ -111,17 +124,22 @@ You will note though when calling this manually, we actually by default get the 
     "done": false
 }
 ```
+
 This is useful when we want to work with this in code and our chatbots as we can stream the tokens as they come out of the model in real time.
 
 If you just want to use this to get a single generated response you can do this by adding stream: false in the payload
+
 ```
 {
   "model": "mistral",
   "prompt": "Tell me 3 dad jokes about christmas.",
   "stream": false
 }
-```![](/content/images/2023/12/image-26.png)
+```
+
+![](/content/images/2023/12/image-26.png)
 Now the response (takes a little longer) but we get a single response object we can work with.
+
 ```
 {
     "model": "mistral",
@@ -130,6 +148,7 @@ Now the response (takes a little longer) but we get a single response object we 
     "done": true
 }
 ```
+
 Pretty cool eh!
 
 Now you can interchange model: "mistral" for Llama2 or any other model you wish to use from their library.

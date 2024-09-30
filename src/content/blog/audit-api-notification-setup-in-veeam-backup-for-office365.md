@@ -54,7 +54,7 @@ Now, the value we are interested is the access_token (the big long string on my 
 Now we have logged in we can set our audit notification settings. The official documentation [for v5.0 is here](https://helpcenter.veeam.com/docs/vbo365/rest/put_vbo_audit_settings.html?ver=50).
 
 The sample JSON payload (more on this in a minute) they provide is as follows
-
+```json
     {
     
      "enableNotification": "true",
@@ -76,14 +76,12 @@ The sample JSON payload (more on this in a minute) they provide is as follows
      "subject": "[Audit] %OrganizationName% - %DisplayName% - %Action% initiated by %InitiatedByUserName% at %StartTime%"
     
     }
-    
-    
-    ```
+```
     
     I will be modifying mine a little to talk to a local mail relay without authentication for now so my payload is going to look like the following
-    
-        
-        {
+ 
+ ```json
+  {
         
          "enableNotification": "true",
         
@@ -104,33 +102,31 @@ The sample JSON payload (more on this in a minute) they provide is as follows
          "subject": "[Audit] %OrganizationName% - %DisplayName% - %Action% initiated by %InitiatedByUserName% at %StartTime%"
         
         }
+```
         
-        
-        ```
-        
-        You can customise the subject with the placeholders between the %'s. I will leave it as the default but this would be useful if you were trying to have a system such as a service desk or even mail rules that require you to have a certain format.
-        
-        Ok, onto setting it up. With the payload customised to meet your needs, create a new request in Postman llike you did before. Select the **GET to PUT ** this time.
-        
-        The URL we want in the address bar is going to be **https://yourvboserver:4443/v5/auditemailsettings**
-        
-        Select **Authorization** below the url bar, now you can select **Bearer Token** as the type and in the token field enter the **access_token** from step2
-        ![](/content/images/2020/12/authorization.png)
-        Now select **Body **and this time we want the **raw** option with the type selected as JSON (usually defaults to text)
-        
-        Paste your JSON into the empty box so it looks like the following
-        ![](/content/images/2020/12/4-put-audit-settings.png)
-        Hit that send button again! and if you got a http 200 (OK) response back your settings were set, it will also be verified as you will get a payload back with the data you just submitted with some additional bits.
-        ![](/content/images/2020/12/put-ok.png)
-        That's it. And by enabling this setting the Veeam Backup for Office365 server will send a test email which will notify you that it's been enabled. 
-        ![](/content/images/2020/12/email-notification.png)
-        Now you are ready to setup some audit items for users/groups of an organisation you manage. Until then the server will not trigger anything. 
-        
-        > [Part 2 shows you how to set users/groups up](/get-a-notification-when-restricted-user-data-is-accessed-in-veeam-backup-for-office365/) for alerting when data is accessed. 
-        
-        
-        And for extra points, dive into the [Managing Audit Items](https://helpcenter.veeam.com/docs/vbo365/rest/audititems.html?ver=50) documentation.
-        
-    
-    
+You can customise the subject with the placeholders between the %'s. I will leave it as the default but this would be useful if you were trying to have a system such as a service desk or even mail rules that require you to have a certain format.
+
+Ok, onto setting it up. With the payload customised to meet your needs, create a new request in Postman llike you did before. Select the **GET to PUT ** this time.
+
+The URL we want in the address bar is going to be **https://yourvboserver:4443/v5/auditemailsettings**
+
+Select **Authorization** below the url bar, now you can select **Bearer Token** as the type and in the token field enter the **access_token** from step2
+![](/content/images/2020/12/authorization.png)
+Now select **Body **and this time we want the **raw** option with the type selected as JSON (usually defaults to text)
+
+Paste your JSON into the empty box so it looks like the following
+![](/content/images/2020/12/4-put-audit-settings.png)
+Hit that send button again! and if you got a http 200 (OK) response back your settings were set, it will also be verified as you will get a payload back with the data you just submitted with some additional bits.
+![](/content/images/2020/12/put-ok.png)
+That's it. And by enabling this setting the Veeam Backup for Office365 server will send a test email which will notify you that it's been enabled. 
+![](/content/images/2020/12/email-notification.png)
+Now you are ready to setup some audit items for users/groups of an organisation you manage. Until then the server will not trigger anything. 
+
+> [Part 2 shows you how to set users/groups up](/get-a-notification-when-restricted-user-data-is-accessed-in-veeam-backup-for-office365/) for alerting when data is accessed. 
+
+
+And for extra points, dive into the [Managing Audit Items](https://helpcenter.veeam.com/docs/vbo365/rest/audititems.html?ver=50) documentation.
+
+
+
 

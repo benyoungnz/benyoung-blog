@@ -6,7 +6,7 @@ heroImage: '/content/images/2022/04/influx-db-max-series.jpg'
 slug: 'influxdb-max-series-per-database-limit-exceeded'
 pubDate: '2022-04-21T21:50:46.000Z'
 tags: ["influxdb"] 
-categories: ['veeam']
+categories: ['Infrastructure']
 author: ["ben"]
 ---
 

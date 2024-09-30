@@ -17,17 +17,17 @@ As I have been playing around with a few Kubernetes products i have been needing
 
 Now from the command line run the following;
 
+```
     ./system-tools_linux-amd64 remove --kubeconfig ~/.kube/config
-    
-    ```
-    
-    When asked, select Y to the removal of the control plane in cattle-system (or something else if you have a custom namespace set)
-    
-    > there are a few options just check out the system-tools git repository for more or the [Rancher docs](https://rancher.com/docs/rancher/v2.5/en/system-tools/#remove).
-    
-    
-    It will now go through and remove all items in the cluster relating to the deployment such as accounts, roles, resources etc etc 
-    ![](/content/images/2021/07/image-1.png)
-    This will run for a while and then it will end with messages saying it is now complete.
-    ![](/content/images/2021/07/image.png)
+```
+
+When asked, select Y to the removal of the control plane in cattle-system (or something else if you have a custom namespace set)
+
+> there are a few options just check out the system-tools git repository for more or the [Rancher docs](https://rancher.com/docs/rancher/v2.5/en/system-tools/#remove).
+
+
+It will now go through and remove all items in the cluster relating to the deployment such as accounts, roles, resources etc etc 
+![](/content/images/2021/07/image-1.png)
+This will run for a while and then it will end with messages saying it is now complete.
+![](/content/images/2021/07/image.png)
 

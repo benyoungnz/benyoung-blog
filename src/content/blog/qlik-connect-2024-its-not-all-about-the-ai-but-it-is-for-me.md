@@ -7,7 +7,7 @@ heroImage: '/content/images/2024/06/Qlik-Connect-Pre-Show.png'
 slug: 'qlik-connect-2024-its-not-all-about-the-ai-but-it-is-for-me'
 pubDate: '2024-06-02T23:17:07.000Z'
 tags: ["qlik", "analytics"] 
-categories: ['veeam']
+categories: ['TFD']
 author: ["ben"]
 ---
 

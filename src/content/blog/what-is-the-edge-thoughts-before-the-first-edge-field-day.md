@@ -6,7 +6,7 @@ heroImage: '/content/images/2023/02/benyoung_a_global_network_of_sensors_interco
 slug: 'what-is-the-edge-thoughts-before-the-first-edge-field-day'
 pubDate: '2023-02-21T05:57:43.000Z'
 tags: ["edge", "techfieldday"] 
-categories: ['veeam']
+categories: ['TFD']
 author: ["ben"]
 ---
 

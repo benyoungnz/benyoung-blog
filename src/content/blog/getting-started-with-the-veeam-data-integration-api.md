@@ -48,3 +48,65 @@ It does the following
 
 To get you started! Now go forth and create...
 
+```powershell
+
+Add-PSSnapin VeeamPSSnapin -ErrorAction SilentlyContinue
+
+#connect to your backup server
+Connect-VBRServer -Server "YOURBACKUPSERVER"
+
+#get this machine (the data processor) ip address
+$targetServer = (Get-NetIPAddress -AddressFamily IPv4 | Select-Object -First 1).IPAddress
+$targetServerCreds = Get-VBRCredentials -Name "lab\administrator"
+
+#backup job name
+$jobName = "Fileservers"
+
+#job object
+$job = Get-VBRBackup -Name $jobName
+
+#objects in this job
+$jobObjects = Get-VBRJobObject -Job $jobName
+
+#iterate each of the job objects so we can get the latest restore point for each
+Foreach ($jo in $jobObjects)
+{
+   #get latest restore point in this job for this object
+   $restorePoint = $job | Get-VBRRestorePoint -Name *$($jo.Name)* | Sort-Object –Property CreationTime –Descending | Select-Object -First 1
+
+   #set some vars for later
+   $restoreObjectName = $restorePoint.VmName
+
+   Write-Host "Publishing $($restoreObjectName) disks...."
+
+   #publish the restore point using the data integration api
+   $session = Publish-VBRBackupContent -RestorePoint $restorepoint -TargetServerName $targetServer -TargetServerCredentials $targetServerCreds
+   
+   #write the session to screen
+   $session
+
+   #now find the volume locations mounted to this machine so we can go do things with the files
+   $volumes = Get-WmiObject win32_volume | Where-Object {$_.name -match "c:\\VeeamFLR\\$($restoreObjectName)" -and $_.label -ne "System Reserved"} | Select-Object Name, FileSystem, Label
+   
+   Write-Host "Volumes:"
+   $volumes 
+
+    #iterate each of the volumes mounted for this machine
+    Foreach ($volume in $volumes)
+    {
+        #get the files/recursive look, filter by images.. you can do what you want here.
+        $files = Get-Childitem -Path $volume.Name -Include *.jpg,*.png,*.gif -File -Recurse -ErrorAction SilentlyContinue
+
+        #iterate each of the files
+        Foreach ($file in $files) {
+            #do some magic with the files
+            $file
+        }
+
+    }
+   #tear it down
+   Unpublish-VBRBackupContent -Session $session
+}
+
+```
+

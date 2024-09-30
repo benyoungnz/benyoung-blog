@@ -26,7 +26,7 @@ Better yet.. you can [create your own alarms](https://helpcenter.veeam.com/docs/
 
 > GET to [https://veeamone:1239/api/v2/alarms/triggered](https://veeamone:1239/api/v2/alarms/triggered)
 
-```
+```json
 {
   "items": [
     {
@@ -103,7 +103,7 @@ Now if you want more information about the alarm you can then run a query to the
 
 GET to [https://veeamone:1239/api/v2/alarms/templates](https://veeamone:1239/api/v2/alarms/templates)
 
-```
+```json
 {
   "items": [
     {
@@ -185,7 +185,7 @@ Easy check what policies you have and what is enabled or disabled.
 
 GET to [https://veeamone:1239/api/v2/publicCloud/backupPolicies](https://veeamone:1239/api/v2/publicCloud/backupPolicies)
 
-```
+```json
 {
   "items": [
     {
@@ -246,7 +246,7 @@ Take a glance now into the policies, you can extract information out about what 
 
 GET to [https://veeamone:1239/api/v2/publicCloud/cloudVms](https://veeamone:1239/api/v2/publicCloud/cloudVms)
 
-```
+```json
 {
   "items": [
     {
@@ -297,7 +297,7 @@ And of course they close the loop with the Veeam side showing you backup and rep
 
 GET to [https://veeamone:1239/api/v2/vSphere/vms](https://veeamone:1239/api/v2/vSphere/vms)
 
-```
+```json
 {
   "items": [
     {
@@ -700,7 +700,7 @@ You can get a heap of information out of this and cover of most use cases from m
 
 GET to [https://web01:1239/api/v2/vSphere/datastores](https://web01:1239/api/v2/vSphere/datastores)
 
-```
+```json
 {
   "items": [
     {
@@ -783,7 +783,7 @@ More powerful information here, quickly report on host health, versions, specifi
 
 GET to [https://veeamone:1239/api/v2/vSphere/hosts](https://veeamone:1239/api/v2/vSphere/hosts)
 
-```
+```json
 {
   "items": [
     {
@@ -906,7 +906,7 @@ As these bubble up from the underlying host hardware - you too can get access to
 
 GET to [https://veeamone:1239/api/v2/vSphere/hostSensors](https://veeamone:1239/api/v2/vSphere/hostSensors)
 
-```
+```json
 {
   "items": [
     {
@@ -954,7 +954,7 @@ Veeam ONE has sprinkles of license information in a couple of locations
 
 > GET to [https://veeamone:1239/api/v2/license/usageReport](https://veeamone:1239/api/v2/license/usageReport)
 
-```
+```json
 {
   "reportId": 0,
   "removalReason": "",
@@ -985,7 +985,7 @@ For service providers using service provider console you can get this data from 
 
 > GET to [https://veeamone:1239/api/v2/cloudConnect/tenantQuotas](https://veeamone:1239/api/v2/cloudConnect/tenantQuotas)
 
-```
+```json
 {
   "items": [
     {

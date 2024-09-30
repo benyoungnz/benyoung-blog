@@ -34,6 +34,7 @@ I can then find my user id as below (note in postman you can search top right of
 ![](/content/images/2021/01/4-user-list.png)
 Ok, nearly there now that we have the users payload we want to POST my user data to the /v5/organizations/{organisationid}/AuditItems endpoint with the following template
 
+```json
     {
       "type": "user",
       "user": {
@@ -42,65 +43,63 @@ Ok, nearly there now that we have the users payload we want to POST my user data
         "name": "accountname"
         }
     }
+```
     
-    
-    ```
-    
-    So, given what we returned via the organisations and users endpoints our payload for my user look like the following
-    
-        {
-          "type": "user",
-          "user": {
-            "id": "fafba54d-7ec0-4066-b96d-13be036200f800000000-0000-0000-0000-000000000000AQUAAAAAAAUVAAAAervaJPfu-8CbZ-GQjggAAA",
-            "displayName": "Ben Young",
-            "name": "ben.young@vbridge.co.nz"
-            }
-        }
-        
-        ```
-        
-        > **Important: **This endpoint expects **an array **to be posted. It is designed this way so you can have multiple user accounts or even some users and a group etc. so may sure your JSON payload starts with [ and ends with ]. You can seperate out different users / groups with a comma
-        
-        
-        My final payload to be sent to the AuditItems endpoint in this case given I am only interested in auditing a single user is as follows (note the [ and ]) and that the body type is raw with JSON set as the content type.
-        
-            [
-            {
-              "type": "user",
-              "user": {
-                "id": "fafba54d-7ec0-4066-b96d-13be036200f800000000-0000-0000-0000-000000000000AQUAAAAAAAUVAAAAervaJPfu-8CbZ-GQjggAAA",
-                "displayName": "Ben Young",
-                "name": "ben.young@vbridge.co.nz"
-                }
-            }
-            ]
-            
-            ```
-            
-            POST this data to your endpoint. In my case **/v5/organizations/6f144e6f-7f59-475f-8e1d-1bfa0b6bb020/AuditItems** and you will receive and OK response back but no content returned.
-            ![](/content/images/2021/01/5-audit-posted-ok.png)
-            To confirm (or to check in the future) what Audit Items you have set against an organisation you can simply GET to /v5/organizations/{organizationid}/AuditItems 
-            
-            Let's check what we have set by GET'ing the endpoint.
-            ![](/content/images/2021/01/6-confirming-settings.png)
-            Ok, time to get "simon service" to access my data. I login to the console via this account as below to simulate another user.
-            ![](/content/images/2021/01/7-simon-service.png)
-            And i then right click my exchange job, select Explore latest restore point.
-            ![](/content/images/2021/01/8-access-exchange-data.png)
-            I find my Ben Young protected user and get some emails to list out
-            ![](/content/images/2021/01/9-access-user-email.png)
-            Now let's export some data from this protected user
-            ![](/content/images/2021/01/10-export-email.png)
-            And here we go, this just popped into the security officer's mailbox. An alert for each accessed item that we exported via simon service and where we put it. (i have only included a single email shot below but i got 5 alerts)
-            ![](/content/images/2021/01/11-alert-generated.png)
-            The really neat thing here is that even if someone doesn't export/restore the data but just **views** it via the explorer you also get an alert.
-            ![](/content/images/2021/01/12-view-only-alert.png)
-            What do you think? Pretty neat and very powerful feature. 
-            
-            I would love to see this feature expanded in the future were you could setup alert webhooks directly to your systems or even be able to poll the restful API for audit items that were generated. For now you will need to setup some email rules/flow/integration to get it into your systems if you need too - thankfully very easy these days.
-            
-        
-        
-    
-    
+So, given what we returned via the organisations and users endpoints our payload for my user look like the following
+
+```json
+{
+"type": "user",
+"user": {
+"id": "fafba54d-7ec0-4066-b96d-13be036200f800000000-0000-0000-0000-000000000000AQUAAAAAAAUVAAAAervaJPfu-8CbZ-GQjggAAA",
+"displayName": "Ben Young",
+"name": "ben.young@vbridge.co.nz"
+}
+}
+```
+
+> **Important: **This endpoint expects **an array **to be posted. It is designed this way so you can have multiple user accounts or even some users and a group etc. so may sure your JSON payload starts with [ and ends with ]. You can seperate out different users / groups with a comma
+
+
+My final payload to be sent to the AuditItems endpoint in this case given I am only interested in auditing a single user is as follows (note the [ and ]) and that the body type is raw with JSON set as the content type.
+
+```json
+[
+{
+  "type": "user",
+  "user": {
+    "id": "fafba54d-7ec0-4066-b96d-13be036200f800000000-0000-0000-0000-000000000000AQUAAAAAAAUVAAAAervaJPfu-8CbZ-GQjggAAA",
+    "displayName": "Ben Young",
+    "name": "ben.young@vbridge.co.nz"
+    }
+}
+]
+```
+
+POST this data to your endpoint. In my case **/v5/organizations/6f144e6f-7f59-475f-8e1d-1bfa0b6bb020/AuditItems** and you will receive and OK response back but no content returned.
+![](/content/images/2021/01/5-audit-posted-ok.png)
+To confirm (or to check in the future) what Audit Items you have set against an organisation you can simply GET to /v5/organizations/{organizationid}/AuditItems 
+
+Let's check what we have set by GET'ing the endpoint.
+![](/content/images/2021/01/6-confirming-settings.png)
+Ok, time to get "simon service" to access my data. I login to the console via this account as below to simulate another user.
+![](/content/images/2021/01/7-simon-service.png)
+And i then right click my exchange job, select Explore latest restore point.
+![](/content/images/2021/01/8-access-exchange-data.png)
+I find my Ben Young protected user and get some emails to list out
+![](/content/images/2021/01/9-access-user-email.png)
+Now let's export some data from this protected user
+![](/content/images/2021/01/10-export-email.png)
+And here we go, this just popped into the security officer's mailbox. An alert for each accessed item that we exported via simon service and where we put it. (i have only included a single email shot below but i got 5 alerts)
+![](/content/images/2021/01/11-alert-generated.png)
+The really neat thing here is that even if someone doesn't export/restore the data but just **views** it via the explorer you also get an alert.
+![](/content/images/2021/01/12-view-only-alert.png)
+What do you think? Pretty neat and very powerful feature. 
+
+I would love to see this feature expanded in the future were you could setup alert webhooks directly to your systems or even be able to poll the restful API for audit items that were generated. For now you will need to setup some email rules/flow/integration to get it into your systems if you need too - thankfully very easy these days.
+
+
+
+
+
 

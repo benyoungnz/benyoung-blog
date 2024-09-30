@@ -45,6 +45,100 @@ I have defined a config section at the top allowing for it to easily be adapted.
 
 ### The Script
 
+```powershell
+#---------------------------------[Slack Setup]---------------------------------
+#bot name to post into slack
+$slackBotName = "YourSlackBotName"
+#your slack  webhook key - blank for no trigger
+$slackKey = "YOURSLACKWEBHOOK"
+#slack channel to post into
+$slackChannel = "#YourChannel"
+
+#---------------------------------[Services Setup]---------------------------------
+$servicesToMonitor = "Xbox Live Auth Manager", "Windows Search", "MyServiceNotInstalled"
+#what should the service start timeout be?
+$servicesTimeout = "00:00:30" ##30 seconds by default
+
+
+#---------------------------------[Functions]---------------------------------
+function waitUntilServices($service, $status)
+{
+    # Wait for the service to reach the $status or until timeout
+    $service.WaitForStatus($status, $servicesTimeout)
+}
+
+function logToSlack($message)
+{
+    #setup payload - customise as needed.
+    #https://api.slack.com/incoming-webhooks
+	$slackPayload = @{
+	"channel" = $slackChannel
+	"icon_emoji" = ":world_map:"
+	"text" = "[{0}] {2} - {1}" -f $env:COMPUTERNAME, $message, $(Get-Date -Format T)
+	"username" = $slackBotName
+	}
+
+	#slack enabled? If so, fire it off!
+	if ($slackKey)
+	{
+		#send message to slack always.
+		Invoke-WebRequest `
+		-Body (ConvertTo-Json -Compress -InputObject $slackPayload) `
+		-Method Post `
+		-Uri "https://hooks.slack.com/services/$slackKey" | Out-Null
+	}
+  
+}
+
+#---------------------------------[Process]---------------------------------
+#iterate each of the services
+foreach ($s in $servicesToMonitor)
+{
+    
+    #check if service exists.
+    if(Get-Service -DisplayName $s -ea 0){
+
+        #fetch service
+        $svc = Get-Service -DisplayName $s
+        Write-Host "Processing " $svc.DisplayName 
+
+
+        if ($svc.Status -eq "Stopped")
+        {
+            logToSlack ("{0} service was stopped, we will start" -f $s)
+            
+            #start it.
+            try 
+            {
+                $svc.Start()
+                waitUntilServices $svc "Running"
+            }
+            catch { #catch it...
+                logToSlack ("ERROR - {0} could NOT BE STARTED and needs to be investigated" -f $s) 
+            }
+
+        }
+        elseif ($svc.Status -eq "Running") #service already running
+        {
+           logToSlack ("{0} service was running, leaving it be" -f $s)
+
+        }
+        else #service was not running or stopped, maybe "starting" or "stopping" etc.. needs to be looked at by a human. 
+        {
+           logToSlack ("WARNING - {0} was not Stopped OR Running, needs to be investigated" -f $s)
+
+        }
+    }
+    else #service could not be found on system
+    {
+         Write-Host "Could not find " $s
+
+        logToSlack ("WARNING - {0} service was not found on this system" -f $s)
+    }
+
+}
+```
+
 ## Veeam Integration
 
 Now you have the script you can configure it on your backup job under the application settings.

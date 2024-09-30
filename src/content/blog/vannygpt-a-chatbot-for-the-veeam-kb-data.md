@@ -88,7 +88,7 @@ OpenAI describe the diagram below as follows;
 
 ![](/content/images/2023/05/image-4.png)source: OpenAI
 Here is a very cut down embedding response from OpenAI, which when using the text-embedding-ada-oo2 model actually has 1536 output dimensions.
-```
+
 ```json
 {
   "data": [
@@ -112,7 +112,6 @@ Here is a very cut down embedding response from OpenAI, which when using the tex
   }
 }
 
-```
 ```
 Ok that's great Ben... but really, how does the above translate into our data... here goes. 
 

@@ -25,6 +25,7 @@ All of these also have the **?format=entity** querystring which can be appended 
 
 **Example**
 
+```json
     {
         "Links": [
             {
@@ -67,8 +68,6 @@ All of these also have the **?format=entity** querystring which can be appended 
         "Href": null,
         "Type": null
     }
-    
-    
     ```
     
 

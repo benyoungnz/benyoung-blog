@@ -46,6 +46,6 @@ export default defineConfig({
       }
     })]
   },
-  output: "server",
+  output: "hybrid",
   adapter: netlify()
 });

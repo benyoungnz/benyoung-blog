@@ -6,7 +6,7 @@ heroImage: '/content/images/2023/05/AI-powered-CIO-Ransomware.jpg'
 slug: 'ai-powered-cio-lets-you-ask-questions-of-the-veeam-ransomware-trends-report-2023'
 pubDate: '2023-05-29T00:24:18.000Z'
 tags: ["ransomware", "report", "veeam"] 
-categories: ['veeam']
+categories: ['AI']
 author: ["ben"]
 ---
 

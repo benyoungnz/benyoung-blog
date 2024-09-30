@@ -5,7 +5,7 @@ heroImage: '/content/images/2019/10/minio-secured-with-https-tls.png'
 slug: 'minio-behind-iis-with-ssl-termination'
 pubDate: '2019-10-23T22:56:59.000Z'
 tags: ["minio", "objectstorage", "proxy"] 
-categories: ['veeam']
+categories: ['Infrastructure']
 author: ["ben"]
 ---
 

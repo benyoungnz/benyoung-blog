@@ -6,7 +6,7 @@ heroImage: '/content/images/2023/12/ollama-llava-vision.jpg'
 slug: 'your-private-ai-can-have-eyes-ollama-with-the-llava-model'
 pubDate: '2023-12-15T02:54:13.000Z'
 tags: ["ai", "ollama"] 
-categories: ['veeam']
+categories: ['AI']
 author: ["ben"]
 ---
 
@@ -15,13 +15,17 @@ When GPT4-V was release everyone was amazed at it's capabilities of being able t
 I wanted to give it a go [through my Ollama private instance](https://benyoung.blog/chat-privately-using-ollama-on-your-own-infrastructure-llama2-and-mistral-on-an-nvidia-a40-48gb-gpu/) running on a virtual machine in the datacenter with a 48gb NVIDIA GPU.
 
 I first updated my Ollama instance to the latest 0.1.16 build which has support for this now. Then pulled the model down.
+
 ```
 ollama pull llava:13b
-```![](/content/images/2023/12/image-27.png)
+```
+
+![](/content/images/2023/12/image-27.png)
 Thats the housekeeping out of the way, only thing left to do now is to try it out via the API. 
 
 You need to convert the images to base64 encoding when passing it through but a reduced example below, similar to text only models with the addition of the images array.
-```
+
+``` json
 {
   "model": "llava:13b",
   "prompt":"What is in this picture?",
@@ -29,6 +33,7 @@ You need to convert the images to base64 encoding when passing it through but a 
   "images": ["/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wgARC..."]
 }
 ```
+
 ### Samples
 ![](/content/images/2023/12/pizza-dog.jpg)
 **Prompt: **What is in this picture?

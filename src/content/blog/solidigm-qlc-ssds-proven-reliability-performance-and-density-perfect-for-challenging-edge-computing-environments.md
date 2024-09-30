@@ -6,7 +6,7 @@ heroImage: '/content/images/2023/11/Solidigm-QLC-SSD-EDGE.jpg'
 slug: 'solidigm-qlc-ssds-proven-reliability-performance-and-density-perfect-for-challenging-edge-computing-environments'
 pubDate: '2023-11-08T08:35:41.000Z'
 tags: ["solidigm", "edge"] 
-categories: ['veeam']
+categories: ['TFD']
 author: ["ben"]
 ---
 

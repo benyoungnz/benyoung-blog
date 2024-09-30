@@ -6,7 +6,7 @@ heroImage: '/content/images/2024/03/ai-storage-kryptonite.jpg'
 slug: 'dont-let-storage-be-your-ai-training-kryptonite'
 pubDate: '2024-03-18T07:05:27.000Z'
 tags: ["solidigm", "ai", "objectstorage"] 
-categories: ['veeam']
+categories: ['TFD']
 author: ["ben"]
 ---
 

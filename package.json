@@ -65,6 +65,7 @@
     "astro-compress/sharp": "0.33.1"
   },
   "dependencies": {
+    "@astrojs/netlify": "^5.5.3",
     "astro-compressor": "0.4.1"
   }
 }

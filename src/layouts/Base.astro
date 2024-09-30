@@ -20,12 +20,13 @@ export interface Props {
   blogpost?: boolean;
 }
 
-const { title, meta_title, description, noindex, blogpost } = Astro.props;
+const { title, meta_title, description, noindex, blogpost, image } = Astro.props;
 
-const ogImage = createOgImage({
-  title: meta_title ? meta_title : title ? title : config.site.title,
-  meta: [config.site.title, config.site.base_url].join(" · "),
-});
+// const ogImage = createOgImage({
+//   title: meta_title ? meta_title : title ? title : config.site.title,
+//   meta: [config.site.title, config.site.base_url].join(" · "),
+// });
+const ogImage = image;
 ---
 
 <!doctype html>
@@ -98,8 +99,8 @@ const ogImage = createOgImage({
     <meta name="twitter:image" content={ogImage} />
     <meta name="twitter:card" content="summary_large_image" />
 
-    <script is:inline src="/registerSW.js"></script>
-    <link rel="manifest" href="/manifest.webmanifest" />
+    <!-- <script is:inline src="/registerSW.js"></script>
+    <link rel="manifest" href="/manifest.webmanifest" /> -->
     <ViewTransitions />
   </head>
   <body class="bg-white dark:bg-zinc-900/95">

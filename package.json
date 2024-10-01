@@ -66,6 +66,7 @@
   },
   "dependencies": {
     "@astrojs/netlify": "^5.5.3",
+    "@astrojs/partytown": "^2.1.2",
     "astro-compressor": "0.4.1"
   }
 }

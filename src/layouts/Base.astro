@@ -42,6 +42,15 @@ const ogImage = image;
       media="(prefers-color-scheme: light)"
       content="#fff"
     />
+    <!-- Google tag (gtag.js) -->
+    <script type="text/partytown" async src="https://www.googletagmanager.com/gtag/js?id=G-CJY7LY21RY"></script>
+    <script type="text/partytown">
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-CJY7LY21RY');
+    </script>
     <meta name="generator" content={Astro.generator} />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <!-- responsive meta -->
@@ -101,6 +110,16 @@ const ogImage = image;
 
     <!-- <script is:inline src="/registerSW.js"></script>
     <link rel="manifest" href="/manifest.webmanifest" /> -->
+
+    <script type="text/partytown" src="https://www.googletagmanager.com/gtag/js?id=YOUR-ID-HERE"></script>
+    <script type="text/partytown">
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'YOUR-ID-HERE');
+    </script>
+
     <ViewTransitions />
   </head>
   <body class="bg-white dark:bg-zinc-900/95">

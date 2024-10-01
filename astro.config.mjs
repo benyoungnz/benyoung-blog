@@ -6,8 +6,9 @@ import sitemap from '@astrojs/sitemap';
 import robotsTxt from 'astro-robots-txt';
 import { VitePWA } from 'vite-plugin-pwa';
 import { manifest } from './src/utils/manifest';
-
 import netlify from "@astrojs/netlify";
+
+import partytown from "@astrojs/partytown";
 
 // https://astro.build/config
 export default defineConfig({
@@ -34,7 +35,11 @@ export default defineConfig({
   }), compressor({
     gzip: true,
     brotli: true
-  }), sitemap(), tailwind(), robotsTxt()],
+  }), sitemap(), tailwind(), robotsTxt(), partytown({
+    config: {
+      forward: ["dataLayer.push"]
+    }
+  })],
   vite: {
     plugins: [VitePWA({
       registerType: 'autoUpdate',

@@ -1,6 +1,6 @@
 ---
 title: '10 cool things you do with the Veeam ONE API' 
-description: 'Anyone that has used Veeam ONE will know it loves consuming data from not only Veeam products but also your hypervisors and related infrastructure. 
+description: 'Anyone that has used Veeam ONE will know it loves consuming data from not only Veeam products but also your hypervisors and related infrastructure.'
 heroImage: '/content/images/2022/06/VEEAMONE-API-usage.jpg'
 slug: '8-cool-things-you-do-with-the-veeam-one-api'
 pubDate: '2022-06-28T01:57:32.000Z'

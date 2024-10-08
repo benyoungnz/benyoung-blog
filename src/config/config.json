@@ -4,8 +4,8 @@
     "base_url": "https://benyoung.blog",
     "base_path": "/",
     "favicon": "/favicon.png",
-    "logoLight": "/benyoung-letterb.svg",
-    "logoDark": "/benyoung-letterb.svg",
+    "logoLight": "/content/benyoung-letterb.svg",
+    "logoDark": "/content/benyoung-letterb.svg",
     "lang": "en",
     "description": "A blog where I can share my thoughts and insights on the ever-evolving world of Veeam, technology, enterprise strategy, and the fascinating intersection of automation and AI. Expect in-depth analysis, practical advice, and a dose of real-world experience from a seasoned tech professional.",
     "pageSize": 12

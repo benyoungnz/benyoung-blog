@@ -12,7 +12,7 @@ Clean rooms are a trending topic right now.  During Ignite 2024 Microsoft announ
 
 Before we look at a scenario, you can see below from the Microsoft architecture how the Clean Room fits together and allows for secure processing and delivery of the insights.
 
-![Azure Confidential Clean Room Overview](/public/content/images/2024/ACCR-Architecture-Blog.png)
+![Azure Confidential Clean Room Overview](/content/images/2024/ACCR-Architecture-Blog.png)
 
 ## Example
 

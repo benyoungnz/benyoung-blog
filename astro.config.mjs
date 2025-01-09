@@ -12,7 +12,7 @@ import partytown from "@astrojs/partytown";
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'http://localhost:4322/',
+  site: 'https://benyoung.blog/',
   image: {
     remotePatterns: [{
       protocol: 'https'

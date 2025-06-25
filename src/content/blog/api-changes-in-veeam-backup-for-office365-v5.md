@@ -1,9 +1,6 @@
 ---
 title: 'API Changes in Veeam Backup for Office365 v5' 
-description: 'If you utilise the Veeam Backup for Microsoft Office365 API here is summary of
-the changes between version 4 and version 5 of the API.
-
-There may be a'
+description: "If you utilise the Veeam Backup for Microsoft Office365 API here is summary of the changes between version 4 and version 5 of the API."
 heroImage: 'https://images.unsplash.com/photo-1547954575-855750c57bd3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxMTc3M3wwfDF8c2VhcmNofDMzfHxjb2RlfGVufDB8fHw&ixlib=rb-1.2.1&q=80&w=1080'
 slug: 'api-changes-in-veeam-backup-for-office365-v5'
 pubDate: '2020-12-08T22:03:27.000Z'

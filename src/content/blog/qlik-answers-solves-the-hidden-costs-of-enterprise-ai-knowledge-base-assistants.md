@@ -57,6 +57,8 @@ The **Knowledge Base API** lets you programmatically manage your knowledge bases
 
 The **Assistants API**, which means you can build your own chat interface entirely, or integrate answer generation into places like Slack or WhatsApp bots. You're not limited to their UI—you can bring AI-powered answers, grounded on your own knowledgebases into whatever application makes sense for your users.
 
+> For a practical application of the Assistants API, check out my [Qlik Telegram Bot article](/blog/powering-custom-workflows-with-the-qlik-answers-api/)
+
 ## Why Qlik Answers is Different
 
 Qlik does something smart. Treating this as a platform, not a project. All those processes that RAG requires are packaged as a turnkey solution. Document chunking, embedding models, vector storage, reranking, large language model, infrastructure management. They've made sensible decisions based on what works at enterprise scale.

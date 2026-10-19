@@ -17,9 +17,11 @@ If you have Veeam Backup & Replication and want to do some things with your data
 
 ## Demo
 
-> Looking for** NSFW content**... in this case a we have made it SFW by looking for a "Dog" ;-) 
+> Looking for **NSFW content**... in this case a we have made it SFW by looking for a "Dog" ;-) 
 
 *There are notes below the video detailing a bit of what is going on here.*
+
+https://www.youtube.com/watch?v=b_Ff1sqcNOI
 
 Notes:
 

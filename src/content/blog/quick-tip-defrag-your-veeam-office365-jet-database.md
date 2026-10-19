@@ -15,7 +15,7 @@ Over time the JET database that backs your repository in Veeam Backup for Micros
 
 **A few things before you begin:**
 
-- !!!! Don't just perform this unless you have are trying to resolve a potential performance issue and** I strongly advise you do so at the advice of Veeam Support before ruling out anything else environmental**. 
+- !!!! Don't just perform this unless you have are trying to resolve a potential performance issue and **I strongly advise you do so at the advice of Veeam Support before ruling out anything else environmental**. 
 - If you have the capability/capacity it would be recommended to back this data with Veeam Backup and Replication using a Guest Processing/Application Aware enabled backup job so that should this process corrupt the repository you can perform a restore operation
 - You will need some temporary space as this operation basically makes a copy of the current adb file and then replaces it, for example if your repository.adb file is 200GB, ideally you will have at least 210gb free on the existing drive or on another drive.
 - This operation can take time and you will need to shut down the Veeam.Archiver.Proxy services on the repository server to release the file locks on the repository.adb files before you begin. So pick a time when it is not going to impact your normal backup window.
@@ -24,16 +24,16 @@ Over time the JET database that backs your repository in Veeam Backup for Micros
 
 Open up the proxy server where your repository is hosted.
 
-**1)**  Shut down the **Veeam Backup Proxy for Microsoft Office 365 Service **via  services.msc
+**1)**  Shut down the **Veeam Backup Proxy for Microsoft Office 365 Service** via  services.msc
 ![](/content/images/2020/09/shutdown-veeam-archiver-service.png)
 This will take a while, if you are interested open up performance manager and you will see the locks on all of the repository.adb files from this Veeam.Archiver.Proxy.exe service, these will start clearing out.
 
 Now with the locks off the file you can begin to perform the defragmentation operations.
 
-**2) **Open up a powershell window and run the following command
+**2)** Open up a powershell window and run the following command
 
 ```powershell
-     esentutl /d "E:\Jetdefrag\repository.adb" /t "E:\Jetdefrag\tempdfg.edb"
+esentutl /d "E:\Jetdefrag\repository.adb" /t "E:\Jetdefrag\tempdfg.edb"
 ```
 
 > Note the path, in Backup for Office365 a repository.adb file is created one per year (and more than one per year if your repositories are massive) so your path will be more like E:\YourRepository\2020 (2019, 2018 etc, one per year) so you will want to jump through and run this on all of them

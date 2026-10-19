@@ -20,7 +20,7 @@ First login to get you session token (remember to read part 1 if this looks fore
 ![](/content/images/2021/01/1-session-token.png)
 Now, use your access_token for all future requests under Authorization tab, bearer token like so
 ![](/content/images/2021/01/2-bearer-token.png)
-Get your organisations via a GET to **/v5/organizations **and your organisations will be returned.
+Get your organisations via a GET to **/v5/organizations** and your organisations will be returned.
 
 We need the **organization's ID** as highlighted below.
 ![](/content/images/2021/01/3-organization-list.png)
@@ -35,14 +35,14 @@ I can then find my user id as below (note in postman you can search top right of
 Ok, nearly there now that we have the users payload we want to POST my user data to the /v5/organizations/{organisationid}/AuditItems endpoint with the following template
 
 ```json
-    {
-      "type": "user",
-      "user": {
-        "id": "userid",
-        "displayName": "displayname",
-        "name": "accountname"
-        }
+{
+  "type": "user",
+  "user": {
+    "id": "userid",
+    "displayName": "displayname",
+    "name": "accountname"
     }
+}
 ```
     
 So, given what we returned via the organisations and users endpoints our payload for my user look like the following
@@ -58,7 +58,7 @@ So, given what we returned via the organisations and users endpoints our payload
 }
 ```
 
-> **Important: **This endpoint expects **an array **to be posted. It is designed this way so you can have multiple user accounts or even some users and a group etc. so may sure your JSON payload starts with [ and ends with ]. You can seperate out different users / groups with a comma
+> **Important:** This endpoint expects **an array** to be posted. It is designed this way so you can have multiple user accounts or even some users and a group etc. so may sure your JSON payload starts with [ and ends with ]. You can seperate out different users / groups with a comma
 
 
 My final payload to be sent to the AuditItems endpoint in this case given I am only interested in auditing a single user is as follows (note the [ and ]) and that the body type is raw with JSON set as the content type.

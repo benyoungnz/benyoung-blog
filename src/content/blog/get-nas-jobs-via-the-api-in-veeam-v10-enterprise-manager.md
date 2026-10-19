@@ -24,36 +24,36 @@ We will cover off the following on this page so move down as appropriate
 Returns the index of jobs available. This is an array but I only have a single job called **Archived Projects** at this stage.
 
 ```json
-    {
-        "Refs": [
-            {
-                "Links": [
-                    {
-                        "Rel": "Up",
-                        "Href": "https://localhost:9398/api/backupServers/7905ba33-78a5-4a34-9b3c-16bf216fdd68",
-                        "Name": "appserver",
-                        "Type": "BackupServerReference"
-                    },
-                    {
-                        "Rel": "Alternate",
-                        "Href": "https://localhost:9398/api/nas/jobs/70073b98-098b-4046-a097-43cbda67d58a?format=Entity",
-                        "Name": "Archived Projects",
-                        "Type": "Job"
-                    },
-                    {
-                        "Rel": "Down",
-                        "Href": "https://localhost:9398/api/nas/jobs/70073b98-098b-4046-a097-43cbda67d58a/backupSessions",
-                        "Name": null,
-                        "Type": "BackupJobSessionReferenceList"
-                    }
-                ],
-                "UID": "urn:veeam:NasJob:70073b98-098b-4046-a097-43cbda67d58a",
-                "Name": "Archived Projects",
-                "Href": "https://localhost:9398/api/agents/jobs/70073b98-098b-4046-a097-43cbda67d58a",
-                "Type": "NasJobReference"
-            }
-        ]
-    }
+{
+    "Refs": [
+        {
+            "Links": [
+                {
+                    "Rel": "Up",
+                    "Href": "https://localhost:9398/api/backupServers/7905ba33-78a5-4a34-9b3c-16bf216fdd68",
+                    "Name": "appserver",
+                    "Type": "BackupServerReference"
+                },
+                {
+                    "Rel": "Alternate",
+                    "Href": "https://localhost:9398/api/nas/jobs/70073b98-098b-4046-a097-43cbda67d58a?format=Entity",
+                    "Name": "Archived Projects",
+                    "Type": "Job"
+                },
+                {
+                    "Rel": "Down",
+                    "Href": "https://localhost:9398/api/nas/jobs/70073b98-098b-4046-a097-43cbda67d58a/backupSessions",
+                    "Name": null,
+                    "Type": "BackupJobSessionReferenceList"
+                }
+            ],
+            "UID": "urn:veeam:NasJob:70073b98-098b-4046-a097-43cbda67d58a",
+            "Name": "Archived Projects",
+            "Href": "https://localhost:9398/api/agents/jobs/70073b98-098b-4046-a097-43cbda67d58a",
+            "Type": "NasJobReference"
+        }
+    ]
+}
 ```
     
 ## /api/nas/jobs?format=Entity

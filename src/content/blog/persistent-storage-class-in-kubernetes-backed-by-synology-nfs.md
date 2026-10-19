@@ -49,7 +49,7 @@ We now need to run a few commands against the cluster with kubectl.
 First, add the following helm repository - you can view the [project here on github](https://github.com/kubernetes-sigs/nfs-subdir-external-provisioner) for more information. 
 
 ```
-    helm repo add nfs-subdir-external-provisioner https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner/
+helm repo add nfs-subdir-external-provisioner https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner/
 ```
 
 Now that is added, you can install the chart with the following command, just switch out the nfs.server and nfs.path to your specific settings.
@@ -91,7 +91,7 @@ Now if you provision some workloads if they ask for persistent storage they will
 
 In a followup post I will show you how to
 
-- [**Deploy Rancher **so I can login and manage my cluster](https://benyoung.blog/deploying-rancher-to-manage-a-kubernetes-cluster/), view performance metrics, deploy things a littler easier than basing away in command line
+- [**Deploy Rancher** so I can login and manage my cluster](https://benyoung.blog/deploying-rancher-to-manage-a-kubernetes-cluster/), view performance metrics, deploy things a littler easier than basing away in command line
 - **Backup workloads** using Veeam's Kasten suite
 
 

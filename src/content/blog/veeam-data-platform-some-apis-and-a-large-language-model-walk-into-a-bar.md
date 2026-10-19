@@ -42,6 +42,8 @@ The ID is not hard coded, the LLM works out what what the backup job ID is and p
 
 It's a bit slow as I am on 4g at the airport and the B&R server is a on the other side of the world but it works well enough.
 
+https://www.youtube.com/watch?v=ERhkLnQuuVY
+
 **The transcript**
 Screenshot below if you can't view the video, and full transcript below, my questions in bold.
 ![](/content/images/2023/11/image.png)

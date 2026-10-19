@@ -18,7 +18,7 @@ As I have been playing around with a few Kubernetes products i have been needing
 Now from the command line run the following;
 
 ```
-    ./system-tools_linux-amd64 remove --kubeconfig ~/.kube/config
+./system-tools_linux-amd64 remove --kubeconfig ~/.kube/config
 ```
 
 When asked, select Y to the removal of the control plane in cattle-system (or something else if you have a custom namespace set)

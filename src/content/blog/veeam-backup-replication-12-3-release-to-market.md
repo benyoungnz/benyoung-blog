@@ -194,7 +194,7 @@ For **oVirt KVM** (covering RHV and OLVM platforms), you can now restore backups
 
 ## Scale-out Backup Repository
 
-**Migration just got a lot easier. **You can now mix extents from different object storage systems or with varying immutability settings within the same Performance and Capacity tiers. This means smoother transitions—whether you're switching to a new cloud provider or upgrading to immutable storage. Just seal the existing extents before adding new ones, and you’re set. 
+**Migration just got a lot easier.** You can now mix extents from different object storage systems or with varying immutability settings within the same Performance and Capacity tiers. This means smoother transitions—whether you're switching to a new cloud provider or upgrading to immutable storage. Just seal the existing extents before adding new ones, and you’re set. 
 
 **Encryption is now more flexible**. You can configure it directly at the Archive Tier, especially useful if you’re bypassing the Capacity Tier. Previously, you’d need to enable encryption in the backup job, which could disrupt deduplication in the Performance Tier. Now, you can encrypt backups only when they’re offloaded to the Archive Tier, giving you precise control.
 

@@ -60,7 +60,7 @@ You can add a new one, select your credential type based on your target platform
 ![](/content/images/2022/01/image-5.png)
 Enter your access key/secret key and select OK, your key will be added and we can use this later in the process.
 ![](/content/images/2022/01/image-6.png)
-We now need to configure an **Object Storage Repository **in doing so we will need the endpoint information as well as a bucket to put the data into which I have provisioned ahead of time. 
+We now need to configure an **Object Storage Repository** in doing so we will need the endpoint information as well as a bucket to put the data into which I have provisioned ahead of time. 
 ![](/content/images/2022/01/image-7.png)
 Navigate to the Backup Infrastructure section and right click Object Storage Repositories and then select Add object storage 
 

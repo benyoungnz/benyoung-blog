@@ -46,7 +46,7 @@ Ok, so this could be useful if we consumed these log files up into a SIEM or sys
 
 However the pathing of what was restored was a little vague, I can see the msg file name and what folder it was restored from but not who's mailbox this folder/msg was from. 
 
-Now, that was also with** Default logging,** what happens if we use extended logging, do we get anything else that could be useful? Let's enable it and take a look.
+Now, that was also with **Default logging,** what happens if we use extended logging, do we get anything else that could be useful? Let's enable it and take a look.
 
 Under General Options > Advanced on the explore select this option
 ![](/content/images/2022/04/image-4.png)

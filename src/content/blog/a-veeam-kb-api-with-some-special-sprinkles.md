@@ -42,7 +42,7 @@ Baked in and around the main body are a few forms we need to detect and get rid 
 **Markdown conversion**
 After cleaning the HTML, conversion to markdown mostly worked but there was a couple of items that needed manipulating before parsing the HTML > Markdown.
 
-- Images are referenced as <picture> elements which contains multiple image sources optimised for different screen resolutions or formats. This does not play nicely with conversion. So I loaded the HTML and manipulated it by detecting these, removing the element from the DOM, finding the biggest image source and then inserting a new image into the DOM in it's place with the reference of the biggest image
+- Images are referenced as \<picture> elements which contains multiple image sources optimised for different screen resolutions or formats. This does not play nicely with conversion. So I loaded the HTML and manipulated it by detecting these, removing the element from the DOM, finding the biggest image source and then inserting a new image into the DOM in it's place with the reference of the biggest image
 - Often the nested div structure wrecked havoc with the conversion so a few regex replacements of tabs/new lines in some conditions were required to clean it up and the markdown to work correctly 
 
 ### Result

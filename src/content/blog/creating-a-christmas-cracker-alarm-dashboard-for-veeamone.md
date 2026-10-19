@@ -38,7 +38,7 @@ docker run -d -p 5000:80 benyoung/veeamonereceiver
 
 You can customise port 5000 to your requirements, the container is listening on 80 and 443. 
 
-Your output should look similar too the following, if you are wondering what is going on you can always run **docker container ls **to view the running containers.
+Your output should look similar too the following, if you are wondering what is going on you can always run **docker container ls** to view the running containers.
 ![](/content/images/2021/11/Screen-Shot-2021-11-22-at-12.18.19-PM.png)
 ### 2. Demo Environment
 
@@ -99,9 +99,10 @@ Click Add under notifications, select Run script as the action
 
 Now, in the Value field is where you want to put the reference to your Powershell file along with the param values containing the alarm detail. For example;
 
-powershell.exe "c:\alarmScripts\AlertTo-VeeamONEReceiver.ps1" '%1' '%2' '%3' '%4' '%5' '%6' %7
-
 ```
+powershell.exe "c:\alarmScripts\AlertTo-VeeamONEReceiver.ps1" '%1' '%2' '%3' '%4' '%5' '%6' %7
+```
+
 ![](/content/images/2021/11/image-1.png)
 Save the alarm, that's it. Now these alarms will send the detail through to your dashboard.
 

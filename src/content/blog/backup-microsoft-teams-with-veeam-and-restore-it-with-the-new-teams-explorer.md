@@ -29,7 +29,7 @@ Let's delete something. How about all those CIO documents? Sure thing.
 ![](/content/images/2020/11/9-delete-cio-documents.png)
 And here is that file folder after the delete - all CIO ****.pdf documents gone. 
 ![](/content/images/2020/11/10-cio-files-gone-1.png)
-Time to get them back. In Veeam Backup for Office 365 I right click the job and explore, **make sure you select the "show all items that have been deleted by a user" **if your job has run since you remove it, otherwise it will not show the delete files.
+Time to get them back. In Veeam Backup for Office 365 I right click the job and explore, **make sure you select the "show all items that have been deleted by a user"** if your job has run since you remove it, otherwise it will not show the delete files.
 ![](/content/images/2020/11/11-start-explore-missing-files.png)
 Now the explorer is open with show delete items enabled, you have a couple options.
 

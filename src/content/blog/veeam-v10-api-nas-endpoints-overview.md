@@ -26,48 +26,48 @@ All of these also have the **?format=entity** querystring which can be appended 
 **Example**
 
 ```json
-    {
-        "Links": [
-            {
-                "Rel": "Down",
-                "Href": "https://localhost:9398/api/nas/jobs",
-                "Name": null,
-                "Type": "JobReferenceList"
-            },
-            {
-                "Rel": "Down",
-                "Href": "https://localhost:9398/api/nas/fileServers",
-                "Name": null,
-                "Type": "FileServerReferenceList"
-            },
-            {
-                "Rel": "Down",
-                "Href": "https://localhost:9398/api/nas/backupSessions",
-                "Name": null,
-                "Type": "BackupJobSessionReferenceList"
-            },
-            {
-                "Rel": "Down",
-                "Href": "https://localhost:9398/api/nas/jobs?format=Entity",
-                "Name": null,
-                "Type": "JobList"
-            },
-            {
-                "Rel": "Down",
-                "Href": "https://localhost:9398/api/nas/fileServers?format=Entity",
-                "Name": null,
-                "Type": "FileServerList"
-            },
-            {
-                "Rel": "Down",
-                "Href": "https://localhost:9398/api/nas/backupSessions?format=Entity",
-                "Name": null,
-                "Type": "BackupJobSessionList"
-            }
-        ],
-        "Href": null,
-        "Type": null
-    }
-    ```
+{
+    "Links": [
+        {
+            "Rel": "Down",
+            "Href": "https://localhost:9398/api/nas/jobs",
+            "Name": null,
+            "Type": "JobReferenceList"
+        },
+        {
+            "Rel": "Down",
+            "Href": "https://localhost:9398/api/nas/fileServers",
+            "Name": null,
+            "Type": "FileServerReferenceList"
+        },
+        {
+            "Rel": "Down",
+            "Href": "https://localhost:9398/api/nas/backupSessions",
+            "Name": null,
+            "Type": "BackupJobSessionReferenceList"
+        },
+        {
+            "Rel": "Down",
+            "Href": "https://localhost:9398/api/nas/jobs?format=Entity",
+            "Name": null,
+            "Type": "JobList"
+        },
+        {
+            "Rel": "Down",
+            "Href": "https://localhost:9398/api/nas/fileServers?format=Entity",
+            "Name": null,
+            "Type": "FileServerList"
+        },
+        {
+            "Rel": "Down",
+            "Href": "https://localhost:9398/api/nas/backupSessions?format=Entity",
+            "Name": null,
+            "Type": "BackupJobSessionList"
+        }
+    ],
+    "Href": null,
+    "Type": null
+}
+```
     
 

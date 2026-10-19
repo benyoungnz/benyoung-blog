@@ -18,7 +18,7 @@ The demand for real-time data processing and analytics is ever increasing, edge 
 
 ### Why edge computing?
 
-- **Low latency **- for latency sensitive applications or equipment by processing data closer to the source, we can reduce the latency or delay that can occur when sending data to a remote location
+- **Low latency** - for latency sensitive applications or equipment by processing data closer to the source, we can reduce the latency or delay that can occur when sending data to a remote location
 - **Improved reliability** - this is a tricky one but there could be an argument for each side but for certain locations or where networks are patchy or unreliable by reducing dependence on a central data center reliability back to these central services should increase. (provided you feed and water your edge cluster correctly!)
 - **Reduced bandwidth** - By processing data locally, edge computing can reduce the amount of data that needs to be sent over the network at the very least during peak times and trickle backups or full data sets during periods of inactivity
 - **Privacy or sensitivity** - Data processing at the edge can help ensure data privacy and security since sensitive data doesn't have to be sent to a remote server for processing - think medical, government, financial or other highly regulated industries

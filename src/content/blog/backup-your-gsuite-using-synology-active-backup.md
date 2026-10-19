@@ -10,7 +10,7 @@ categories: ['veeam']
 author: ["ben"]
 ---
 
-There are many scenarios of why you** SHOULD** be backing up your Google GSuite - anything from accidental data loss, malicious actor causing carnage, extended service outage requiring you to get access to some files or emails. You may want to hold additional copies for compliance or legal reasons, the list goes on.
+There are many scenarios of why you **SHOULD** be backing up your Google GSuite - anything from accidental data loss, malicious actor causing carnage, extended service outage requiring you to get access to some files or emails. You may want to hold additional copies for compliance or legal reasons, the list goes on.
 
 So, how do you go about this? Well thankfully Synology make this really easy using their [Active Backup for G Suite.](https://www.synology.com/en-nz/dsm/feature/active_backup_g_suite) The next best bit is a very simple licensing model... there isn't one.... simply select the appropriately size NAS for your requirements and that is all there is too it - you are free to backup as many users as you want.
 
@@ -93,5 +93,5 @@ So there we go, now my G Suite is protected!
 
 I will dive into how to recover data and what options you have with this in a follow up post.
 
-I can highly recommend this product if you have a G Suite, especially since the licensing is **included **with your NAS. 
+I can highly recommend this product if you have a G Suite, especially since the licensing is **included** with your NAS. 
 

@@ -11,7 +11,7 @@ author: ["ben"]
 
 If you utilise the Veeam Backup for Microsoft Office365 API here is summary of the changes between version 4 and version 5 of the API.
 
-**There may be a few discrepancies **as I have had to clean up the swagger files manually a little bit to try make this generate things like renaming the v4 route to v5. So will adjust this if/when i get any constructive feedback.... 
+**There may be a few discrepancies** as I have had to clean up the swagger files manually a little bit to try make this generate things like renaming the v4 route to v5. So will adjust this if/when i get any constructive feedback.... 
 
 Looks good and you can see a bunch of new endpoints around Teams which is unsurprising given it is new to this release. Also a of the changed endpoints were cleaning up route identifiers i.e /Jobs/{id} is now /Jobs/{jobId} which makes it a lot cleaner.
 
@@ -75,8 +75,8 @@ Looks good and you can see a bunch of new endpoints around Teams which is unsurp
 Parameters
 
 ```
-    Add groupId
-    Delete id
+Add groupId
+Delete id
 
 ```
 
@@ -85,8 +85,8 @@ Parameters
 Parameters
 
 ```
-    Add userId
-    Delete id
+Add userId
+Delete id
 
 ```
 
@@ -95,8 +95,8 @@ Parameters
 Parameters
 
 ```
-    Add jobId
-    Delete id
+Add jobId
+Delete id
 
 ```
 
@@ -105,8 +105,8 @@ Parameters
 Parameters
 
 ```
-    Add jobId
-    Delete id
+Add jobId
+Delete id
 
 ```
 
@@ -115,8 +115,8 @@ Parameters
 Parameters
 
 ```
-    Add jobId
-    Delete id
+Add jobId
+Delete id
 
 ```
 
@@ -125,8 +125,8 @@ Parameters
 Parameters
 
 ```
-    Add jobId
-    Delete id
+Add jobId
+Delete id
 
 ```
 
@@ -135,8 +135,8 @@ Parameters
 Parameters
 
 ```
-    Add jobId
-    Delete id
+Add jobId
+Delete id
 
 ```
 
@@ -145,8 +145,8 @@ Parameters
 Parameters
 
 ```
-    Add jobId
-    Delete id
+Add jobId
+Delete id
 
 ```
 
@@ -155,8 +155,8 @@ Parameters
 Parameters
 
 ```
-    Add jobId
-    Delete id
+Add jobId
+Delete id
 
 ```
 
@@ -165,8 +165,8 @@ Parameters
 Parameters
 
 ```
-    Add jobId
-    Delete id
+Add jobId
+Delete id
 
 ```
 
@@ -175,8 +175,8 @@ Parameters
 Parameters
 
 ```
-    Add jobId
-    Delete id
+Add jobId
+Delete id
 
 ```
 
@@ -185,8 +185,8 @@ Parameters
 Parameters
 
 ```
-    Add jobId
-    Delete id
+Add jobId
+Delete id
 
 ```
 
@@ -195,8 +195,8 @@ Parameters
 Parameters
 
 ```
-    Add jobId
-    Delete id
+Add jobId
+Delete id
 
 ```
 
@@ -205,8 +205,8 @@ Parameters
 Parameters
 
 ```
-    Add jobId
-    Delete id
+Add jobId
+Delete id
 
 ```
 
@@ -215,8 +215,8 @@ Parameters
 Parameters
 
 ```
-    Add jobId
-    Delete id
+Add jobId
+Delete id
 
 ```
 
@@ -242,8 +242,8 @@ Return Type
 Parameters
 
 ```
-    Add limit
-    Add offset
+Add limit
+Add offset
 
 ```
 
@@ -252,7 +252,7 @@ Parameters
 Parameters
 
 ```
-    Add name
+Add name
 
 ```
 
@@ -261,8 +261,8 @@ Parameters
 Parameters
 
 ```
-    Add organizationId
-    Delete id
+Add organizationId
+Delete id
 
 ```
 
@@ -271,8 +271,8 @@ Parameters
 Parameters
 
 ```
-    Add organizationId
-    Delete id
+Add organizationId
+Delete id
 
 ```
 
@@ -281,8 +281,8 @@ Parameters
 Parameters
 
 ```
-    Add organizationId
-    Delete id
+Add organizationId
+Delete id
 
 ```
 
@@ -291,8 +291,8 @@ Parameters
 Parameters
 
 ```
-    Add organizationId
-    Delete id
+Add organizationId
+Delete id
 
 ```
 
@@ -301,8 +301,8 @@ Parameters
 Parameters
 
 ```
-    Add organizationId
-    Delete id
+Add organizationId
+Delete id
 
 ```
 
@@ -311,8 +311,8 @@ Parameters
 Parameters
 
 ```
-    Add organizationId
-    Delete id
+Add organizationId
+Delete id
 
 ```
 
@@ -321,7 +321,7 @@ Parameters
 Parameters
 
 ```
-    Delete name
+Delete name
 
 ```
 
@@ -330,8 +330,8 @@ Parameters
 Parameters
 
 ```
-    Add organizationId
-    Delete id
+Add organizationId
+Delete id
 
 ```
 
@@ -340,7 +340,7 @@ Parameters
 Parameters
 
 ```
-    Delete name
+Delete name
 
 ```
 
@@ -349,8 +349,8 @@ Parameters
 Parameters
 
 ```
-    Add limit
-    Add offset
+Add limit
+Add offset
 
 ```
 

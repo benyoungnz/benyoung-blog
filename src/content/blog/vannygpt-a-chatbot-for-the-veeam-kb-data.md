@@ -24,15 +24,17 @@ Anyway, it's very rough around the edges and I have learnt a bunch since this ve
 ### My Objectives
 
 - Build a **Chatbot** interface, nothing new here, but it's a hot topic right now
-- Use the **Veeam KB **data as the primary data source, 
+- Use the **Veeam KB** data as the primary data source, 
 *(the clean data didn't exist, *[*but I built an API*](https://benyoung.blog/a-veeam-kb-api-with-some-special-sprinkles/)* / scraping engine for that... you can use it too)*
-- Learn about **embeddings**, using the **OpenAI **models because they're super easy (and certainly at the time) to interact with
+- Learn about **embeddings**, using the **OpenAI** models because they're super easy (and certainly at the time) to interact with
 - Learn about **Vector databases**, I used **Pinecone** but there are like 20 more since Feb... lots of funding for startups in this space already
 - Learn, have fun along the way, share the knowledge 
 
 ### Demo
 
 Let's rip the band-aid off, as I know most of you really just want to see it. If you want to know how it was built and the building blocks to get there. Keep scrolling.
+
+https://www.youtube.com/watch?v=gsK9cTrgyko
 
 And before you ask, no, it's not published anywhere for you to try (yet), I need to optimise it and add some rate limiting, user input sanitisation etc so I am not waking up to an unwanted OpenAI invoice....
 
@@ -135,7 +137,7 @@ That is the processing side of things complete - just need to have another proce
 
 From a backend process let's break down the high level process that we follow.
 
-- Take user input, i.e the question,** "How do I resolve the XXX error?"**
+- Take user input, i.e the question, **"How do I resolve the XXX error?"**
 - With this input, we pass it to the same embedding model, text-embedding-ada-oo2 to get the **embeddings for the query**
 - With the embedding, we then **query our vector database**. In my example I am actually only only asking for the best match. Loads of scope here to fetch multiple, summarise etc.
 - The vector database query result **will contain the metadata KB id** number (we stored with the embeddings remember), we use this to then fetch the article from the API or MongoDB directly.

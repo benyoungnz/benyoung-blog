@@ -22,7 +22,7 @@ First off we need to add certmanager to our cluster, unless you are bringing you
 Install the CRDs for cert manager
 
 ```
-    kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v1.0.4/cert-manager.crds.yaml
+kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v1.0.4/cert-manager.crds.yaml
 ```
     
 Create the namespace

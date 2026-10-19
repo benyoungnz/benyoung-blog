@@ -1,0 +1,1011 @@
+{
+	"8-cool-things-you-do-with-the-veeam-one-api": {
+		"slug": "8-cool-things-you-do-with-the-veeam-one-api",
+		"checked": [
+			"live",
+			"wayback 20240613095434 (Ghost)"
+		],
+		"embeds": []
+	},
+	"a-look-at-the-enhanced-veeam-vbo-v6-restore-session-api-who-restored-that-vbo-data-part-2": {
+		"slug": "a-look-at-the-enhanced-veeam-vbo-v6-restore-session-api-who-restored-that-vbo-data-part-2",
+		"checked": [
+			"live",
+			"wayback 20240613113256 (Ghost)"
+		],
+		"embeds": []
+	},
+	"a-look-at-the-web-api-throttles-in-veeam-backup-for-microsoft-365-v6-rest-api-token-endpoint": {
+		"slug": "a-look-at-the-web-api-throttles-in-veeam-backup-for-microsoft-365-v6-rest-api-token-endpoint",
+		"checked": [
+			"live",
+			"wayback 20240518030348 (Ghost)"
+		],
+		"embeds": []
+	},
+	"a-veeam-kb-api-with-some-special-sprinkles": {
+		"slug": "a-veeam-kb-api-with-some-special-sprinkles",
+		"checked": [
+			"live",
+			"wayback 20240301183823 (Ghost)"
+		],
+		"embeds": []
+	},
+	"ai-doesnt-have-a-technology-problem-it-has-a-data-trust-problem": {
+		"slug": "ai-doesnt-have-a-technology-problem-it-has-a-data-trust-problem",
+		"checked": [
+			"live"
+		],
+		"embeds": [],
+		"note": "no Ghost-era capture"
+	},
+	"ai-powered-cio-lets-you-ask-questions-of-the-veeam-ransomware-trends-report-2023": {
+		"slug": "ai-powered-cio-lets-you-ask-questions-of-the-veeam-ransomware-trends-report-2023",
+		"checked": [
+			"live",
+			"wayback 20240114182955 (Ghost)"
+		],
+		"embeds": []
+	},
+	"api-changes-in-veeam-backup-for-office365-v5": {
+		"slug": "api-changes-in-veeam-backup-for-office365-v5",
+		"checked": [
+			"live",
+			"wayback 20240518025539 (Ghost)"
+		],
+		"embeds": []
+	},
+	"audit-api-notification-setup-in-veeam-backup-for-office365": {
+		"slug": "audit-api-notification-setup-in-veeam-backup-for-office365",
+		"checked": [
+			"live",
+			"wayback 20240518045318 (Ghost)"
+		],
+		"embeds": []
+	},
+	"automate-tenant-creation-using-the-veeam-service-provider-console-api": {
+		"slug": "automate-tenant-creation-using-the-veeam-service-provider-console-api",
+		"checked": [
+			"live",
+			"wayback 20240425050116 (Ghost)"
+		],
+		"embeds": []
+	},
+	"backblaze-b2-s3-with-veeam-backup-for-office365": {
+		"slug": "backblaze-b2-s3-with-veeam-backup-for-office365",
+		"checked": [
+			"live",
+			"wayback 20240613112319 (Ghost)"
+		],
+		"embeds": []
+	},
+	"backup-digital-ocean-with-veeam-agent-for-linux": {
+		"slug": "backup-digital-ocean-with-veeam-agent-for-linux",
+		"checked": [
+			"live",
+			"wayback 20240301164923 (Ghost)"
+		],
+		"embeds": []
+	},
+	"backup-for-microsoft-365-is-critical-to-your-data-protection-strategy": {
+		"slug": "backup-for-microsoft-365-is-critical-to-your-data-protection-strategy",
+		"checked": [
+			"live",
+			"wayback 20230325131749 (Ghost)"
+		],
+		"embeds": []
+	},
+	"backup-for-office365-with-vbo": {
+		"slug": "backup-for-office365-with-vbo",
+		"checked": [
+			"live",
+			"wayback 20240613092343 (Ghost)"
+		],
+		"embeds": [
+			{
+				"kind": "youtube",
+				"url": "https://www.youtube.com/watch?v=545e5DlrGzA",
+				"anchor": "clusions View complete job session history and detailed session views for each session Easiest way to explain it... a video! Enjoy.. more features inbound soon.",
+				"source": "wayback 20240613092343"
+			}
+		]
+	},
+	"backup-microsoft-teams-with-veeam-and-restore-it-with-the-new-teams-explorer": {
+		"slug": "backup-microsoft-teams-with-veeam-and-restore-it-with-the-new-teams-explorer",
+		"checked": [
+			"live",
+			"wayback 20240301180752 (Ghost)"
+		],
+		"embeds": []
+	},
+	"backup-your-gsuite-using-synology-active-backup": {
+		"slug": "backup-your-gsuite-using-synology-active-backup",
+		"checked": [
+			"live",
+			"wayback 20230325144222 (Ghost)"
+		],
+		"embeds": []
+	},
+	"breaking-down-silos-the-importance-of-cross-functional-resilience-planning": {
+		"slug": "breaking-down-silos-the-importance-of-cross-functional-resilience-planning",
+		"checked": [
+			"live"
+		],
+		"embeds": [],
+		"note": "no Ghost-era capture"
+	},
+	"carplay-or-android-auto-veeam-dashboard-concept": {
+		"slug": "carplay-or-android-auto-veeam-dashboard-concept",
+		"checked": [
+			"live",
+			"wayback 20240301171450 (Ghost)"
+		],
+		"embeds": []
+	},
+	"changes-to-microsoft-api-for-m365-access-are-on-the-way-and-your-backups-will-now-cost-you": {
+		"slug": "changes-to-microsoft-api-for-m365-access-are-on-the-way-and-your-backups-will-now-cost-you",
+		"checked": [
+			"live",
+			"wayback 20240909185405 (Ghost)"
+		],
+		"embeds": []
+	},
+	"chat-privately-using-ollama-on-your-own-infrastructure-llama2-and-mistral-on-an-nvidia-a40-48gb-gpu": {
+		"slug": "chat-privately-using-ollama-on-your-own-infrastructure-llama2-and-mistral-on-an-nvidia-a40-48gb-gpu",
+		"checked": [
+			"live",
+			"wayback 20240301171158 (Ghost)"
+		],
+		"embeds": []
+	},
+	"confidential-cleanroom-use-case-unlocking-medical-data-for-research": {
+		"slug": "confidential-cleanroom-use-case-unlocking-medical-data-for-research",
+		"checked": [
+			"live"
+		],
+		"embeds": [],
+		"note": "no Ghost-era capture"
+	},
+	"creating-a-christmas-cracker-alarm-dashboard-for-veeamone": {
+		"slug": "creating-a-christmas-cracker-alarm-dashboard-for-veeamone",
+		"checked": [
+			"live",
+			"wayback 20240301165859 (Ghost)"
+		],
+		"embeds": [
+			{
+				"kind": "gist",
+				"url": "https://gist.github.com/benyoungnz/32c0503ee49f5744a5d6a2cc98c2de95",
+				"anchor": "big screen in the office and await for them to roll on in. First up, grab the Powershell script from the gist, put this on your server where it can be executed.",
+				"source": "wayback 20240301165859"
+			}
+		]
+	},
+	"deploying-rancher-to-manage-a-kubernetes-cluster": {
+		"slug": "deploying-rancher-to-manage-a-kubernetes-cluster",
+		"checked": [
+			"live",
+			"wayback 20240301180105 (Ghost)"
+		],
+		"embeds": []
+	},
+	"dont-let-storage-be-your-ai-training-kryptonite": {
+		"slug": "dont-let-storage-be-your-ai-training-kryptonite",
+		"checked": [
+			"live",
+			"wayback 20240518044826 (Ghost)"
+		],
+		"embeds": []
+	},
+	"edit-cloudtenant-via-rest-new-tenanttype-node": {
+		"slug": "edit-cloudtenant-via-rest-new-tenanttype-node",
+		"checked": [
+			"live",
+			"wayback 20240518040517 (Ghost)"
+		],
+		"embeds": []
+	},
+	"entra-id-sign-in-anomaly-detection-using-veeam-backup-for-entra-id": {
+		"slug": "entra-id-sign-in-anomaly-detection-using-veeam-backup-for-entra-id",
+		"checked": [
+			"live"
+		],
+		"embeds": [],
+		"note": "no Ghost-era capture"
+	},
+	"extracting-veeam-compression-and-dedupe-ratios-from-backup-using-powershell": {
+		"slug": "extracting-veeam-compression-and-dedupe-ratios-from-backup-using-powershell",
+		"checked": [
+			"live",
+			"wayback 20240518035857 (Ghost)"
+		],
+		"embeds": [
+			{
+				"kind": "gist",
+				"url": "https://gist.github.com/benyoungnz/1e2f719e523141f8f067573898443824",
+				"anchor": "cript the output is the same as the numbers via the Veeam console. So, if you need this data here goes the script, adjust as required (job name is on line 1...)",
+				"source": "wayback 20240518035857"
+			}
+		]
+	},
+	"fbi-airline-cyber-warning-fast-response-all-industries": {
+		"slug": "fbi-airline-cyber-warning-fast-response-all-industries",
+		"checked": [
+			"live"
+		],
+		"embeds": [],
+		"note": "no Ghost-era capture"
+	},
+	"find-stale-disks-on-veeam-replicas-using-powershell": {
+		"slug": "find-stale-disks-on-veeam-replicas-using-powershell",
+		"checked": [
+			"live",
+			"wayback 20240518031832 (Ghost)"
+		],
+		"embeds": [
+			{
+				"kind": "gist",
+				"url": "https://gist.github.com/benyoungnz/0bc6c69b6326129f2e9bcca6bbfcd678",
+				"anchor": "nto a report but adding a simple mail function or even better a webhook into teams/slack/service desk. Here you go, enjoy! Link to the code , or embedded below.",
+				"source": "wayback 20240518031832"
+			}
+		]
+	},
+	"get-a-notification-when-restricted-user-data-is-accessed-in-veeam-backup-for-office365": {
+		"slug": "get-a-notification-when-restricted-user-data-is-accessed-in-veeam-backup-for-office365",
+		"checked": [
+			"live",
+			"wayback 20240301180558 (Ghost)"
+		],
+		"embeds": []
+	},
+	"get-fileservers-via-the-api-in-veeam-v10-enterprise-manager": {
+		"slug": "get-fileservers-via-the-api-in-veeam-v10-enterprise-manager",
+		"checked": [
+			"live",
+			"wayback 20240613110304 (Ghost)"
+		],
+		"embeds": []
+	},
+	"get-nas-backup-sessions-detail-from-the-veeam-v10-enterprise-manager-api": {
+		"slug": "get-nas-backup-sessions-detail-from-the-veeam-v10-enterprise-manager-api",
+		"checked": [
+			"live",
+			"wayback 20240301185201 (Ghost)"
+		],
+		"embeds": []
+	},
+	"get-nas-jobs-via-the-api-in-veeam-v10-enterprise-manager": {
+		"slug": "get-nas-jobs-via-the-api-in-veeam-v10-enterprise-manager",
+		"checked": [
+			"live",
+			"wayback 20240301162607 (Ghost)"
+		],
+		"embeds": []
+	},
+	"getting-started-with-the-veeam-data-integration-api": {
+		"slug": "getting-started-with-the-veeam-data-integration-api",
+		"checked": [
+			"live",
+			"wayback 20240301164506 (Ghost)"
+		],
+		"embeds": [
+			{
+				"kind": "gist",
+				"url": "https://gist.github.com/benyoungnz/6daa2a274da0c7ae551216b864692058",
+				"anchor": "g server Gets the files recursively for each volume and this is where you can use your imagination Example script To get you started! Now go forth and create...",
+				"source": "wayback 20240301164506"
+			}
+		]
+	},
+	"getting-started-with-veeam-backup-for-microsoft-365-v6": {
+		"slug": "getting-started-with-veeam-backup-for-microsoft-365-v6",
+		"checked": [
+			"live",
+			"wayback 20240613110957 (Ghost)"
+		],
+		"embeds": []
+	},
+	"hotfix-for-api-in-veeam-update-4": {
+		"slug": "hotfix-for-api-in-veeam-update-4",
+		"checked": [
+			"live",
+			"wayback 20240301163543 (Ghost)"
+		],
+		"embeds": []
+	},
+	"pokemon-go-players-built-robot-navigation-system": {
+		"slug": "pokemon-go-players-built-robot-navigation-system",
+		"checked": [
+			"live"
+		],
+		"embeds": [],
+		"note": "no Ghost-era capture"
+	},
+	"hybrid-search-how-sparse-and-dense-vectors-transform-search-and-informational-retrieval": {
+		"slug": "hybrid-search-how-sparse-and-dense-vectors-transform-search-and-informational-retrieval",
+		"checked": [
+			"live"
+		],
+		"embeds": [],
+		"note": "no Ghost-era capture"
+	},
+	"i-am-a-veeam-vanguard-again-in-2022": {
+		"slug": "i-am-a-veeam-vanguard-again-in-2022",
+		"checked": [
+			"live",
+			"wayback 20240518041703 (Ghost)"
+		],
+		"embeds": []
+	},
+	"i-am-speaking-at-veeamon-2022-come-join-me-in-person-or-virtual": {
+		"slug": "i-am-speaking-at-veeamon-2022-come-join-me-in-person-or-virtual",
+		"checked": [
+			"live",
+			"wayback 20240425060951 (Ghost)"
+		],
+		"embeds": []
+	},
+	"influxdb-max-series-per-database-limit-exceeded": {
+		"slug": "influxdb-max-series-per-database-limit-exceeded",
+		"checked": [
+			"live",
+			"wayback 20240518024526 (Ghost)"
+		],
+		"embeds": []
+	},
+	"instant-database-recovery-with-veeam-help-the-swag-store-is-down": {
+		"slug": "instant-database-recovery-with-veeam-help-the-swag-store-is-down",
+		"checked": [
+			"live",
+			"wayback 20240518030009 (Ghost)"
+		],
+		"embeds": []
+	},
+	"instant-disk-recovery-in-veeam-v10": {
+		"slug": "instant-disk-recovery-in-veeam-v10",
+		"checked": [
+			"live",
+			"wayback 20240425045251 (Ghost)"
+		],
+		"embeds": []
+	},
+	"introducing-the-veeam100-vlog-i-need-your-help": {
+		"slug": "introducing-the-veeam100-vlog-i-need-your-help",
+		"checked": [
+			"live",
+			"wayback 20240114183034 (Ghost)"
+		],
+		"embeds": [
+			{
+				"kind": "youtube",
+				"url": "https://www.youtube.com/watch?v=qiiVoenLSRw",
+				"anchor": "hear from, places or landmarks in Prague, food etc Ping them to me via @benyoungnz on Twitter, or via the YouTube comments See you for episode #1 in a wee while",
+				"source": "wayback 20240114183034"
+			}
+		]
+	},
+	"investigating-veeam-v12-enterprise-manager-api-restore-points-not-returning-data": {
+		"slug": "investigating-veeam-v12-enterprise-manager-api-restore-points-not-returning-data",
+		"checked": [
+			"live",
+			"wayback 20240518044121 (Ghost)"
+		],
+		"embeds": []
+	},
+	"japans-new-active-cyber-defense-bill-a-dual-track-strategy": {
+		"slug": "japans-new-active-cyber-defense-bill-a-dual-track-strategy",
+		"checked": [
+			"live"
+		],
+		"embeds": [],
+		"note": "no Ghost-era capture"
+	},
+	"jobsession-link-bug-in-rest-interface-veeam-office365-backup": {
+		"slug": "jobsession-link-bug-in-rest-interface-veeam-office365-backup",
+		"checked": [
+			"live",
+			"wayback 20240613101714 (Ghost)"
+		],
+		"embeds": []
+	},
+	"macbook-build": {
+		"slug": "macbook-build",
+		"checked": [
+			"live",
+			"wayback 20240301185320 (Ghost)"
+		],
+		"embeds": []
+	},
+	"machine-learning-on-your-veeam-backups-sure-via-the-data-integration-api": {
+		"slug": "machine-learning-on-your-veeam-backups-sure-via-the-data-integration-api",
+		"checked": [
+			"live",
+			"wayback 20240518040340 (Ghost)"
+		],
+		"embeds": [
+			{
+				"kind": "youtube",
+				"url": "https://www.youtube.com/watch?v=b_Ff1sqcNOI",
+				"anchor": "ing for NSFW content ... in this case a we have made it SFW by looking for a \"Dog\" ;-) There are notes below the video detailing a bit of what is going on here.",
+				"source": "wayback 20240518040340"
+			}
+		]
+	},
+	"microsoft-just-validated-the-need-to-backup-your-microsoft-365-tenancy": {
+		"slug": "microsoft-just-validated-the-need-to-backup-your-microsoft-365-tenancy",
+		"checked": [
+			"live",
+			"wayback 20240301182223 (Ghost)"
+		],
+		"embeds": []
+	},
+	"free-egress-data-migrations-from-azure-blob-to-veeam-data-cloud-vault-v2": {
+		"slug": "free-egress-data-migrations-from-azure-blob-to-veeam-data-cloud-vault-v2",
+		"checked": [
+			"live"
+		],
+		"embeds": [],
+		"note": "no Ghost-era capture"
+	},
+	"migrate-veeam-microsoft-365-backup-repositories-from-object-storage-to-another-provider-or-cluster": {
+		"slug": "migrate-veeam-microsoft-365-backup-repositories-from-object-storage-to-another-provider-or-cluster",
+		"checked": [
+			"live",
+			"wayback 20240301162940 (Ghost)"
+		],
+		"embeds": []
+	},
+	"minio-behind-iis-with-ssl-termination": {
+		"slug": "minio-behind-iis-with-ssl-termination",
+		"checked": [
+			"live",
+			"wayback 20240809112346 (Ghost)"
+		],
+		"embeds": []
+	},
+	"monitor-backup-repository-utilisation-with-the-veeam-api": {
+		"slug": "monitor-backup-repository-utilisation-with-the-veeam-api",
+		"checked": [
+			"live",
+			"wayback 20240425053252 (Ghost)"
+		],
+		"embeds": [
+			{
+				"kind": "tweet",
+				"url": "https://twitter.com/QuinnJohnD/status/1575507571598938115",
+				"anchor": " things like the PowerShell modules. This request actually came through via John Quinn on Twitter after I asked if anyone was keen on seeing something specific.",
+				"source": "wayback 20240425053252"
+			}
+		]
+	},
+	"monitor-per-vm-veeam-data-cloud-vault-consumption": {
+		"slug": "monitor-per-vm-veeam-data-cloud-vault-consumption",
+		"checked": [
+			"live"
+		],
+		"embeds": [],
+		"note": "no Ghost-era capture"
+	},
+	"more-ways-veeam-intelligence-mcp-streamable": {
+		"slug": "more-ways-veeam-intelligence-mcp-streamable",
+		"checked": [
+			"live"
+		],
+		"embeds": [],
+		"note": "no Ghost-era capture"
+	},
+	"multi-engine-malware-scanning-on-your-backup-data-veeam-data-integration-api-makes-it-possible": {
+		"slug": "multi-engine-malware-scanning-on-your-backup-data-veeam-data-integration-api-makes-it-possible",
+		"checked": [
+			"live",
+			"wayback 20230930052706 (Ghost)"
+		],
+		"embeds": [
+			{
+				"kind": "youtube",
+				"url": "https://www.youtube.com/watch?v=qSjAiAbV-3A",
+				"anchor": " on demand scanning. Demo Pass file hashes to MetaDefender Cloud and return the result There are notes below the video detailing a bit of what is going on here.",
+				"source": "wayback 20230930052706"
+			}
+		]
+	},
+	"multi-tenant-vcsp-self-service-restore-using-veeam-backup-for-microsoft-365-v6": {
+		"slug": "multi-tenant-vcsp-self-service-restore-using-veeam-backup-for-microsoft-365-v6",
+		"checked": [
+			"live",
+			"wayback 20240301175145 (Ghost)"
+		],
+		"embeds": []
+	},
+	"node-root-does-not-exist-veeam-api-with-update-4": {
+		"slug": "node-root-does-not-exist-veeam-api-with-update-4",
+		"checked": [
+			"live",
+			"wayback 20240425054040 (Ghost)"
+		],
+		"embeds": []
+	},
+	"perform-first-class-disk-restore-using-veeam-vbr-api": {
+		"slug": "perform-first-class-disk-restore-using-veeam-vbr-api",
+		"checked": [
+			"live",
+			"wayback 20240425061122 (Ghost)"
+		],
+		"embeds": []
+	},
+	"persistent-storage-class-in-kubernetes-backed-by-synology-nfs": {
+		"slug": "persistent-storage-class-in-kubernetes-backed-by-synology-nfs",
+		"checked": [
+			"live",
+			"wayback 20230604073058 (Ghost)"
+		],
+		"embeds": []
+	},
+	"powering-custom-workflows-with-the-qlik-answers-api": {
+		"slug": "powering-custom-workflows-with-the-qlik-answers-api",
+		"checked": [
+			"live"
+		],
+		"embeds": [],
+		"note": "no Ghost-era capture"
+	},
+	"protect-your-veeam-console-by-enabling-mfa": {
+		"slug": "protect-your-veeam-console-by-enabling-mfa",
+		"checked": [
+			"live",
+			"wayback 20230604073626 (Ghost)"
+		],
+		"embeds": []
+	},
+	"qlik-answers-and-the-future-of-enterprise-search": {
+		"slug": "qlik-answers-and-the-future-of-enterprise-search",
+		"checked": [
+			"live",
+			"wayback 20240627143242 (Ghost)"
+		],
+		"embeds": []
+	},
+	"qlik-answers-solves-the-hidden-costs-of-enterprise-ai-knowledge-base-assistants": {
+		"slug": "qlik-answers-solves-the-hidden-costs-of-enterprise-ai-knowledge-base-assistants",
+		"checked": [
+			"live"
+		],
+		"embeds": [],
+		"note": "no Ghost-era capture"
+	},
+	"qlik-connect-2024-its-not-all-about-the-ai-but-it-is-for-me": {
+		"slug": "qlik-connect-2024-its-not-all-about-the-ai-but-it-is-for-me",
+		"checked": [
+			"live",
+			"wayback 20240714010302 (Ghost)"
+		],
+		"embeds": []
+	},
+	"quick-tip-defrag-your-veeam-office365-jet-database": {
+		"slug": "quick-tip-defrag-your-veeam-office365-jet-database",
+		"checked": [
+			"live",
+			"wayback 20230131005705 (Ghost)"
+		],
+		"embeds": []
+	},
+	"ransomware-3-ai-malware-can-now-plan-write-execute-malware-itself-using-llm": {
+		"slug": "ransomware-3-ai-malware-can-now-plan-write-execute-malware-itself-using-llm",
+		"checked": [
+			"live"
+		],
+		"embeds": [],
+		"note": "no Ghost-era capture"
+	},
+	"ransomware-in-healthcare-how-backup-detection-and-resilience-can-keep-the-lights-on": {
+		"slug": "ransomware-in-healthcare-how-backup-detection-and-resilience-can-keep-the-lights-on",
+		"checked": [
+			"live"
+		],
+		"embeds": [],
+		"note": "no Ghost-era capture"
+	},
+	"removing-rancher-from-a-cluster": {
+		"slug": "removing-rancher-from-a-cluster",
+		"checked": [
+			"live",
+			"wayback 20240301184802 (Ghost)"
+		],
+		"embeds": []
+	},
+	"salesforce-backup-with-veeam": {
+		"slug": "salesforce-backup-with-veeam",
+		"checked": [
+			"live",
+			"wayback 20240425042330 (Ghost)"
+		],
+		"embeds": []
+	},
+	"serivce-health-check-after-veeam-backup-job-has-run": {
+		"slug": "serivce-health-check-after-veeam-backup-job-has-run",
+		"checked": [
+			"live",
+			"wayback 20230604070558 (Ghost)"
+		],
+		"embeds": [
+			{
+				"kind": "gist",
+				"url": "https://gist.github.com/benyoungnz/98f9dff90b315f34fb0c037c65ec2d3a",
+				"anchor": "t to Services $servicesToMonitor = string array of service display names $servicesTimeout = default amount of time you want the desired service state The Script",
+				"source": "wayback 20230604070558"
+			}
+		]
+	},
+	"service-account-usage-with-veeam-v12-api-and-mfa-enabled": {
+		"slug": "service-account-usage-with-veeam-v12-api-and-mfa-enabled",
+		"checked": [
+			"live",
+			"wayback 20240301165136 (Ghost)"
+		],
+		"embeds": []
+	},
+	"service-provider-console-cant-connect-to-cloud-connect-server": {
+		"slug": "service-provider-console-cant-connect-to-cloud-connect-server",
+		"checked": [
+			"live",
+			"wayback 20230604074018 (Ghost)"
+		],
+		"embeds": []
+	},
+	"setting-up-a-kubernetes-cluster-with-k3s-and-k3os-via-cloud-init": {
+		"slug": "setting-up-a-kubernetes-cluster-with-k3s-and-k3os-via-cloud-init",
+		"checked": [
+			"live",
+			"wayback 20240613060738 (Ghost)"
+		],
+		"embeds": []
+	},
+	"setting-up-object-storage-for-veeam-backup-office365-v4": {
+		"slug": "setting-up-object-storage-for-veeam-backup-office365-v4",
+		"checked": [
+			"live",
+			"wayback 20240909190633 (Ghost)"
+		],
+		"embeds": []
+	},
+	"setup-immutable-microsoft-365-backup-jobs-with-veeam-and-s3-immutable-object-storage": {
+		"slug": "setup-immutable-microsoft-365-backup-jobs-with-veeam-and-s3-immutable-object-storage",
+		"checked": [
+			"live",
+			"wayback 20240114183009 (Ghost)"
+		],
+		"embeds": []
+	},
+	"setup-nas-backup-with-veeam-v10": {
+		"slug": "setup-nas-backup-with-veeam-v10",
+		"checked": [
+			"live",
+			"wayback 20240518031351 (Ghost)"
+		],
+		"embeds": []
+	},
+	"solidigm-qlc-ssds-proven-reliability-performance-and-density-perfect-for-challenging-edge-computing-environments": {
+		"slug": "solidigm-qlc-ssds-proven-reliability-performance-and-density-perfect-for-challenging-edge-computing-environments",
+		"checked": [
+			"live",
+			"wayback 20240518042832 (Ghost)"
+		],
+		"embeds": []
+	},
+	"synology-hat5300-enterprise-sata-performance-benchmark": {
+		"slug": "synology-hat5300-enterprise-sata-performance-benchmark",
+		"checked": [
+			"live",
+			"wayback 20230604072506 (Ghost)"
+		],
+		"embeds": []
+	},
+	"mcp-backdoor-ai-supply-chain-vulnerability-security-tricks": {
+		"slug": "mcp-backdoor-ai-supply-chain-vulnerability-security-tricks",
+		"checked": [
+			"live"
+		],
+		"embeds": [],
+		"note": "no Ghost-era capture"
+	},
+	"the-orthodontist-who-gets-it-and-the-colleagues-who-dont-ransomware": {
+		"slug": "the-orthodontist-who-gets-it-and-the-colleagues-who-dont-ransomware",
+		"checked": [
+			"live"
+		],
+		"embeds": [],
+		"note": "no Ghost-era capture"
+	},
+	"the-real-security-flaw-in-ai-is-human-nature": {
+		"slug": "the-real-security-flaw-in-ai-is-human-nature",
+		"checked": [
+			"live"
+		],
+		"embeds": [],
+		"note": "no Ghost-era capture"
+	},
+	"time-to-recalibrate-your-views-on-edge-computing": {
+		"slug": "time-to-recalibrate-your-views-on-edge-computing",
+		"checked": [
+			"live",
+			"wayback 20230930070107 (Ghost)"
+		],
+		"embeds": []
+	},
+	"trying-the-new-json-payload-super-powers-in-veeam-update-4": {
+		"slug": "trying-the-new-json-payload-super-powers-in-veeam-update-4",
+		"checked": [
+			"live",
+			"wayback 20240301184153 (Ghost)"
+		],
+		"embeds": []
+	},
+	"using-c2-object-storage-by-synology-for-a-veeam-direct-to-object-immutable-backup": {
+		"slug": "using-c2-object-storage-by-synology-for-a-veeam-direct-to-object-immutable-backup",
+		"checked": [
+			"live",
+			"wayback 20240301173458 (Ghost)"
+		],
+		"embeds": []
+	},
+	"vanguard-class-of-2022-social-and-desktop-images": {
+		"slug": "vanguard-class-of-2022-social-and-desktop-images",
+		"checked": [
+			"live",
+			"wayback 20240301165025 (Ghost)"
+		],
+		"embeds": []
+	},
+	"vanny-went-on-a-historic-run-through-prague": {
+		"slug": "vanny-went-on-a-historic-run-through-prague",
+		"checked": [
+			"live",
+			"wayback 20230604063800 (Ghost)"
+		],
+		"embeds": []
+	},
+	"vannygpt-a-chatbot-for-the-veeam-kb-data": {
+		"slug": "vannygpt-a-chatbot-for-the-veeam-kb-data",
+		"checked": [
+			"live",
+			"wayback 20230517130946 (Ghost)"
+		],
+		"embeds": [
+			{
+				"kind": "youtube",
+				"url": "https://www.youtube.com/watch?v=gsK9cTrgyko",
+				"anchor": "p the band-aid off, as I know most of you really just want to see it. If you want to know how it was built and the building blocks to get there. Keep scrolling.",
+				"source": "wayback 20230517130946"
+			}
+		]
+	},
+	"vbo-v4-api-organisation-usedrepositories-performance": {
+		"slug": "vbo-v4-api-organisation-usedrepositories-performance",
+		"checked": [
+			"live",
+			"wayback 20240425050038 (Ghost)"
+		],
+		"embeds": []
+	},
+	"veeam-api-json-support-sort-of": {
+		"slug": "veeam-api-json-support-sort-of",
+		"checked": [
+			"live",
+			"wayback 20240518031917 (Ghost)"
+		],
+		"embeds": []
+	},
+	"veeam-backup-for-office-365": {
+		"slug": "veeam-backup-for-office-365",
+		"checked": [
+			"live",
+			"wayback 20240518030742 (Ghost)"
+		],
+		"embeds": []
+	},
+	"veeam-backup-replication-12-3-released": {
+		"slug": "veeam-backup-replication-12-3-released",
+		"checked": [
+			"live"
+		],
+		"embeds": [],
+		"note": "no Ghost-era capture"
+	},
+	"veeam-built-ai-revolution-while-others-prepared": {
+		"slug": "veeam-built-ai-revolution-while-others-prepared",
+		"checked": [
+			"live"
+		],
+		"embeds": [],
+		"note": "no Ghost-era capture"
+	},
+	"veeam-data-platform-some-apis-and-a-large-language-model-walk-into-a-bar": {
+		"slug": "veeam-data-platform-some-apis-and-a-large-language-model-walk-into-a-bar",
+		"checked": [
+			"live",
+			"wayback 20240713230636 (Ghost)"
+		],
+		"embeds": [
+			{
+				"kind": "youtube",
+				"url": "https://www.youtube.com/watch?v=ERhkLnQuuVY",
+				"anchor": "sions (Fetch backup sessions) Demo It's a bit slow as I am on 4g at the airport and the B&R server is a on the other side of the world but it works well enough.",
+				"source": "wayback 20240713230636"
+			}
+		]
+	},
+	"veeam-enterprise-manager-failing-data-collection-max-credential-length-sql-exception": {
+		"slug": "veeam-enterprise-manager-failing-data-collection-max-credential-length-sql-exception",
+		"checked": [
+			"live",
+			"wayback 20240613103909 (Ghost)"
+		],
+		"embeds": []
+	},
+	"veeam-instant-nas-recovery-in-v11-malware-detection-and-machine-learning": {
+		"slug": "veeam-instant-nas-recovery-in-v11-malware-detection-and-machine-learning",
+		"checked": [
+			"live",
+			"wayback 20230131003300 (Ghost)"
+		],
+		"embeds": [
+			{
+				"kind": "youtube",
+				"url": "https://www.youtube.com/watch?v=uObSAhZ5vVo",
+				"anchor": " am now passing the Instant NAS Recovery mount points to a remote processing server where the web services are hosted to perform some magic. Now onto the video!",
+				"source": "wayback 20230131003300"
+			}
+		]
+	},
+	"veeam-instant-recovery-direct-from-object-storage": {
+		"slug": "veeam-instant-recovery-direct-from-object-storage",
+		"checked": [
+			"live",
+			"wayback 20240301183324 (Ghost)"
+		],
+		"embeds": []
+	},
+	"veeam-job-disk-usage-report-and-alert-when-threshold-reached": {
+		"slug": "veeam-job-disk-usage-report-and-alert-when-threshold-reached",
+		"checked": [
+			"live",
+			"wayback 20240613092827 (Ghost)"
+		],
+		"embeds": [
+			{
+				"kind": "gist",
+				"url": "https://gist.github.com/benyoungnz/a0ae8952c2f5a447a7cb481c5d1ad39d",
+				"anchor": "ay for a while. Example report From my lab (set to 100gb), note my backup server is cleverly named \"BackupServer\" your actual server will end up here The script",
+				"source": "wayback 20240613092827"
+			}
+		]
+	},
+	"veeam-release-schedule-of-2020-unbelievable-cadence": {
+		"slug": "veeam-release-schedule-of-2020-unbelievable-cadence",
+		"checked": [
+			"live",
+			"wayback 20230325144604 (Ghost)"
+		],
+		"embeds": [
+			{
+				"kind": "iframe",
+				"url": "https://time.graphics/embed?v=1&id=473963",
+				"anchor": "re applicable I have also included a link to the announcement or getting started guide. What's in store for 2021?! #v11 is days away so off to a cracking start.",
+				"source": "wayback 20230325144604"
+			}
+		]
+	},
+	"veeam-replica-disk-audit-using-powercli-for-vsphere": {
+		"slug": "veeam-replica-disk-audit-using-powercli-for-vsphere",
+		"checked": [
+			"live",
+			"wayback 20240518033826 (Ghost)"
+		],
+		"embeds": []
+	},
+	"veeam-service-provider-console-7-api-changes": {
+		"slug": "veeam-service-provider-console-7-api-changes",
+		"checked": [
+			"live",
+			"wayback 20240301183905 (Ghost)"
+		],
+		"embeds": []
+	},
+	"veeam-sessions-at-vmworld-2021-and-plant-a-tree": {
+		"slug": "veeam-sessions-at-vmworld-2021-and-plant-a-tree",
+		"checked": [
+			"live",
+			"wayback 20240518043951 (Ghost)"
+		],
+		"embeds": []
+	},
+	"veeam-to-provide-a-new-ransomware-warranty-service": {
+		"slug": "veeam-to-provide-a-new-ransomware-warranty-service",
+		"checked": [
+			"live",
+			"wayback 20240425055832 (Ghost)"
+		],
+		"embeds": []
+	},
+	"veeam-v10-api-nas-endpoints-overview": {
+		"slug": "veeam-v10-api-nas-endpoints-overview",
+		"checked": [
+			"live",
+			"wayback 20240425055408 (Ghost)"
+		],
+		"embeds": []
+	},
+	"veeam-vanguard-swag-2020": {
+		"slug": "veeam-vanguard-swag-2020",
+		"checked": [
+			"live",
+			"wayback 20230131012638 (Ghost)"
+		],
+		"embeds": []
+	},
+	"veeam-vanguard-templates-2023": {
+		"slug": "veeam-vanguard-templates-2023",
+		"checked": [
+			"live",
+			"wayback 20240301184638 (Ghost)"
+		],
+		"embeds": []
+	},
+	"veeam-vanguard-templates-2024": {
+		"slug": "veeam-vanguard-templates-2024",
+		"checked": [
+			"live",
+			"wayback 20240425042231 (Ghost)"
+		],
+		"embeds": []
+	},
+	"veeam-vault-v2-takes-on-ransomware-threats-and-cost-predictability": {
+		"slug": "veeam-vault-v2-takes-on-ransomware-threats-and-cost-predictability",
+		"checked": [
+			"live"
+		],
+		"embeds": [],
+		"note": "no Ghost-era capture"
+	},
+	"veeamon-2020-agenda-speakers-and-sessions": {
+		"slug": "veeamon-2020-agenda-speakers-and-sessions",
+		"checked": [
+			"live",
+			"wayback 20240720163740 (Ghost)"
+		],
+		"embeds": []
+	},
+	"veeamon-2023-miami-archive": {
+		"slug": "veeamon-2023-miami-archive",
+		"checked": [
+			"live",
+			"wayback 20240301165810 (Ghost)"
+		],
+		"embeds": []
+	},
+	"what-is-the-edge-thoughts-before-the-first-edge-field-day": {
+		"slug": "what-is-the-edge-thoughts-before-the-first-edge-field-day",
+		"checked": [
+			"live",
+			"wayback 20240301165718 (Ghost)"
+		],
+		"embeds": []
+	},
+	"who-restored-that-veeam-backup-for-microsoft-365-data-a-look-at-what-a-service-provider-can-provider-clients-in-a-multi-tenant-environment": {
+		"slug": "who-restored-that-veeam-backup-for-microsoft-365-data-a-look-at-what-a-service-provider-can-provider-clients-in-a-multi-tenant-environment",
+		"checked": [
+			"live",
+			"wayback 20240301184557 (Ghost)"
+		],
+		"embeds": []
+	},
+	"your-private-ai-can-have-eyes-ollama-with-the-llava-model": {
+		"slug": "your-private-ai-can-have-eyes-ollama-with-the-llava-model",
+		"checked": [
+			"live",
+			"wayback 20240926200207 (Ghost)"
+		],
+		"embeds": []
+	}
+}

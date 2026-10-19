@@ -90,7 +90,7 @@ And the official docs are here for VCSP with multiple tenants [https://helpcente
 
 Clone the repository or grab that C**onnect-VB365RestorePortal.ps1** script, then get the Application ID from your Restore Portal Tab
 ![](/content/images/2022/05/image-21.png)
-Finally, change line that says <changeme> with your application ID like the below
+Finally, change line that says \<changeme> with your application ID like the below
 ![](/content/images/2022/05/image-22.png)
 Ok, run the script with ./C**onnect-VB365RestorePortal.ps1 **it will install any modules required as below;
 ![](/content/images/2022/05/image-26.png)

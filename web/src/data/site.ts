@@ -9,6 +9,7 @@ export const site = {
 // Fallback only: the live nav is the EmDash "primary" menu (admin → Menus)
 export const nav = [
   { label: 'Blog', href: '/blog/' },
+  { label: 'Videos', href: '/videos/' },
   { label: 'Tags', href: '/tags/' },
   { label: 'About', href: '/about/' },
 ];
@@ -27,6 +28,7 @@ export const footerColumns = [
     tone: 'mint',
     links: [
       { label: 'All posts', href: '/blog/' },
+      { label: 'Videos', href: '/videos/' },
       { label: 'AI & data', href: '/blog/?tag=ai' },
       { label: 'Security', href: '/blog/?tag=security' },
       { label: 'Veeam APIs', href: '/blog/?tag=api' },

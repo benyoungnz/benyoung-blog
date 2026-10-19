@@ -1,0 +1,59 @@
+---
+/**
+ * Click-to-load YouTube player. Shows the thumbnail and a play button, and only loads
+ * YouTube's ~1 MB player (from youtube-nocookie.com) when someone actually presses play.
+ */
+import Icon from '@kit/base/Icon.astro';
+import type { Video } from '@lib/youtube';
+
+interface Props {
+  video: Video;
+}
+const { video } = Astro.props;
+---
+
+<div class:list={['player', { 'player--short': video.short }]} data-player data-id={video.id} data-title={video.title}>
+  <button type="button" class="player__btn" aria-label={`Play: ${video.title}`}>
+    <img src={`https://i.ytimg.com/vi/${video.id}/${video.short ? 'hq2' : 'maxresdefault'}.jpg`} onerror={`this.onerror=null;this.src='https://i.ytimg.com/vi/${video.id}/hqdefault.jpg'`} alt="" />
+    <span class="player__play" aria-hidden="true"><Icon name="play" size={30} /></span>
+  </button>
+</div>
+
+<script>
+  for (const el of document.querySelectorAll<HTMLElement>('[data-player]')) {
+    el.querySelector('button')?.addEventListener('click', () => {
+      const iframe = document.createElement('iframe');
+      iframe.src = `https://www.youtube-nocookie.com/embed/${el.dataset.id}?autoplay=1&rel=0`;
+      iframe.title = el.dataset.title ?? 'YouTube video';
+      iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+      iframe.allowFullscreen = true;
+      el.replaceChildren(iframe);
+    }, { once: true });
+  }
+</script>
+
+<style>
+  .player { position: relative; aspect-ratio: 16 / 9; overflow: hidden; border-radius: var(--r-xl); background: var(--ink); box-shadow: var(--shadow-card); }
+  .player--short { aspect-ratio: 9 / 16; max-width: 400px; margin-inline: auto; }
+  .player :global(iframe), .player__btn { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  .player__btn { padding: 0; cursor: pointer; background: none; }
+  .player__btn img { width: 100%; height: 100%; object-fit: cover; }
+  .player__play {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    translate: -50% -50%;
+    display: grid;
+    place-items: center;
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    background: var(--mint);
+    color: var(--ink);
+    box-shadow: 0 10px 30px rgb(0 0 0 / 0.35);
+    transition: transform var(--dur) var(--ease);
+  }
+  .player__play :global(svg) { margin-left: 4px; fill: currentColor; }
+  .player__btn:hover .player__play { transform: scale(1.08); }
+  .player__btn:focus-visible { outline: 3px solid var(--pop); outline-offset: -3px; }
+</style>

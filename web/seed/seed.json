@@ -72,6 +72,7 @@
 			"label": "Primary Navigation",
 			"items": [
 				{ "type": "custom", "label": "Blog", "url": "/blog/" },
+				{ "type": "custom", "label": "Videos", "url": "/videos/" },
 				{ "type": "custom", "label": "Tags", "url": "/tags/" },
 				{ "type": "custom", "label": "About", "url": "/about/" }
 			]

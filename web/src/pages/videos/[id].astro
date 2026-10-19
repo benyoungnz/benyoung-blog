@@ -1,0 +1,70 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '@kit/layout/Section.astro';
+import SectionHeading from '@kit/layout/SectionHeading.astro';
+import Breadcrumbs from '@kit/base/Breadcrumbs.astro';
+import Button from '@kit/base/Button.astro';
+import Prose from '@kit/blog/Prose.astro';
+import VideoPlayer from '../../components/video/VideoPlayer.astro';
+import VideoGrid from '../../components/video/VideoGrid.astro';
+import { formatDate, isoDate } from '@data/format';
+import { CHANNEL, formatViews, getVideos } from '@lib/youtube';
+
+const { videos } = await getVideos();
+const video = videos.find((v) => v.id === Astro.params.id);
+// Older uploads aren't in the 15-item feed yet; send people to YouTube rather than a dead end
+if (!video) return Astro.params.id ? Astro.redirect(`https://www.youtube.com/watch?v=${encodeURIComponent(Astro.params.id)}`, 302) : Astro.rewrite('/404');
+
+const more = videos.filter((v) => v.id !== video.id).slice(0, 3);
+const views = formatViews(video.views);
+
+// YouTube descriptions are plain text: escape, link URLs, keep paragraphs and line breaks
+const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+const descriptionHtml = video.description
+  .trim()
+  .split(/\n{2,}/)
+  .filter((p) => p.trim() && !/^-{3,}$/.test(p.trim()))
+  .map((p) => `<p>${esc(p).replace(/https?:\/\/[^\s<]+/g, (u) => `<a href="${u}" rel="noopener nofollow">${u}</a>`).replace(/\n/g, '<br>')}</p>`)
+  .join('');
+---
+
+<BaseLayout title={video.title} description={video.description.split('\n')[0].slice(0, 160)} image={`https://i.ytimg.com/vi/${video.id}/hqdefault.jpg`}>
+  <div class="container">
+    <header class="head">
+      <Breadcrumbs items={[{ label: 'Videos', href: '/videos/' }, { label: video.title }]} />
+      <h1>{video.title}</h1>
+      <p class="meta">
+        <time datetime={isoDate(video.published)}>{formatDate(video.published, 'long')}</time>
+        {views && <span>{views}</span>}
+      </p>
+    </header>
+
+    <VideoPlayer video={video} />
+
+    <div class="body">
+      {descriptionHtml && <Prose><Fragment set:html={descriptionHtml} /></Prose>}
+      <div class="actions">
+        <Button href={video.url} icon="arrow-up-right" target="_blank" rel="noopener">Watch on YouTube</Button>
+        <Button href={`${CHANNEL.url}?sub_confirmation=1`} variant="outline" target="_blank" rel="noopener">Subscribe</Button>
+      </div>
+    </div>
+  </div>
+
+  {more.length > 0 && (
+    <Section aria-labelledby="more-videos">
+      <SectionHeading id="more-videos" title="More videos">
+        <a slot="actions" class="link" href="/videos/">All videos</a>
+      </SectionHeading>
+      <VideoGrid videos={more} />
+    </Section>
+  )}
+</BaseLayout>
+
+<style>
+  .head { display: grid; gap: var(--s-4); max-width: 860px; padding-block: var(--s-10) var(--s-8); }
+  h1 { font-size: var(--fs-h1); line-height: 1.08; letter-spacing: -0.03em; font-weight: 750; }
+  .meta { display: flex; gap: var(--s-4); font-size: var(--fs-sm); color: var(--ink-3); }
+  .meta span::before { content: '·'; margin-right: var(--s-4); }
+  .body { display: grid; gap: var(--s-8); max-width: 760px; padding-block: var(--s-10) var(--s-4); }
+  .actions { display: flex; flex-wrap: wrap; gap: var(--s-3); }
+</style>

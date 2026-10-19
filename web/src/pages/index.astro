@@ -4,9 +4,12 @@ import Section from '@kit/layout/Section.astro';
 import SectionHeading from '@kit/layout/SectionHeading.astro';
 import PostGrid from '@kit/blog/PostGrid.astro';
 import PostBrowser from '@kit/blog/PostBrowser.astro';
+import VideoGrid from '../components/video/VideoGrid.astro';
 import { allPosts, toPost } from '@lib/content';
+import { getVideos } from '@lib/youtube';
 
-const posts = (await allPosts(Astro)).map(toPost);
+const [posts, { videos }] = await Promise.all([allPosts(Astro).then((e) => e.map(toPost)), getVideos()]);
+const latestVideos = videos.filter((v) => !v.short).slice(0, 3);
 ---
 
 <BaseLayout title="Ben Young">
@@ -21,6 +24,15 @@ const posts = (await allPosts(Astro)).map(toPost);
     </div>
     {posts.length ? <PostGrid posts={posts.slice(0, 3)} eagerFirst={3} /> : <p class="empty">No posts yet. Write one in the <a class="link" href="/_emdash/admin/content/posts/new">admin</a>.</p>}
   </Section>
+
+  {latestVideos.length > 0 && (
+    <Section tone="surface" aria-labelledby="latest-videos">
+      <SectionHeading id="latest-videos" eyebrow="YouTube" title="Latest videos">
+        <a slot="actions" class="link" href="/videos/">All videos</a>
+      </SectionHeading>
+      <VideoGrid videos={latestVideos} />
+    </Section>
+  )}
 
   {posts.length > 3 && (
     <Section aria-labelledby="all-posts">

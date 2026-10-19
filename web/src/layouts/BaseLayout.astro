@@ -18,9 +18,16 @@ interface Props {
   modifiedTime?: string | null;
   /** Content reference, so plugins can contribute to content pages */
   content?: { collection: string; id: string; slug?: string | null };
+  /** Extra schema.org objects for this page (VideoObject, BreadcrumbList, …) */
+  jsonLd?: Record<string, unknown>[];
+  /** Breadcrumb trail for BreadcrumbList structured data; the last item is this page */
+  breadcrumbs?: { label: string; href?: string }[];
 }
 
-const { title, image, robots, type = 'website', publishedTime, modifiedTime, content } = Astro.props;
+const { title, robots, type = 'website', publishedTime, modifiedTime, content, breadcrumbs } = Astro.props;
+const origin = (Astro.site ?? Astro.url).origin;
+// Pages without their own image share the branded card (scripts/og-image.ts renders it)
+const image = Astro.props.image ?? `${origin}/og-default.png`;
 
 const [settingsResult, menuResult] = await Promise.all([getSiteSettingsWithCacheHint(), getMenuWithCacheHint('primary')]);
 if (Astro.cache?.enabled) {
@@ -32,7 +39,22 @@ const siteName = settingsResult.data?.title || site.name;
 const description = Astro.props.description ?? settingsResult.data?.tagline ?? site.tagline;
 const fullTitle = title === siteName ? title : `${title} · ${siteName}`;
 // Every public URL ends in a slash, matching the old site's indexed URLs
-const canonical = Astro.props.canonical ?? new URL(Astro.url.pathname.replace(/\/?$/, '/'), Astro.site ?? Astro.url).href;
+const canonical = Astro.props.canonical ?? new URL(Astro.url.pathname.replace(/\/?$/, '/'), origin).href;
+const jsonLd = [
+  ...(Astro.props.jsonLd ?? []),
+  ...(breadcrumbs?.length
+    ? [{
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [{ label: 'Home', href: '/' }, ...breadcrumbs].map((b, i, all) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          name: b.label,
+          item: new URL(i === all.length - 1 ? canonical : (b.href ?? '/'), origin).href,
+        })),
+      }]
+    : []),
+];
 const menuItems = menuResult.data?.items ?? [];
 const nav = menuItems.length ? menuItems.map((i) => ({ label: i.label, href: i.url })) : defaultNav;
 
@@ -61,6 +83,7 @@ const pageCtx = createPublicPageContext({
     <EmDashHead page={pageCtx} />
     <link rel="icon" href="/favicon.png" />
     <link rel="alternate" type="application/rss+xml" title={siteName} href="/rss.xml" />
+    {jsonLd.map((data) => <script type="application/ld+json" set:html={JSON.stringify(data).replace(/</g, '\\u003c')} />)}
     <slot name="head" />
   </head>
   <body>

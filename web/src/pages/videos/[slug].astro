@@ -14,6 +14,8 @@ const videos = await getVideos(Astro);
 const video = videos.find((v) => v.slug === Astro.params.slug);
 if (!video) return Astro.rewrite('/404');
 
+// First real sentence of the description, for meta and structured data
+const summary = (video.description.split(/\n/).find((l) => l.trim().length > 20) ?? video.title).trim().slice(0, 160);
 const more = videos.filter((v) => v.slug !== video.slug).slice(0, 3);
 
 // YouTube descriptions are plain text: escape, link URLs, keep paragraphs and line breaks
@@ -26,7 +28,23 @@ const descriptionHtml = video.description
   .join('');
 ---
 
-<BaseLayout title={video.title} description={video.description.split('\n')[0].slice(0, 160)} image={`https://i.ytimg.com/vi/${video.id}/hqdefault.jpg`}>
+<BaseLayout
+  title={video.title}
+  description={summary}
+  image={`https://i.ytimg.com/vi/${video.id}/hqdefault.jpg`}
+  breadcrumbs={[{ label: 'Videos', href: '/videos/' }, { label: video.title }]}
+  jsonLd={[{
+    '@context': 'https://schema.org',
+    '@type': 'VideoObject',
+    name: video.title,
+    description: summary,
+    thumbnailUrl: [`https://i.ytimg.com/vi/${video.id}/maxresdefault.jpg`, `https://i.ytimg.com/vi/${video.id}/hqdefault.jpg`],
+    uploadDate: video.published.toISOString(),
+    embedUrl: `https://www.youtube.com/embed/${video.id}`,
+    contentUrl: video.url,
+    author: { '@type': 'Person', name: 'Ben Young', url: 'https://benyoung.blog/about/' },
+  }]}
+>
   <div class="container">
     <header class="head">
       <Breadcrumbs items={[{ label: 'Videos', href: '/videos/' }, { label: video.title }]} />

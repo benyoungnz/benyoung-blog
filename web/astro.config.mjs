@@ -22,6 +22,7 @@ export default defineConfig({
 		"/categories/[...path]": page,
 		"/about": page,
 		"/rss.xml": page,
+		"/sitemap.xml": page,
 		"/videos/[...path]": page,
 	},
 	image: {

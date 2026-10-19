@@ -61,6 +61,12 @@ What the importer keeps from each old post:
 - Run a sync now (as an admin): `POST /_emdash/api/plugins/youtube-sync/sync`.
 - The feed only lists the latest 15 uploads, so anything older never gets added. To backfill, swap `fetchChannelFeed` in `src/lib/youtube-feed.ts` for the YouTube Data API.
 
+**SEO.**
+- `/sitemap.xml` replaces EmDash's posts-only sitemap: it lists every post, video, tag, category and static page, with trailing slashes and `lastmod`. The old `/sitemap-index.xml` and `/sitemap-0.xml` (and EmDash's `/sitemap-<collection>.xml`) all 301 to it.
+- Canonical URLs always use `benyoung.blog`.
+- Share images: posts use their hero image, and videos use the YouTube thumbnail. Every other page uses `public/og-default.png`, rendered offline by `node scripts/og-image.ts`, because rendering cards per request would blow the free plan's CPU budget.
+- Structured data: EmDash emits `WebSite` and `BlogPosting`. The layout adds `BreadcrumbList` (posts, videos, tags, categories) and `VideoObject` on video pages.
+
 **Caching.** The `cache` provider and `routeRules` in `astro.config.mjs` let Cloudflare's CDN hold public pages for a day, with stale-while-revalidate for a week. Responses carry EmDash cache tags, and publishing an entry purges exactly the pages that show it. A page view only costs Worker CPU on a cache miss, which matters on the free plan's 10 ms CPU limit. Search, admin and API routes are never cached.
 
 ## Cloudflare (free plan)

@@ -11,6 +11,6 @@ if (!term) return Astro.rewrite('/404');
 const posts = postsWithTerm(entries, 'tag', term.slug).map(toPost);
 ---
 
-<BaseLayout title={`${term.label} posts`} description={`${posts.length} posts about ${term.label}.`}>
+<BaseLayout title={`${term.label} posts`} description={`${posts.length} posts about ${term.label}.`} breadcrumbs={[{ label: 'Tags', href: '/tags/' }, { label: term.label }]}>
   <TermArchive term={term} posts={posts} others={index.filter((t) => t.slug !== term.slug)} base="/tags/" crumb="Tags" prefix="#" />
 </BaseLayout>

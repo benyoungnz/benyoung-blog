@@ -34,7 +34,8 @@ const crumbs = [
 const imageUrl = entry.data.featured_image?.meta?.storageKey
   ? new URL(`/_emdash/api/media/file/${entry.data.featured_image.meta.storageKey}`, Astro.url).href
   : undefined;
-const seo = getSeoMeta(entry, { siteTitle: 'Ben Young', siteUrl: Astro.url.origin, path: postHref(slug), defaultOgImage: imageUrl });
+// Canonical origin (benyoung.blog), not the request host, so previews and workers.dev don't self-canonicalise
+const seo = getSeoMeta(entry, { siteTitle: 'Ben Young', siteUrl: (Astro.site ?? Astro.url).origin, path: postHref(slug), defaultOgImage: imageUrl });
 
 // Related: posts sharing the most tags, newest first
 const others = (await allPosts(Astro)).filter((e) => e.id !== entry.id).map(toPost);
@@ -56,6 +57,7 @@ const related = others
   publishedTime={post.pubDate?.toISOString()}
   modifiedTime={(post.updatedDate ?? entry.data.updatedAt)?.toISOString?.()}
   content={{ collection: 'posts', id: entry.data.id, slug }}
+  breadcrumbs={crumbs}
 >
   <div class="container">
     <PostHeader post={post} crumbs={crumbs} />

@@ -11,7 +11,7 @@ author: ["ben"]
 
 There were a load of announcements with v10 of Veeam Backup & Replication. This one is by far the one I am most excited about. I have been using it for a few weeks now building up to a more complete example but here is how you can get started right now and test it out.
 
-This powerful feature will let you **re-use your backup data **and perform processing on it. Anything from eDiscovery, classification, malware detection, compliance - possibilities are endless.
+This powerful feature will let you **re-use your backup data** and perform processing on it. Anything from eDiscovery, classification, malware detection, compliance - possibilities are endless.
 
 **You will need**
 

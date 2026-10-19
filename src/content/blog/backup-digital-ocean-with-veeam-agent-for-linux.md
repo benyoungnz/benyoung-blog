@@ -37,7 +37,7 @@ I popped it somewhere public and just used wget but you
 Now you have the veeam-release package on your machine, install it
 
 ```
-    dpkg -i ./veeam-release* && apt-get update
+dpkg -i ./veeam-release* && apt-get update
 ```
 
 You can then see a Veeam repository has been added to your list of sources

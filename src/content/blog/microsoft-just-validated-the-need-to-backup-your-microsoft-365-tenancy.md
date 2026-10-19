@@ -52,7 +52,7 @@ As you start reaching capacity limits within your tenancy, this product is desig
 
 I think its a good thing! As we have established, Microsoft just re-validated the requirement publicly and as such have raised awareness across the globe. 
 
-Market leading vendors like Veeam - who by the way have the biggest market share protecting ~15 million users can now build upon the** HUGE head start** they have on Microsoft's own offerings.
+Market leading vendors like Veeam - who by the way have the biggest market share protecting ~15 million users can now build upon the **HUGE head start** they have on Microsoft's own offerings.
 
 Think about it, they have been building and maturing their product for a number of years now, currently in a version 7 product cycle. With native object storage support allowing you to control the cost and location of your backup storage more easily and get it off-site out of the native Microsoft world if you wanted too, market leading search and restore capabilities and experience, self recovery portals to name a few.
 

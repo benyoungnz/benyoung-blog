@@ -38,7 +38,7 @@ docker run -d -p 5000:80 benyoung/veeamonereceiver
 
 You can customise port 5000 to your requirements, the container is listening on 80 and 443. 
 
-Your output should look similar too the following, if you are wondering what is going on you can always run **docker container ls **to view the running containers.
+Your output should look similar too the following, if you are wondering what is going on you can always run **docker container ls** to view the running containers.
 ![](/content/images/2021/11/Screen-Shot-2021-11-22-at-12.18.19-PM.png)
 ### 2. Demo Environment
 

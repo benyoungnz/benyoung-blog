@@ -11,7 +11,7 @@ author: ["ben"]
 
 Not really the news I wanted to wake up to late last week but we are here now so let's take a look at what this means, specifically what it means for Veeam Backup for Microsoft 365 and every other M365 backup vendor in the market who have been using the Exchange Web Services API to access these messages.
 
-What does it affect? This upcoming change will affect the way that Teams Messages can be accessed programatically. It does not affect the way the rest of the teams components are accessed (yet?...).  The access to these messages are being moved to the new **Microsoft Teams Protected API **and the bad news is this API is **metered,** and is actually backed by Microsofts own Cosmos DB as such have a transactional cost associated with each and every message (more on this further down). 
+What does it affect? This upcoming change will affect the way that Teams Messages can be accessed programatically. It does not affect the way the rest of the teams components are accessed (yet?...).  The access to these messages are being moved to the new **Microsoft Teams Protected API** and the bad news is this API is **metered,** and is actually backed by Microsofts own Cosmos DB as such have a transactional cost associated with each and every message (more on this further down). 
 
 Now before we get into the downsides it is worth noting that this does come with a a couple of upsides, hint: more data, not throttled (faster)
 
@@ -64,7 +64,7 @@ These are messages sent from one user directly to another in a one on one chat. 
 
 > ((# of messages) * 2) * 0.00075$
 
-**Group Chat (1:many) or Teams meeting chat **
+**Group Chat (1:many) or Teams meeting chat**
 This is where things can get a little wild so buckle up - lets use the scenario below where we are in a teams meeting with **100 people.**
 
 For **every** message sent here, including silly memes, emojis, short comments like "lol" this means **100 copies** of the message are stored and backed up. You can see how this could very quickly add up. you would use the below equation for group messages

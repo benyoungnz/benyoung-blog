@@ -16,7 +16,7 @@ Time to grow it up a little and have multiple nodes (virtual) that I can start t
 
 Objectives
 
-- **K3s **
+- **K3s**
 I wanted to run K3s vs a full blown K8s environment. After watching a number of videos and doing some reading I really like what Rancher are doing over there with this project. Heaps smaller footprint.
 - **K3os (operating system)**
 Rancher even have a linux distribution with a minimal footprint and purpose built to run **K3s** so this sounded great
@@ -39,7 +39,7 @@ In vSphere i have created a node template, an empty shell VM with the following 
 - 20gb disk
 - K3os iso mounted
 
-***Note:***Your nodes don't need to be this small/big, just size appropriately for your environment. K3os and K3s run fine on raspberry pi devices so they can be fairly small if you want them to be!
+***Note:*** Your nodes don't need to be this small/big, just size appropriately for your environment. K3os and K3s run fine on raspberry pi devices so they can be fairly small if you want them to be!
 
 **Cloud-init Setup**
 
@@ -55,39 +55,39 @@ Root directory of website
 ![](/content/images/2021/06/image.png)
 And then the IIS setup itself, dns records for cloudinit.youngs.local created on the local DNS server
 ![](/content/images/2021/06/image-1.png)
-So, the cloud-init files are very similar, all that changes really are the ip addresses + there is a slight variation between the **server **and the **agent **files. Let's take a look.
+So, the cloud-init files are very similar, all that changes really are the ip addresses + there is a slight variation between the **server** and the **agent** files. Let's take a look.
 
 The **server** node yaml file, this is effectively the master and is what the agents will connect back to once they come online.
 
 ```yaml
-    ssh_authorized_keys:
-    - ssh-rsa AAAAB3NzaC1yc2EAAAA....
-    - ssh-rsa AAAAB3NzaC1yc......
-    - github:benyoungnz
-    write_files:
-    - path: /var/lib/connman/default.config
-      content: |-
-        [service_eth0]
-        Type=ethernet
-        IPv4=192.168.178.75/255.255.255.0/192.168.178.254
-        IPv6=off
-        Nameservers=192.168.178.15
-        SearchDomains=youngs.local
-        Domain=youngs.local
-        TimeServers=ntp4.ntp.net.nz,ntp2.ntp.net.nz
-    hostname: k3n01
-    
-    k3os:
-      data_sources:
-      - aws
-      - cdrom
-      modules:
-      - kvm
-      - nvme
-      password: yoursuperpasswordhere
-      token: zsQh822mPWh32423j4jk23h4jdddZInCxVnm0FxLkV
-      k3s_args:
-        - server
+ssh_authorized_keys:
+- ssh-rsa AAAAB3NzaC1yc2EAAAA....
+- ssh-rsa AAAAB3NzaC1yc......
+- github:benyoungnz
+write_files:
+- path: /var/lib/connman/default.config
+  content: |-
+    [service_eth0]
+    Type=ethernet
+    IPv4=192.168.178.75/255.255.255.0/192.168.178.254
+    IPv6=off
+    Nameservers=192.168.178.15
+    SearchDomains=youngs.local
+    Domain=youngs.local
+    TimeServers=ntp4.ntp.net.nz,ntp2.ntp.net.nz
+hostname: k3n01
+
+k3os:
+  data_sources:
+  - aws
+  - cdrom
+  modules:
+  - kvm
+  - nvme
+  password: yoursuperpasswordhere
+  token: zsQh822mPWh32423j4jk23h4jdddZInCxVnm0FxLkV
+  k3s_args:
+    - server
 ```
 
 So, looking through the file from top to bottom
@@ -122,7 +122,7 @@ server_url: https://k3n01.youngs.local:6443
 
 ```
 
-Once you have your first **agent file **then copy paste, adjust the ip address and hostname to match your desired configuration and there you have it ready to be accessed by the cloud-init process in K3os.
+Once you have your first **agent file** then copy paste, adjust the ip address and hostname to match your desired configuration and there you have it ready to be accessed by the cloud-init process in K3os.
 
 ### Deploy Nodes
 
@@ -141,12 +141,12 @@ Now we are ready to install the OS to the disk.
 Enter the following command
 
 ```
-  sudo k3os install 
+sudo k3os install 
 ```
   
   - Select **option 1**
   - Enter **y** to config the system with a cloud-init file
-  - Enter the path to you cloud-init file** relating to the node you are building **such as *http://cloudinit.youngs.local/k3n01.txt *
+  - Enter the path to you cloud-init file **relating to the node you are building** such as *http://cloudinit.youngs.local/k3n01.txt *
   
   ![](/content/images/2021/06/Screen-Shot-2021-06-23-at-2.40.04-PM.png)
   Select y once more and the installer will run, the machine will reboot and if your file is correct it will have the correct IP settings, node name etc
@@ -155,7 +155,7 @@ Enter the following command
   ![](/content/images/2021/06/Screen-Shot-2021-06-23-at-2.41.12-PM.png)
   And just like that, our first (server) node! Moooooo!
   ![](/content/images/2021/06/Screen-Shot-2021-06-23-at-2.41.19-PM.png)
-  If you login (either via the console or ssh) and run **kubectl get node **you will see we now have a single node up and running - assuming you did not put the --disable-agent flag in.
+  If you login (either via the console or ssh) and run **kubectl get node** you will see we now have a single node up and running - assuming you did not put the --disable-agent flag in.
   ![](/content/images/2021/06/Screen-Shot-2021-06-23-at-2.41.34-PM.png)
   Check that SSH works before you build the rest of the cluster, I learnt the hard way....
   ![](/content/images/2021/06/Screen-Shot-2021-06-23-at-2.43.37-PM.png)
@@ -169,7 +169,7 @@ Enter the following command
   
   In a followup post I will show you how to
   
-  - [**Deploy Rancher **so I can login and manage my cluster](https://benyoung.blog/deploying-rancher-to-manage-a-kubernetes-cluster/), view performance metrics, deploy things a littler easier than basing away in command line
+  - [**Deploy Rancher** so I can login and manage my cluster](https://benyoung.blog/deploying-rancher-to-manage-a-kubernetes-cluster/), view performance metrics, deploy things a littler easier than basing away in command line
   - [**Add a nfs backed storage class** via the nfs-client-provisioner](https://benyoung.blog/persistent-storage-class-in-kubernetes-backed-by-synology-nfs/) allowing workloads to create storage on demand to my Synology NAS via NFS
   - **Backup workloads** using Veeam's Kasten suite
   

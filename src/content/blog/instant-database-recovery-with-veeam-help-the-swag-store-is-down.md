@@ -35,7 +35,7 @@ Now if I refresh this application sure enough, its not happy.
 ![](/content/images/2021/08/image-5.png)
 ### Instant Recovery to the rescue
 
-For our recovery scenario are going to perform an Instant recovery in which we **will not **copy all of the data back to the server instead Veeam will perform some magic and present the data out of the backups to get us up and running very quickly. 
+For our recovery scenario are going to perform an Instant recovery in which we **will not** copy all of the data back to the server instead Veeam will perform some magic and present the data out of the backups to get us up and running very quickly. 
 
 Imagine you had a very large database, the instant recovery will take no more than a couple of minutes even in my small lab environment to spin up vs copying all the data to the server before it can be attached.
 

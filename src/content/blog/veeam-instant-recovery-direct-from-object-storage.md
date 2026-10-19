@@ -75,7 +75,7 @@ Another window will pop up and show you your progress, move through the wizard
 ![](/content/images/2021/10/image-13.png)![](/content/images/2021/10/image-14.png)
 As you can see it did not take long.
 
-Head back home on the console and look under "backups" then Object Storage (imported) you will now see your backup job from the on-premise infrastructure. In my case **Data Integration API Demo. **Expand it and I can then see any VM's in the job, just **FILESERVER01** for me.
+Head back home on the console and look under "backups" then Object Storage (imported) you will now see your backup job from the on-premise infrastructure. In my case **Data Integration API Demo.** Expand it and I can then see any VM's in the job, just **FILESERVER01** for me.
 ![](/content/images/2021/10/image-15.png)
 Time to play! right click the VM and you will now notice the VM currently scattered about the object storage repository is a first class citizen of Veeam and you have all the functions to play with.
 ![](/content/images/2021/10/image-16.png)

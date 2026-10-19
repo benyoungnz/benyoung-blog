@@ -37,7 +37,7 @@ It should look something like this
 ![](/content/images/2020/12/1-url-bar-postman.png)
 Now, below this url bar we need to select a few things
 
-Select **Body **and then select x-www-form-urlencoded and enter the following pairs off data
+Select **Body** and then select x-www-form-urlencoded and enter the following pairs off data
 
 - grant_type = password
 - username = yourusername
@@ -55,27 +55,27 @@ Now we have logged in we can set our audit notification settings. The official d
 
 The sample JSON payload (more on this in a minute) they provide is as follows
 ```json
-    {
-    
-     "enableNotification": "true",
-    
-     "smtpServer": "smtp.office365.com",
-    
-     "port": 590,
-    
-     "useAuthentication": "true",
-    
-     "username": "john.smith@tech.com",
-    
-     "useSSL": "true",
-    
-     "from": "vbo@tech.com",
-    
-     "to": "admin@tech.com",
-    
-     "subject": "[Audit] %OrganizationName% - %DisplayName% - %Action% initiated by %InitiatedByUserName% at %StartTime%"
-    
-    }
+{
+
+ "enableNotification": "true",
+
+ "smtpServer": "smtp.office365.com",
+
+ "port": 590,
+
+ "useAuthentication": "true",
+
+ "username": "john.smith@tech.com",
+
+ "useSSL": "true",
+
+ "from": "vbo@tech.com",
+
+ "to": "admin@tech.com",
+
+ "subject": "[Audit] %OrganizationName% - %DisplayName% - %Action% initiated by %InitiatedByUserName% at %StartTime%"
+
+}
 ```
     
     I will be modifying mine a little to talk to a local mail relay without authentication for now so my payload is going to look like the following
@@ -106,13 +106,13 @@ The sample JSON payload (more on this in a minute) they provide is as follows
         
 You can customise the subject with the placeholders between the %'s. I will leave it as the default but this would be useful if you were trying to have a system such as a service desk or even mail rules that require you to have a certain format.
 
-Ok, onto setting it up. With the payload customised to meet your needs, create a new request in Postman llike you did before. Select the **GET to PUT ** this time.
+Ok, onto setting it up. With the payload customised to meet your needs, create a new request in Postman llike you did before. Select the **GET to PUT**  this time.
 
 The URL we want in the address bar is going to be **https://yourvboserver:4443/v5/auditemailsettings**
 
 Select **Authorization** below the url bar, now you can select **Bearer Token** as the type and in the token field enter the **access_token** from step2
 ![](/content/images/2020/12/authorization.png)
-Now select **Body **and this time we want the **raw** option with the type selected as JSON (usually defaults to text)
+Now select **Body** and this time we want the **raw** option with the type selected as JSON (usually defaults to text)
 
 Paste your JSON into the empty box so it looks like the following
 ![](/content/images/2020/12/4-put-audit-settings.png)

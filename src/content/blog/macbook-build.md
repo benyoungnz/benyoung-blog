@@ -20,7 +20,7 @@ In (mostly) no particular order
 This little tool allows me to quickly deploy most of the tools here on out thanks to the great community. Check them out on [brew.sh](https://brew.sh)
 
 ```
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
 ## Communications

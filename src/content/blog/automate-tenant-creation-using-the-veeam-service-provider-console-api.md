@@ -61,7 +61,7 @@ You can now grab that "agentUid" property in the result set in our case 1e829c24
 
 I am going to show the absolutely bare bones tenant creation, this is the minimum you need. All of the properties [are defined here](https://helpcenter.veeam.com/docs/vac/rest/tenants_general_prprts.html?ver=50) for reference;
 
-Properties you **cannot **set during creation however are;
+Properties you **cannot** set during creation however are;
 
 - id
 - instanceUid
@@ -80,19 +80,19 @@ Properties you **cannot **set during creation however are;
 Onto our payload, here is one you can copy and paste and adapt to your requirements.
 
 ```json
-    {
-        "name": "Ben Blog Ltd",
-        "title": "Mr",
-        "firstName": "Ben",
-        "lastName": "Young",
-        "userName": "benyoungblog-admin",
-        "emailAddress": "postman@benyoung.blog",
-        "password": "your password here",
-        "cloudConnectAgentUid": "your agentid guid here"
-    }
+{
+    "name": "Ben Blog Ltd",
+    "title": "Mr",
+    "firstName": "Ben",
+    "lastName": "Young",
+    "userName": "benyoungblog-admin",
+    "emailAddress": "postman@benyoung.blog",
+    "password": "your password here",
+    "cloudConnectAgentUid": "your agentid guid here"
+}
 ```
 
-Create a new request, this time a **POST to /v2/tenants **
+Create a new request, this time a **POST to /v2/tenants**
 
 Hit up the body tab, select raw and change the type to JSON so you get nice highlighting in the editor. Paste in your payload. Hit Send.
 ![](/content/images/2021/09/image-9.png)

@@ -25,28 +25,28 @@ Firstly if you have not registered;
 All times listed in Singapore Standard Time (GMT +8:00)
 
 ### Day 1: Thursday, June 18
-TIMETITLE**11 a.m. &minus; 11:45 a.m.**Opening General SessionOpening General Session**11:45 a.m. &minus; 12 p.m.**BreakBreak**12 p.m. &minus; 12:45 p.m.**BreakoutsBreakouts**12:45 p.m. &minus; 1 p.m.**BreakBreak**1 p.m. &minus; 1:45 p.m.**BreakoutsBreakouts**1:45 p.m. &minus; 2:20 p.m.**VeeamathON SessionsVeeamathON Sessions**2 p.m. &minus; 2:45 p.m.**BreakoutsBreakouts**2:45 p.m. &minus; 3 p.m.**BreakBreak**3 p.m. &minus; 3:45 p.m.**Live expert sessionsLive expert sessions
+TIMETITLE**11 a.m. − 11:45 a.m.** Opening General SessionOpening General Session**11:45 a.m. − 12 p.m.** BreakBreak**12 p.m. − 12:45 p.m.** BreakoutsBreakouts**12:45 p.m. − 1 p.m.** BreakBreak**1 p.m. − 1:45 p.m.** BreakoutsBreakouts**1:45 p.m. − 2:20 p.m.** VeeamathON SessionsVeeamathON Sessions**2 p.m. − 2:45 p.m.** BreakoutsBreakouts**2:45 p.m. − 3 p.m.** BreakBreak**3 p.m. − 3:45 p.m.** Live expert sessionsLive expert sessions
 
 ### Day 2: Friday, June 19
-TIMETITLE**5 a.m. &minus; 5:45 a.m.**VeeamON 2020 community activityVeeamON 2020 community activity**11 a.m. &minus; 12:30 p.m.**Opening General SessionOpening General Session**12:30 p.m. &minus; 12:45 p.m.**BreakBreak**12:45 p.m. &minus; 1:30 p.m.**BreakoutsBreakouts**1:30 p.m. &minus; 1:45 p.m.**BreakBreak**1:45 p.m. &minus; 2:30 p.m.**BreakoutsBreakouts**2:30 p.m. &minus; 3:30 p.m.**Expert sessionsExpert sessions
+TIMETITLE**5 a.m. − 5:45 a.m.** VeeamON 2020 community activityVeeamON 2020 community activity**11 a.m. − 12:30 p.m.** Opening General SessionOpening General Session**12:30 p.m. − 12:45 p.m.** BreakBreak**12:45 p.m. − 1:30 p.m.** BreakoutsBreakouts**1:30 p.m. − 1:45 p.m.** BreakBreak**1:45 p.m. − 2:30 p.m.** BreakoutsBreakouts**2:30 p.m. − 3:30 p.m.** Expert sessionsExpert sessions
 
 ### North America & Latin America
 
 All times listed in Eastern Daylight Time (EDT)
 
 ### Day 1: Wednesday, June 17
-TIMETITLE**9 a.m. &minus; 9:45 a.m.**Opening General SessionOpening General Session**9:45 a.m. &minus; 10 a.m.**BreakBreak**10 a.m. &minus; 10:45 a.m.**BreakoutsBreakouts**10:45 a.m. &minus; 11 a.m.**BreakBreak**11 a.m. &minus; 11:45 a.m.**BreakoutsBreakouts**11:45 a.m. &minus; 2 p.m.**Exhibits openExhibits open**11:45 a.m. &minus; 12:20 p.m.**VeeamathON SessionsVeeamathON Sessions**12 p.m. &minus; 12:45 p.m.**BreakoutsBreakouts**12:45 p.m. &minus; 1 p.m.**BreakBreak**1 p.m. &minus; 2 p.m.**Live expert sessionsLive expert sessions
+TIMETITLE**9 a.m. − 9:45 a.m.** Opening General SessionOpening General Session**9:45 a.m. − 10 a.m.** BreakBreak**10 a.m. − 10:45 a.m.** BreakoutsBreakouts**10:45 a.m. − 11 a.m.** BreakBreak**11 a.m. − 11:45 a.m.** BreakoutsBreakouts**11:45 a.m. − 2 p.m.** Exhibits openExhibits open**11:45 a.m. − 12:20 p.m.** VeeamathON SessionsVeeamathON Sessions**12 p.m. − 12:45 p.m.** BreakoutsBreakouts**12:45 p.m. − 1 p.m.** BreakBreak**1 p.m. − 2 p.m.** Live expert sessionsLive expert sessions
 
 ### Day 2: Thursday, June 18
-TIMETITLE**9 a.m. &minus; 10:30 a.m.**Opening General SessionOpening General Session**10:30 a.m. &minus; 10:45 a.m.**BreakBreak**10:45 a.m. &minus; 11:30 a.m.**BreakoutsBreakouts**11:30 a.m. &minus; 2 p.m.**Exhibits openExhibits open**11:30 a.m. &minus; 12:00 p.m.**VeeamathON SessionsVeeamathON Sessions**12 p.m. &minus; 12:45 p.m.**BreakoutsBreakouts**12:45 p.m. &minus; 1 p.m.**BreakBreak**1 p.m. &minus; 2 p.m.**Live expert sessionsLive expert sessions**5 p.m. &minus; 5:45 p.m.**VeeamON 2020 community activityVeeamON 2020 community activity
+TIMETITLE**9 a.m. − 10:30 a.m.** Opening General SessionOpening General Session**10:30 a.m. − 10:45 a.m.** BreakBreak**10:45 a.m. − 11:30 a.m.** BreakoutsBreakouts**11:30 a.m. − 2 p.m.** Exhibits openExhibits open**11:30 a.m. − 12:00 p.m.** VeeamathON SessionsVeeamathON Sessions**12 p.m. − 12:45 p.m.** BreakoutsBreakouts**12:45 p.m. − 1 p.m.** BreakBreak**1 p.m. − 2 p.m.** Live expert sessionsLive expert sessions**5 p.m. − 5:45 p.m.** VeeamON 2020 community activityVeeamON 2020 community activity
 
 ### Europe, Middle East and Africa 
 
 All times listed in Central European Summer Time (CEST)
 
 ### Day 1: Wednesday, June 17
-TIMETITLE**3 p.m. &minus; 3:45 p.m.**Opening General SessionOpening General Session**3:45 p.m. &minus; 4 p.m.**BreakBreak**4 p.m. &minus; 4:45 p.m.**BreakoutsBreakouts**4:45 p.m. &minus; 5 p.m.**BreakBreak**5 p.m. &minus; 5:45 p.m.**BreakoutsBreakouts**5:45 p.m. &minus; 8 p.m.**Exhibits openExhibits open**5:45 p.m. &minus; 6:20 p.m.**VeeamathON SessionsVeeamathON Sessions**6 p.m. &minus; 6:45 p.m.**BreakoutsBreakouts**6:45 p.m. &minus; 7 p.m.**BreakBreak**7 p.m. &minus; 8 p.m.**Live expert sessionsLive expert sessions
+TIMETITLE**3 p.m. − 3:45 p.m.** Opening General SessionOpening General Session**3:45 p.m. − 4 p.m.** BreakBreak**4 p.m. − 4:45 p.m.** BreakoutsBreakouts**4:45 p.m. − 5 p.m.** BreakBreak**5 p.m. − 5:45 p.m.** BreakoutsBreakouts**5:45 p.m. − 8 p.m.** Exhibits openExhibits open**5:45 p.m. − 6:20 p.m.** VeeamathON SessionsVeeamathON Sessions**6 p.m. − 6:45 p.m.** BreakoutsBreakouts**6:45 p.m. − 7 p.m.** BreakBreak**7 p.m. − 8 p.m.** Live expert sessionsLive expert sessions
 
 ### Day 2: Thursday, June 18
-TIMETITLE**3 p.m. &minus; 4:30 p.m.**Opening General SessionOpening General Session**4:30 p.m. &minus; 4:45 p.m.**BreakBreak**4:45 p.m. &minus; 5:30 p.m.**BreakoutsBreakouts**5:30 p.m. &minus; 8 p.m.**Exhibits openExhibits open**5:30 p.m. &minus; 6:00 p.m.**VeeamathON SessionsVeeamathON Sessions**6 p.m. &minus; 6:45 p.m.**BreakoutsBreakouts**6:45 p.m. &minus; 7 p.m.**BreakBreak**7 p.m. &minus; 8 p.m.**Live expert sessionsLive expert sessions**11 p.m. &minus; 11:45 p.m.**VeeamON 2020 community activityVeeamON 2020 community activity
+TIMETITLE**3 p.m. − 4:30 p.m.** Opening General SessionOpening General Session**4:30 p.m. − 4:45 p.m.** BreakBreak**4:45 p.m. − 5:30 p.m.** BreakoutsBreakouts**5:30 p.m. − 8 p.m.** Exhibits openExhibits open**5:30 p.m. − 6:00 p.m.** VeeamathON SessionsVeeamathON Sessions**6 p.m. − 6:45 p.m.** BreakoutsBreakouts**6:45 p.m. − 7 p.m.** BreakBreak**7 p.m. − 8 p.m.** Live expert sessionsLive expert sessions**11 p.m. − 11:45 p.m.** VeeamON 2020 community activityVeeamON 2020 community activity
 

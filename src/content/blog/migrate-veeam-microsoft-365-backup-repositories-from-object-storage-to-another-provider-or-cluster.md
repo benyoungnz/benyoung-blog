@@ -283,7 +283,7 @@ This flew through and validated very quickly, no data was transferred and it suc
 
 Here is the first run
 ![](/content/images/2023/06/image-1.png)
-**Sharepoint-based **
+**Sharepoint-based**
 
 Now anything that is Sharepoint based, effectively everything else took much longer due to throttling. To me it looks as if we had to read out everything, or at least a lot that was online again to validate that everything was there.
 

@@ -83,7 +83,7 @@ Let's open this up, bingo.
 ![](/content/images/2022/04/image-21.png)
 Now we are onto something.... i think. This aligns completely with the pathing i saw in the code.
 
-Lets add the new values to the Rest node, note this needs to be a child property so you need to remove the / from the end of the current <Rest line and then add a closing </Rest> below it - then in between add the new <Throttling values.... /> section like below
+Lets add the new values to the Rest node, note this needs to be a child property so you need to remove the / from the end of the current <Rest line and then add a closing \</Rest> below it - then in between add the new <Throttling values.... /> section like below
 ![](/content/images/2022/04/image-23.png)
 Restart the service to pick up the new values, then blast the API, see what happens. Look at that, it works! Before/After
 ![](/content/images/2022/04/image-22.png)

@@ -33,7 +33,7 @@ Having built a few proof of concepts using various AI/ML systems hands down the 
 
 Throw in some customer stories and this will be a fantastic session.
 
-*Presenters: *
+*Presenters:*
 Don Pinto - Lead Product Marketing Manager - Data Quality and Governance @ Qlik
 Julia Fryk - Principal Data Architect/Engineer @ Waterstone Mortgage
 Richard FitzHarris
@@ -53,7 +53,7 @@ Huge topic and one that will get better with time so this session is very releva
 
 Excited to learn about how some organisations and tackling and monitoring this to build trust.
 
-*Presenter: *
+*Presenter:*
 Dan Sommer
 
 ### AI Trained Bot Delivers Exceptional Client Experience and Profitability
@@ -79,7 +79,7 @@ Vitaliy Trenkenshu @ redflags.ai
 
 Every organisation has unstructured data, and usually a LOT of it -  from file servers to SharePoint and everything in between. A true goldmine. Eager to see what Qlik can provide to organisations in this space and how the data flows. 
 
-*Presenters: *
+*Presenters:*
 Steven Pressland - Director - Product Management - AI & ML @ Qlik
 Ryan Welsh
 

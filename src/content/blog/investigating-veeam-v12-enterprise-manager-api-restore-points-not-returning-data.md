@@ -39,7 +39,7 @@ Example metadata on a VMRestorePoint from Enterprise Manager
 
 This tells us
 
-**b5a60ace-7623-407b-b008-777e956ee555 **is the HierarchyRoot Id - Veeam's record of our vSphere instance added into our inventory. 
+**b5a60ace-7623-407b-b008-777e956ee555** is the HierarchyRoot Id - Veeam's record of our vSphere instance added into our inventory. 
 
 **vm-31017** is the VMware mamaged object reference identifier of that virtual machine, you can get the same value via PowerCLI or similar talking directly to VMware
 
@@ -78,13 +78,13 @@ Of note, other than logs and other metadata type tables
 ![](/content/images/2023/11/image-9.png)
 **Hosts** - well there is our identifier in the restore point data. B5a60 in the id column thats a start.
 ![](/content/images/2023/11/image-10.png)
-Scrolling through the other columsn in this table and what do we have under the unique_id column but our id **27cfa99b... **
+Scrolling through the other columsn in this table and what do we have under the unique_id column but our id **27cfa99b...**
 ![](/content/images/2023/11/image-15.png)
 Ok, so, has the format of the HierarchyRootObj ref changed then and we need to adjust our code?
 
 There is a [document for this](https://helpcenter.veeam.com/docs/backup/em_rest/constructing_hierarchyobjreftype.html?ver=120) and according to that the format is
 
-**urn:<Platform>:<Type>:<HierarchyRootId>.<ObjectRef>**
+**urn:\<Platform>:\<Type>:\<HierarchyRootId>.\<ObjectRef>**
 
 And by definition
 

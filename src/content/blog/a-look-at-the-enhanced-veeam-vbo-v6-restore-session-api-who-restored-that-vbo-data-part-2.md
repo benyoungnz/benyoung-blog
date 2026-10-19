@@ -69,7 +69,7 @@ Bubbles
 5. Initiated by - it SHOULD be the user initiating the restore, which if everything is hosted on premise and not via the cloud connect gateways it would be the user context of the user with the explorer open, such as "benyoung"
 6. Client host detail, this is split into two items BXYDEV01 is my remote machine name, bit in brackets (via: {ip address}) shows the gateway address of our service provider cloud gateways - not the client address of my remote machine.
 
-> Pro tip: Other than adding the limit query string to return more per page you can also add ?**startTimeFrom**=<startTimeFrom>&**startTimeTo**=<startTimeTo>&limit=100
+> Pro tip: Other than adding the limit query string to return more per page you can also add ?**startTimeFrom**=\<startTimeFrom>&**startTimeTo**=\<startTimeTo>&limit=100
 > 
 > The dates/times are in UTC .
 

@@ -16,7 +16,7 @@ This request actually came through via John Quinn on Twitter after I asked if an
 
 > Can you show Sobr data; storage used in perf tier & capacity tier & show used on faster disk & immutable storage?
 > Also all settings in a job, retention, app awareness, basically full job schedule
-> &mdash; John Quinn (@QuinnJohnD) [September 29, 2022](https://twitter.com/QuinnJohnD/status/1575507571598938115?ref_src=twsrc%5Etfw)
+> — John Quinn (@QuinnJohnD) [September 29, 2022](https://twitter.com/QuinnJohnD/status/1575507571598938115?ref_src=twsrc%5Etfw)
 
 So here you go John, this answers the first part *(we will get onto your other queries in another post)*
 
@@ -137,13 +137,13 @@ Below is a sample payload you will get back - let me cover some of the bits of r
 **performanceTier/performanceExtents[]**
 This is an array of performance extents, my lab only has a single (local) extent but in reality there will be more than one here. Therefore it is important to loop through each of these.
 
-> For each of these extents we want the **id **propertythis references which "state" we need to look at to get the usage information 
+> For each of these extents we want the **id** propertythis references which "state" we need to look at to get the usage information 
 
 
 **capacityTier**
 As it sounds, this has information about the capacity tier IF it is enabled. I have my SOBR tiering out to a s3-compatible platform. We can see all of the settings such as the copy policy and move immediately settings as well as encryption detail etc all of this is useful if you wanted to monitor for mis-configuration as en example)
 
-> From this section we are interested in the **extentId **property - this references which "state" we need to look at to get the usage information 
+> From this section we are interested in the **extentId** property - this references which "state" we need to look at to get the usage information 
 
 **archiveTier**
 As it sounds, this has information about the archive tier IF it is enabled. I do not have this set in my lab but you can check policy here like the costOptimized and deduplication settings, neat.
@@ -206,10 +206,10 @@ With the example payload below you can see this returns repository state informa
 
 So how do we match up our SOBR information with the relevant state? really simply.
 
-We need to look at the **id **property, this is referenced in the SOBR model
+We need to look at the **id** property, this is referenced in the SOBR model
 
-- For the performance extents, we use the **id **property to map through to the **id **property on the state model
-- For the capacity tier, we use the **extentId **property to map through to the **id **property on the state model
+- For the performance extents, we use the **id** property to map through to the **id** property on the state model
+- For the capacity tier, we use the **extentId** property to map through to the **id** property on the state model
 
 
 ## The Application
@@ -260,7 +260,7 @@ Let's break this down
 7. Not on the diagram but code below will show the archive tier, similar to #6, I don't have one of these but I put some code in for this anyway (it should work...)
 
 
-**A note,** as this is my lab, the Rest Client is set to ignore SSL warnings because my VBR api is using the self-signed (by default) so you can protect yourself if you need to comment out the **options.RemoteCertificateValidationCallback **line.
+**A note,** as this is my lab, the Rest Client is set to ignore SSL warnings because my VBR api is using the self-signed (by default) so you can protect yourself if you need to comment out the **options.RemoteCertificateValidationCallback** line.
 
 ## Source Code 
 

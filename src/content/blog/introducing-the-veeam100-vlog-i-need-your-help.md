@@ -20,3 +20,4 @@ Ping them to me via [@benyoungnz](https://twitter.com/benyoungnz) on Twitter, or
 
 See you for episode #1 in a wee while
 
+https://www.youtube.com/watch?v=qiiVoenLSRw

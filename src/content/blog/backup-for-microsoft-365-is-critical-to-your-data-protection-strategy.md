@@ -12,7 +12,7 @@ author: ["ben"]
 
 I think it is time we had a discussion about Microsoft 365 and data protection. Before we do that let us cast our minds back to the way things used to be to understand where we have come from, to where we are now. 
 
-More importantly **what we have forgotten **or have perhaps misunderstood along the way.
+More importantly **what we have forgotten** or have perhaps misunderstood along the way.
 
 ## Before migration to Microsoft 365
 
@@ -29,12 +29,12 @@ Any IT department worth their salt would have built in two things to ensure they
 1. Service availability
 2. Data protection strategy
 
-**Service availability **
+**Service availability**
 Firstly, most commonly these were built upon virtual machines deployed onto highly available **storage** such as big arrays of hard drives designed to tolerate failure and **compute** consisting of lots of servers combined together to form a resilient cluster. 
 
 Secondly, the Exchange environment would have been built in such a way that it could tolerate a node failure, meaning an Exchange server could go offline either planed (i.e patching) or un-planned (hardware outage, server crash). They did this by configuring a DAG - essentially a cluster made up of 2 or more exchange servers. 
 
-**Data protection strategy **
+**Data protection strategy**
 The servers/storage we talked about above would be backed up using a backup tool typically managed by the IT department following the tried as tested 3-2-1 methodology.
 ![](/content/images/2022/11/image-2.png)(source: Veeam)
 - 3 = Maintain at least 3 copies of your data
@@ -43,7 +43,7 @@ The servers/storage we talked about above would be backed up using a backup tool
 
 This gives you the best chance of recovering in the event of a disaster - whatever that may be such as Fire, Flood, Earthquake - but, and this is the important piece which we will cover later, also "**user error**" which is actually more common than the Fire/Flood/Earthquake scenario would you believe.
 
-The last part of this recovery strategy is ensuring that should we need to go back and restore this data we can, ideally at a **granular level **- think email items or entire mailboxes in our Exchange example. It's a bad day if we need to recovery the entire Exchange environment but pretty much all backup products worth their money should be able to handle this by keeping an image-level backup of each server so this is an option too.
+The last part of this recovery strategy is ensuring that should we need to go back and restore this data we can, ideally at a **granular level** - think email items or entire mailboxes in our Exchange example. It's a bad day if we need to recovery the entire Exchange environment but pretty much all backup products worth their money should be able to handle this by keeping an image-level backup of each server so this is an option too.
 
 ## After migration to Microsoft 365
 
@@ -63,7 +63,7 @@ They can do this because Microsoft now take care of the servers, storage and hig
 
 But... (you knew this was coming) do you know what Microsoft **do NOT** take care of that the IT department used to maintain?
 
-The **data protection strategy. **This is what is often forgotten, or at least misunderstood along the way. 
+The **data protection strategy.** This is what is often forgotten, or at least misunderstood along the way. 
 
 ### Common misconceptions about Microsoft 365 data protection
 

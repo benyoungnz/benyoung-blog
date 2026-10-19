@@ -36,22 +36,22 @@ You need to convert the images to base64 encoding when passing it through but a 
 
 ### Samples
 ![](/content/images/2023/12/pizza-dog.jpg)
-**Prompt: **What is in this picture?
-**Response: **In this picture, there is a person holding up a giant slice of pizza. The scene takes place in front of a truck, making it an interesting and unconventional setting for such a large piece of food.
+**Prompt:** What is in this picture?
+**Response:** In this picture, there is a person holding up a giant slice of pizza. The scene takes place in front of a truck, making it an interesting and unconventional setting for such a large piece of food.
 
-**Prompt: **Is there a vehicle in this image?
-**Response: **Yes, there is a vehicle in the image, specifically a truck.
+**Prompt:** Is there a vehicle in this image?
+**Response:** Yes, there is a vehicle in the image, specifically a truck.
 
 **Prompt:** What footwear is being worn?
 **Response:** The person is wearing boots
 ![](/content/images/2023/12/graph.png)
-**Prompt: **Describe this picture
-**Response: **The image shows a colorful bar graph representing the number of students in different colors. Each color stands for a specific number of students, with orange indicating 75 students, green representing 100 students, blue showing 125 students, and yellow symbolizing 150 students. The heights of these bars correspond to the respective number of students they represent.\nThe bar graph is organized in such a way that each color has a distinct line, making it easy to identify the different colors and their corresponding values. This visual representation helps demonstrate the distribution of student numbers throughout the various levels or categories.
+**Prompt:** Describe this picture
+**Response:** The image shows a colorful bar graph representing the number of students in different colors. Each color stands for a specific number of students, with orange indicating 75 students, green representing 100 students, blue showing 125 students, and yellow symbolizing 150 students. The heights of these bars correspond to the respective number of students they represent.\nThe bar graph is organized in such a way that each color has a distinct line, making it easy to identify the different colors and their corresponding values. This visual representation helps demonstrate the distribution of student numbers throughout the various levels or categories.
 
-**Prompt: **Give me a concise list of the colors in this image
+**Prompt:** Give me a concise list of the colors in this image
 **Response:** 1. Red 2. Green 3. Blue 4. Yellow 5. Orange 6. Pink 7. White
 
-**Prompt: **Does the blue bar have a bigger value than the green bar?
+**Prompt:** Does the blue bar have a bigger value than the green bar?
 **Response:** Yes, the blue bar has a bigger value than the green bar.
 
 **Prompt:** Does the green bar have a bigger value than the blue bar?

@@ -184,7 +184,7 @@ Constructing your FCD restore payload looks like the following.
 Let's break it down a little;
 
 - **objectRestorePointId** should be self explanatory, it was what you copied in step 2 and used in the /api/v1/objectrestorepoints/{id}/disks endpoint to get available disks
-- **destinationCluster **is the cluster detail you should have been able to copy directly from step 1, just insert the children from inventoryObject into the destinationCluster as above
+- **destinationCluster** is the cluster detail you should have been able to copy directly from step 1, just insert the children from inventoryObject into the destinationCluster as above
 - **diskMapping** are the disks we want to map, for this restore I am only doing a single disk but this is an array so you could do as many as you need from this restore point. **nameInBackup** is important and this needs to **match the name from step 2**. mountedDiskName and registeredFcdName you can enter what you need such as restore session identifiers or other, i just put findMe at the end for fun.
 - **writeCache**, for the purposes of this not required but you can make your own assessment on this if you plan on using the disk once mounted. You can view the options [on the docs](https://helpcenter.veeam.com/docs/backup/vbr_rest/reference/vbr-rest-v1-rev2.html?ver=110#operation/InstantRecoveryVmwareFcdMountWithSession) and would just be a matter of adding the config in - there is an example there. 
 
@@ -285,7 +285,7 @@ so, what does the veeamFCDDisk look like when returned from the vSphere sdk?
 ![](/content/images/2021/12/image-2.png)
 Assuming it found the disk with the id then the property we are most interested here is the **filePath** which is in the format [DatastoreName] folder/filename.vmdk so you'll need to return this/get it later on when we reconfigure the VM.
 
-**2. Attaching the VMDK to the target virtual machine **
+**2. Attaching the VMDK to the target virtual machine**
 Now you can find the disk by the id and you can access the file path its just a matter of performing a ReconfigureVM task.
 
 ```

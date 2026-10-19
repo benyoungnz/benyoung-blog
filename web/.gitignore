@@ -16,3 +16,7 @@ data.db-*
 
 # Import caches (media id map, reports)
 scripts/.cache
+
+# Site export packages (full content + author emails; treat as backups)
+backups/
+*.emdash

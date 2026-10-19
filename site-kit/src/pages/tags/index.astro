@@ -1,0 +1,56 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '@kit/layout/Section.astro';
+import SectionHeading from '@kit/layout/SectionHeading.astro';
+import Grid from '@kit/layout/Grid.astro';
+import { posts } from '@data/posts';
+import { toneFor } from '@data/types';
+import { formatDate } from '@data/format';
+
+const tags = [...new Set(posts.flatMap((p) => p.tags))]
+  .map((tag) => {
+    const tagged = posts.filter((p) => p.tags.includes(tag)).sort((a, b) => +b.pubDate - +a.pubDate);
+    return { tag, count: tagged.length, latest: tagged[0] };
+  })
+  .sort((a, b) => b.count - a.count || a.tag.localeCompare(b.tag));
+---
+
+<BaseLayout title="Tags" description="Every topic on the blog, with post counts.">
+  <Section>
+    <SectionHeading level={1} size="display" title="Topics" lede={`${tags.length} tags across ${posts.length} posts. The most written-about come first.`} />
+    <Grid cols={3}>
+      {tags.map(({ tag, count, latest }) => (
+        <a class="tag" href={`/tags/${tag}`} style={`--soft: var(--tint-${toneFor(tag)}); --deep: var(--deep-${toneFor(tag)})`}>
+          <span class="tag__head">
+            <span class="tag__name"><span class="tag__dot" aria-hidden="true" />{tag}</span>
+            <span class="tag__count">{count} {count === 1 ? 'post' : 'posts'}</span>
+          </span>
+          <span class="tag__latest">Latest: {latest.title}</span>
+          <span class="tag__date">{formatDate(latest.pubDate)}</span>
+        </a>
+      ))}
+    </Grid>
+  </Section>
+</BaseLayout>
+
+<style>
+  .tag {
+    display: grid;
+    gap: var(--s-2);
+    align-content: start;
+    height: 100%;
+    padding: var(--s-5) var(--s-6);
+    border-radius: var(--r-xl);
+    background: var(--soft);
+    border: 1px solid color-mix(in srgb, var(--deep) 14%, transparent);
+    text-decoration: none;
+    transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+  }
+  .tag:hover { transform: translateY(-2px); box-shadow: var(--shadow-card); }
+  .tag__head { display: flex; justify-content: space-between; align-items: baseline; gap: var(--s-3); }
+  .tag__name { display: inline-flex; align-items: center; gap: var(--s-2); font-family: var(--font-display); font-weight: 750; font-size: var(--fs-h3); color: var(--ink); letter-spacing: -0.02em; }
+  .tag__dot { width: 10px; height: 10px; border-radius: 50%; background: var(--deep); }
+  .tag__count { font-size: var(--fs-sm); font-weight: 650; color: var(--ink); white-space: nowrap; }
+  .tag__latest { color: var(--ink-2); font-size: var(--fs-sm); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .tag__date { font-size: var(--fs-xs); color: var(--ink-3); }
+</style>

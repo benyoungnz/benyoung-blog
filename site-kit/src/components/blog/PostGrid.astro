@@ -1,0 +1,23 @@
+---
+import PostCard from './PostCard.astro';
+import type { Post } from '@data/types';
+
+/** 3 → 2 → 1 columns. Use for featured rows, related posts, tag pages. */
+interface Props {
+  posts: Post[];
+  headingLevel?: 2 | 3;
+  eagerFirst?: number;
+}
+const { posts, headingLevel = 3, eagerFirst = 0 } = Astro.props;
+---
+
+<ul class="grid" role="list">
+  {posts.map((post, i) => <li data-tags={post.tags.join(' ')}><PostCard post={post} headingLevel={headingLevel} eager={i < eagerFirst} /></li>)}
+</ul>
+
+<style>
+  .grid { display: grid; gap: var(--s-12) var(--s-8); list-style: none; padding: 0; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1000px) { .grid { grid-template-columns: repeat(3, 1fr); } }
+  li[hidden] { display: none; }
+</style>

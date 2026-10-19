@@ -1,0 +1,18 @@
+---
+import Chip from '../base/Chip.astro';
+import type { ToolCategory } from '@data/types';
+
+/** Jump links to each ToolCategory section, with colour dot and tool count. */
+interface Props {
+  categories: ToolCategory[];
+}
+const { categories } = Astro.props;
+---
+
+<nav class="cn" aria-label="Tool categories">
+  {categories.map((c) => <Chip href={`#${c.id}`} tone={c.tone} count={c.tools.length}>{c.title}</Chip>)}
+</nav>
+
+<style>
+  .cn { display: flex; flex-wrap: wrap; gap: var(--s-2); }
+</style>

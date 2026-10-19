@@ -1,0 +1,43 @@
+---
+import PostCover from './PostCover.astro';
+import type { Post } from '@data/types';
+import { formatDate, isoDate } from '@data/format';
+
+/** Whole card is clickable via a stretched title link; keeps one tab stop per card. */
+interface Props {
+  post: Post;
+  href?: string;
+  headingLevel?: 2 | 3;
+  eager?: boolean;
+}
+const { post, href = `/blog/${post.slug}`, headingLevel = 3, eager } = Astro.props;
+const H = `h${headingLevel}` as 'h2' | 'h3';
+---
+
+<article class="card">
+  <PostCover post={post} eager={eager} />
+  <div class="card__body">
+    <p class="card__meta">
+      <time datetime={isoDate(post.pubDate)}>{formatDate(post.pubDate)}</time>
+      {post.readingMinutes && <span>{post.readingMinutes} min read</span>}
+    </p>
+    <H class="card__title"><a href={href}>{post.title}</a></H>
+    <p class="card__excerpt">{post.description}</p>
+  </div>
+</article>
+
+<style>
+  .card { position: relative; display: grid; gap: var(--s-4); align-content: start; }
+  .card__body { display: grid; gap: var(--s-2); }
+  .card__meta { display: flex; gap: var(--s-3); font-size: var(--fs-sm); color: var(--ink-3); }
+  .card__meta span::before { content: '·'; margin-right: var(--s-3); }
+  .card__title { font-size: clamp(1.25rem, 1.1rem + 0.4vw, 1.4rem); line-height: 1.2; }
+  .card__title a { text-decoration: none; background: linear-gradient(var(--mint), var(--mint)) 0 100% / 0 3px no-repeat; transition: background-size 220ms var(--ease); }
+  .card__title a::after { content: ''; position: absolute; inset: 0; border-radius: var(--r-lg); }
+  .card__excerpt { color: var(--ink-2); font-size: 0.9375rem; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+
+  .card:hover .card__title a { background-size: 100% 3px; }
+  .card:hover :global(.cover img:not(.cover__mark)) { transform: scale(1.04); }
+  .card:has(a:focus-visible) { outline: 2px solid var(--pop); outline-offset: 6px; border-radius: var(--r-lg); }
+  .card a:focus-visible { outline: none; }
+</style>

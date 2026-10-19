@@ -1,0 +1,68 @@
+---
+/**
+ * Pass Astro's `getHeadings()` output (or any {depth, slug, text}[]).
+ * Highlights the section currently in view. `collapsible` renders a <details>
+ * for phones.
+ */
+interface Props {
+  headings: { depth: number; slug: string; text: string }[];
+  maxDepth?: 2 | 3;
+  title?: string;
+  collapsible?: boolean;
+}
+const { headings, maxDepth = 2, title = 'On this page', collapsible = false } = Astro.props;
+const items = headings.filter((h) => h.depth >= 2 && h.depth <= maxDepth);
+const Wrap = collapsible ? 'details' : 'div';
+---
+
+<nav class:list={['toc', { 'toc--collapsible': collapsible }]} aria-label="Table of contents" data-toc>
+  <Wrap class="toc__wrap">
+    {collapsible ? <summary class="eyebrow">{title}</summary> : <p class="eyebrow">{title}</p>}
+    <ol>
+      {items.map((h) => (
+        <li class={`d${h.depth}`}><a href={`#${h.slug}`}>{h.text}</a></li>
+      ))}
+    </ol>
+  </Wrap>
+</nav>
+
+<script>
+  for (const toc of document.querySelectorAll<HTMLElement>('[data-toc]')) {
+    const links = new Map([...toc.querySelectorAll<HTMLAnchorElement>('a')].map((a) => [decodeURIComponent(a.hash.slice(1)), a]));
+    const targets = [...links.keys()].map((id) => document.getElementById(id)).filter(Boolean) as HTMLElement[];
+    const setActive = (id: string) => links.forEach((a, key) => a.toggleAttribute('aria-current', key === id));
+    // The active section is the last heading that has scrolled above the top third of the viewport
+    const update = () => {
+      const line = innerHeight * 0.33;
+      let current = targets[0]?.id;
+      for (const t of targets) if (t.getBoundingClientRect().top < line) current = t.id;
+      if (current) setActive(current);
+    };
+    addEventListener('scroll', update, { passive: true });
+    update();
+  }
+</script>
+
+<style>
+  .toc ol { list-style: none; padding: 0; margin-top: var(--s-3); border-left: 2px solid var(--line); }
+  .toc a {
+    display: block;
+    margin-left: -2px;
+    padding: 0.35rem 0 0.35rem var(--s-4);
+    border-left: 2px solid transparent;
+    font-size: var(--fs-sm);
+    line-height: 1.4;
+    color: var(--ink-3);
+    text-decoration: none;
+    transition: color var(--dur) var(--ease), border-color var(--dur) var(--ease);
+  }
+  .toc .d3 a { padding-left: var(--s-8); }
+  .toc a:hover { color: var(--ink); }
+  .toc a[aria-current] { color: var(--ink); font-weight: 600; border-left-color: var(--mint); background: linear-gradient(90deg, var(--mint-soft), transparent 80%); }
+
+  .toc--collapsible .toc__wrap { border: 1px solid var(--line); border-radius: var(--r-lg); padding: var(--s-4) var(--s-5); background: var(--surface); }
+  .toc--collapsible summary { cursor: pointer; list-style: none; display: flex; justify-content: space-between; }
+  .toc--collapsible summary::after { content: '+'; font-size: 1.25rem; line-height: 1; color: var(--ink); }
+  .toc--collapsible details[open] summary::after { content: '–'; }
+  .toc--collapsible summary::-webkit-details-marker { display: none; }
+</style>

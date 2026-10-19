@@ -1,0 +1,84 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Section from '@kit/layout/Section.astro';
+import SectionHeading from '@kit/layout/SectionHeading.astro';
+import Avatar from '@kit/base/Avatar.astro';
+import Badge from '@kit/base/Badge.astro';
+import Chip from '@kit/base/Chip.astro';
+import Prose from '@kit/blog/Prose.astro';
+import LinkList from '@kit/blog/LinkList.astro';
+import CtaCard from '@kit/blog/CtaCard.astro';
+import PostGrid from '@kit/blog/PostGrid.astro';
+import { posts } from '@data/posts';
+import { author, footerColumns } from '@data/site';
+import { toneFor } from '@data/types';
+
+const recent = [...posts].sort((a, b) => +b.pubDate - +a.pubDate).slice(0, 3);
+const topics = [...new Set(posts.flatMap((p) => p.tags))].sort();
+const elsewhere = footerColumns.find((c) => c.title === 'Elsewhere')!.links;
+---
+
+<BaseLayout title="About" description="Ben Young: Veeam Field CTO for Asia-Pacific, writing about Veeam, automation, AI and enterprise strategy.">
+  <Section tone="surface" dots>
+    <div class="about">
+      <div class="about__card">
+        <Avatar src={author.avatar} alt="Ben Young" size={128} />
+        <div class="about__badges">
+          <Badge tone="ink">Field CTO, APAC</Badge>
+          <Badge tone="mint">5× Veeam Vanguard</Badge>
+        </div>
+        <LinkList title="Find me" links={[...elsewhere]} />
+      </div>
+
+      <div class="about__body">
+        <SectionHeading level={1} size="display" eyebrow="About" title="Hey there, I'm Ben" />
+        <Prose>
+          <p>I'm a Veeam Field CTO for the Asia-Pacific region and a member of the Veeam Strategy group. Also, 5x Veeam Vanguard. I live and breathe technology, especially when it comes to Veeam, automation and AI. The cooler the tech, the happier I am.</p>
+          <p>But it's not all about robots and algorithms. I'm also deeply passionate about helping enterprises develop winning strategies that use technology to reach their goals.</p>
+          <p>Through my work and this blog, I aim to:</p>
+          <ul>
+            <li><strong>Share my insights.</strong> Deep dives into automation, AI and enterprise strategy, with actionable advice and thought-provoking perspectives.</li>
+            <li><strong>Spark conversation.</strong> The best ideas come from collaboration. Engage with the content, share your thoughts, join in.</li>
+            <li><strong>Make tech accessible.</strong> Demystify complex technologies and make them understandable for everyone.</li>
+          </ul>
+          <p>Whether you're a seasoned tech professional or just starting to explore automation and AI, I hope you'll find value here. Let's connect and explore what technology makes possible together.</p>
+        </Prose>
+      </div>
+    </div>
+  </Section>
+
+  <Section aria-labelledby="topics">
+    <div class="split">
+      <div>
+        <SectionHeading id="topics" title="What I write about" size="h2" />
+        <nav class="topics" aria-labelledby="topics">
+          {topics.map((t) => <Chip href={`/tags/${t}`} tone={toneFor(t)} count={posts.filter((p) => p.tags.includes(t)).length}>{t}</Chip>)}
+        </nav>
+      </div>
+      <CtaCard title="New posts, roughly twice a month" href="/rss.xml" action="Get the RSS feed" tone="violet">
+        <p>No newsletter, no tracking. Just the feed.</p>
+      </CtaCard>
+    </div>
+  </Section>
+
+  <Section tone="surface" aria-labelledby="recent">
+    <SectionHeading id="recent" title="Recent writing">
+      <a slot="actions" class="link" href="/blog">All posts</a>
+    </SectionHeading>
+    <PostGrid posts={recent} />
+  </Section>
+</BaseLayout>
+
+<style>
+  .about { display: grid; gap: var(--s-12); padding-block: var(--s-8); }
+  .about__card { display: grid; gap: var(--s-6); justify-items: start; align-self: start; padding: var(--s-8); background: var(--paper); border: 1px solid var(--line); border-radius: var(--r-xl); box-shadow: var(--shadow-card); }
+  .about__card > :global(nav) { width: 100%; }
+  .about__badges { display: flex; flex-wrap: wrap; gap: var(--s-2); }
+  .split { display: grid; gap: var(--s-10); align-items: start; }
+  .topics { display: flex; flex-wrap: wrap; gap: var(--s-2); }
+  @media (min-width: 1000px) {
+    .about { grid-template-columns: 320px minmax(0, 1fr); gap: var(--s-16); }
+    .about__card { position: sticky; top: calc(var(--header-h) + var(--s-8)); }
+    .split { grid-template-columns: minmax(0, 1fr) 360px; gap: var(--s-16); }
+  }
+</style>

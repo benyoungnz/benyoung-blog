@@ -1,0 +1,94 @@
+/*
+ * Design tokens — the only place raw values live.
+ * Components read these; never hard-code a colour or size in a component.
+ */
+:root {
+  /* Neutrals: a white page with a faint green cast taken from the logo */
+  --paper: #ffffff;
+  --surface: #f5f8f4;
+  --surface-2: #ebf1ea;
+  --line: #dfe6de;
+  --line-strong: #c5d0c4;
+  --ink: #12201a;
+  --ink-2: #3b4a42;
+  --ink-3: #5f6e66;
+
+  /* Brand: straight from the letter-B logo */
+  --brand: #627f6e;
+  --brand-ink: #456251;
+  --mint: #50fd81;
+  --mint-hover: #34ef6c;
+  --mint-soft: #d3fbdd;
+
+  /* Pop colour for focus and highlights */
+  --pop: #6a46ff;
+
+  /* Tints: soft fill + deep partner for icons, dots and accents.
+     Pick one per card/category with tone="mint|sky|violet|coral|peach|lime". */
+  --tint-mint: #d3fbdd;   --deep-mint: #0b7a3a;
+  --tint-sky: #d7ebff;    --deep-sky: #1b5fb0;
+  --tint-violet: #e6defe; --deep-violet: #5636c8;
+  --tint-coral: #ffdcd2;  --deep-coral: #bf3a1f;
+  --tint-peach: #ffe9c9;  --deep-peach: #9a5200;
+  --tint-lime: #eaf7c2;   --deep-lime: #4f7300;
+
+  /* Type */
+  --font-display: 'Bricolage Grotesque Variable', 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif;
+  --font-body: 'Instrument Sans Variable', 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --fs-display: clamp(2.5rem, 1.55rem + 3.8vw, 3.875rem);
+  --fs-h1: clamp(2.125rem, 1.5rem + 2.5vw, 3.25rem);
+  --fs-h2: clamp(1.625rem, 1.3rem + 1.2vw, 2.125rem);
+  --fs-h3: 1.5rem;
+  --fs-h4: 1.1875rem;
+  --fs-lede: clamp(1.0625rem, 1rem + 0.3vw, 1.1875rem);
+  --fs-prose: 1.125rem;
+  --fs-body: 1rem;
+  --fs-sm: 0.875rem;
+  --fs-xs: 0.75rem;
+
+  --lh-tight: 1.08;
+  --lh-snug: 1.25;
+  --lh-body: 1.6;
+
+  /* Space: 4px base */
+  --s-1: 0.25rem;
+  --s-2: 0.5rem;
+  --s-3: 0.75rem;
+  --s-4: 1rem;
+  --s-5: 1.25rem;
+  --s-6: 1.5rem;
+  --s-8: 2rem;
+  --s-10: 2.5rem;
+  --s-12: 3rem;
+  --s-16: 4rem;
+  --s-24: 6rem;
+  --section-y: clamp(3.5rem, 2rem + 5vw, 6rem);
+
+  /* Shape */
+  --r-sm: 6px;
+  --r-md: 10px;
+  --r-lg: 16px;
+  --r-xl: 22px;
+  --r-pill: 999px;
+
+  --shadow-sm: 0 1px 2px rgb(18 32 26 / 0.05);
+  --shadow-card: 0 1px 2px rgb(18 32 26 / 0.04), 0 10px 28px rgb(18 32 26 / 0.06);
+  --shadow-lift: 0 2px 4px rgb(18 32 26 / 0.05), 0 18px 44px rgb(18 32 26 / 0.12);
+
+  /* Layout */
+  --container: 1200px;
+  --gutter: clamp(1rem, 0.5rem + 2vw, 1.5rem);
+  --measure: 760px;
+  --sidebar: 300px;
+  --header-h: 72px;
+
+  /* Motion */
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --dur: 160ms;
+}
+
+/* Breakpoints (CSS can't read vars in @media — keep these in sync):
+   md = 820px   two-column layouts, sidebar appears at lg
+   lg = 1200px  three-column grids, sticky sidebars */

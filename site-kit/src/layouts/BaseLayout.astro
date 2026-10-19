@@ -1,0 +1,36 @@
+---
+import '@styles/base.css';
+import SiteHeader from '@kit/layout/SiteHeader.astro';
+import SiteFooter from '@kit/layout/SiteFooter.astro';
+import { site } from '@data/site';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+const { title, description = site.tagline } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title === site.name ? title : `${title} · ${site.name}`}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" href="/favicon.png" />
+    <link rel="alternate" type="application/rss+xml" title={site.name} href="/rss.xml" />
+    <slot name="head" />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <SiteHeader />
+    <main id="main"><slot /></main>
+    <SiteFooter />
+  </body>
+</html>
+
+<style>
+  .skip { position: absolute; left: var(--s-4); top: -100px; z-index: 100; padding: var(--s-2) var(--s-4); background: var(--ink); color: var(--paper); border-radius: var(--r-md); }
+  .skip:focus { top: var(--s-4); }
+</style>

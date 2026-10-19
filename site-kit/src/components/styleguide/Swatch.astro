@@ -1,0 +1,23 @@
+---
+interface Props {
+  token: string;
+  value: string;
+  note?: string;
+}
+const { token, value, note } = Astro.props;
+---
+
+<div class="sw">
+  <span class="sw__chip" style={`background: var(${token})`}></span>
+  <code>{token}</code>
+  <span class="sw__val">{value}</span>
+  {note && <span class="sw__note">{note}</span>}
+</div>
+
+<style>
+  .sw { display: grid; gap: 2px; font-size: var(--fs-xs); }
+  .sw__chip { height: 64px; border-radius: var(--r-md); border: 1px solid var(--line); margin-bottom: var(--s-2); }
+  code { font-family: var(--font-mono); color: var(--ink); font-size: 0.75rem; }
+  .sw__val { color: var(--ink-3); font-family: var(--font-mono); }
+  .sw__note { color: var(--ink-2); }
+</style>

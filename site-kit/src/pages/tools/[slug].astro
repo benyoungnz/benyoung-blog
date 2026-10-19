@@ -1,0 +1,113 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '@kit/layout/Section.astro';
+import SectionHeading from '@kit/layout/SectionHeading.astro';
+import Grid from '@kit/layout/Grid.astro';
+import Breadcrumbs from '@kit/base/Breadcrumbs.astro';
+import IconBlob from '@kit/base/IconBlob.astro';
+import Button from '@kit/base/Button.astro';
+import CenteredHero from '@kit/tools/CenteredHero.astro';
+import MetaList from '@kit/tools/MetaList.astro';
+import ToolEmbed from '@kit/tools/ToolEmbed.astro';
+import Panel from '@kit/tools/Panel.astro';
+import StatCard from '@kit/tools/StatCard.astro';
+import LinkTile from '@kit/tools/LinkTile.astro';
+import PostGrid from '@kit/blog/PostGrid.astro';
+import CtaCard from '@kit/blog/CtaCard.astro';
+import Callout from '@kit/blog/Callout.astro';
+import { toolCategories } from '@data/tools';
+import { posts } from '@data/posts';
+import type { Tool, ToolCategory } from '@data/types';
+
+// Every internal tool without its own page in this folder (e.g. retention-calculator.astro) gets this template.
+export function getStaticPaths() {
+  const ownPages = Object.keys(import.meta.glob('./*.astro')).map((f) => f.slice(2, -6));
+  return toolCategories.flatMap((category) =>
+    category.tools
+      .filter((tool) => !tool.external && !ownPages.includes(tool.slug))
+      .map((tool) => ({ params: { slug: tool.slug }, props: { tool, category } })),
+  );
+}
+
+const { tool, category } = Astro.props as { tool: Tool; category: ToolCategory };
+const related = posts
+  .filter((p) => p.tags.some((t) => tool.tags?.includes(t)))
+  .sort((a, b) => +b.pubDate - +a.pubDate)
+  .slice(0, 3);
+const siblings = category.tools.filter((t) => t.slug !== tool.slug);
+---
+
+<BaseLayout title={tool.title} description={tool.description}>
+  <CenteredHero eyebrow={category.title} title={tool.title} lede={tool.description}>
+    <MetaList
+      align="center"
+      items={[
+        ...(tool.footnote ? [{ icon: 'terminal' as const, text: tool.footnote }] : []),
+        ...(tool.badge ? [{ icon: 'code' as const, text: tool.badge }] : []),
+        { icon: 'book' as const, text: `${related.length} related ${related.length === 1 ? 'post' : 'posts'}` },
+      ]}
+    />
+  </CenteredHero>
+
+  <Section space="sm">
+    <div class="crumbs"><Breadcrumbs items={[{ label: 'Tools', href: '/tools' }, { label: category.title, href: `/tools#${category.id}` }, { label: tool.title }]} /></div>
+    <ToolEmbed src={tool.embed} title={tool.title}>
+      <Panel>
+        <div class="about">
+          <IconBlob name={tool.icon} tone={category.tone} size="lg" />
+          <div>
+            <h2>About this project</h2>
+            <p>{tool.description}</p>
+          </div>
+        </div>
+        <dl class="facts">
+          <div><dt>Category</dt><dd>{category.title}</dd></div>
+          {tool.footnote && <div><dt>Runs on</dt><dd>{tool.footnote}</dd></div>}
+          {tool.badge && <div><dt>Type</dt><dd>{tool.badge}</dd></div>}
+          {tool.tags && <div><dt>Topics</dt><dd>{tool.tags.join(', ')}</dd></div>}
+        </dl>
+      </Panel>
+      {!tool.embed && (
+        <Callout type="note" title="Live demo not connected">
+          <p>Set <code>embed</code> on this tool in <code>src/data/tools.ts</code> and the hosted project appears in this frame.</p>
+        </Callout>
+      )}
+
+      <Fragment slot="aside">
+        <StatCard label={category.title} value={tool.badge ?? category.tools.length.toString()} sub={tool.badge ? tool.footnote : 'tools in this category'} tone={category.tone} />
+        <Button block variant="secondary" href={`/tools#${category.id}`} iconStart="terminal">More in {category.title}</Button>
+        {related[0] && (
+          <CtaCard title="Read the write-up" href={`/blog/${related[0].slug}`} action="Read post" tone={category.tone}>
+            <p>{related[0].title}</p>
+          </CtaCard>
+        )}
+      </Fragment>
+    </ToolEmbed>
+  </Section>
+
+  {related.length > 0 && (
+    <Section aria-labelledby="related">
+      <SectionHeading id="related" eyebrow="From the blog" title="Related posts" />
+      <PostGrid posts={related} />
+    </Section>
+  )}
+
+  {siblings.length > 0 && (
+    <Section tone="surface" aria-labelledby="more">
+      <SectionHeading id="more" eyebrow={category.title} title="More in this category" />
+      <Grid cols={3}>
+        {siblings.map((t) => <LinkTile href={t.href} title={t.title} text={t.description} icon={t.icon} tone={category.tone} />)}
+      </Grid>
+    </Section>
+  )}
+</BaseLayout>
+
+<style>
+  .crumbs { margin-bottom: var(--s-6); }
+  .about { display: flex; gap: var(--s-5); align-items: flex-start; }
+  .about h2 { font-size: var(--fs-h4); margin-bottom: var(--s-1); }
+  .about p { color: var(--ink-2); }
+  .facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: var(--s-4); margin-top: var(--s-2); padding-top: var(--s-5); border-top: 1px dashed var(--line); }
+  .facts dt { font-size: var(--fs-xs); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); }
+  .facts dd { color: var(--ink); font-weight: 600; }
+</style>

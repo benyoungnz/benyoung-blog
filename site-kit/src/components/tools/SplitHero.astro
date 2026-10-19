@@ -1,0 +1,52 @@
+---
+import type { Tone } from '@data/types';
+
+/**
+ * Copy on the left, a visual collage on the right (slot "visual"), dot-grid backdrop.
+ * The visual gets a big coloured blob behind it; place StatCards inside.
+ */
+interface Props {
+  title: string;
+  lede?: string;
+  tone?: Tone;
+}
+const { title, lede, tone = 'mint' } = Astro.props;
+---
+
+<section class="hero dot-grid">
+  <div class="container hero__grid">
+    <div class="hero__copy">
+      <slot name="eyebrow" />
+      <h1>{title}</h1>
+      {lede && <p class="lede">{lede}</p>}
+      <slot />
+    </div>
+    {Astro.slots.has('visual') && (
+      <div class="hero__visual" style={`--blob: var(--tint-${tone}); --blob-deep: var(--deep-${tone})`}>
+        <slot name="visual" />
+      </div>
+    )}
+  </div>
+</section>
+
+<style>
+  .hero { background-color: var(--surface); border-bottom: 1px solid var(--line); overflow: hidden; }
+  .hero__grid { display: grid; gap: var(--s-12); align-items: center; padding-block: var(--s-16); }
+  .hero__copy { display: grid; gap: var(--s-5); justify-items: start; }
+  h1 { font-size: var(--fs-display); line-height: var(--lh-tight); letter-spacing: -0.035em; font-weight: 750; }
+
+  .hero__visual { position: relative; display: grid; place-items: center; min-height: 340px; isolation: isolate; }
+  .hero__visual::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    width: min(440px, 90%);
+    aspect-ratio: 1.15;
+    background: var(--blob);
+    border-radius: 62% 38% 46% 54% / 48% 58% 42% 52%;
+  }
+
+  @media (min-width: 900px) {
+    .hero__grid { grid-template-columns: 1.05fr 1fr; padding-block: var(--s-24); }
+  }
+</style>

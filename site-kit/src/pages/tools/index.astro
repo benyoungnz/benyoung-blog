@@ -1,0 +1,55 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '@kit/layout/Section.astro';
+import SectionHeading from '@kit/layout/SectionHeading.astro';
+import SplitHero from '@kit/tools/SplitHero.astro';
+import StatCard from '@kit/tools/StatCard.astro';
+import MetaList from '@kit/tools/MetaList.astro';
+import CategoryNav from '@kit/tools/CategoryNav.astro';
+import ToolCategory from '@kit/tools/ToolCategory.astro';
+import Badge from '@kit/base/Badge.astro';
+import { toolCategories } from '@data/tools';
+
+const count = toolCategories.reduce((n, c) => n + c.tools.length, 0);
+---
+
+<BaseLayout title="Tools" description="MCP servers, calculators and scripts from the blog.">
+  <SplitHero
+    title="Tools, scripts and side projects"
+    lede="The working code behind the write-ups: MCP servers, calculators and API samples. Open one, fork one, or embed it in a post."
+    tone="violet"
+  >
+    <MetaList items={[{ icon: 'terminal', text: `${count} projects` }, { icon: 'code', text: 'Open source' }, { icon: 'lock', text: 'Runs locally where it can' }]} />
+    <Fragment slot="visual">
+      <div class="collage">
+        <StatCard class="c1" label="Restore points" value="33" sub="GFS 14 / 4 / 12 / 3" tilt={-3}>
+          <Badge tone="mint">Retention calc</Badge>
+        </StatCard>
+        <StatCard class="c2" label="MCP tools exposed" value="12" sub="read-only by default" tone="sky" tilt={2.5} />
+        <StatCard class="c3" label="Daily change" value="5%" sub="≈ 1.4 TB a month" tone="peach" tilt={-1.5} />
+      </div>
+    </Fragment>
+  </SplitHero>
+
+  <Section aria-labelledby="pick">
+    <SectionHeading id="pick" eyebrow="All tools" title="Pick a tool" lede="Grouped by what they help with. Cards marked with an arrow open in a new tab." />
+    <CategoryNav categories={toolCategories} />
+    <div class="cats">
+      {toolCategories.map((c, i) => <ToolCategory category={c} index={i + 1} />)}
+    </div>
+  </Section>
+</BaseLayout>
+
+<style>
+  .cats { margin-top: var(--s-16); }
+
+  .collage { position: relative; width: min(480px, 100%); height: 360px; }
+  .collage :global(.stat) { position: absolute; }
+  .collage :global(.c1) { left: 0; top: 10px; }
+  .collage :global(.c2) { right: 0; top: 110px; }
+  .collage :global(.c3) { left: 14%; bottom: 0; }
+  @media (max-width: 519px) {
+    .collage { height: auto; display: grid; gap: var(--s-4); }
+    .collage :global(.stat) { position: static; }
+  }
+</style>

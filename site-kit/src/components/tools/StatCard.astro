@@ -1,0 +1,39 @@
+---
+import type { Tone } from '@data/types';
+
+/** Small floating "result" card for hero collages. tilt rotates it a few degrees. */
+interface Props {
+  label: string;
+  value: string;
+  sub?: string;
+  tone?: Tone | 'paper';
+  tilt?: number;
+  class?: string;
+}
+const { label, value, sub, tone = 'paper', tilt = 0, class: className } = Astro.props;
+const bg = tone === 'paper' ? 'var(--paper)' : `var(--tint-${tone})`;
+---
+
+<div class:list={['stat', className]} style={`--bg: ${bg}; --tilt: ${tilt}deg`}>
+  <p class="eyebrow">{label}</p>
+  <p class="stat__value">{value}</p>
+  {sub && <p class="stat__sub">{sub}</p>}
+  <slot />
+</div>
+
+<style>
+  .stat {
+    display: grid;
+    justify-items: start;
+    gap: var(--s-1);
+    padding: var(--s-4) var(--s-5);
+    min-width: 200px;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    box-shadow: var(--shadow-lift);
+    rotate: var(--tilt);
+  }
+  .stat__value { font-family: var(--font-display); font-weight: 750; font-size: 2.1rem; line-height: 1; letter-spacing: -0.03em; color: var(--ink); font-variant-numeric: tabular-nums; }
+  .stat__sub { font-size: var(--fs-sm); color: var(--ink-2); max-width: 24ch; line-height: 1.35; }
+</style>

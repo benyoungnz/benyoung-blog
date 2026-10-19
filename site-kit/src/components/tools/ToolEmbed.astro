@@ -1,0 +1,31 @@
+---
+/**
+ * App area for a tool page: main column + sticky aside (preview, actions, upsell).
+ * Either pass `src` to embed a hosted project in an iframe, or put your own
+ * markup/island in the default slot.
+ */
+interface Props {
+  src?: string;
+  title?: string;
+  height?: number;
+}
+const { src, title = 'Embedded tool', height = 720 } = Astro.props;
+---
+
+<div class:list={['te', { 'te--solo': !Astro.slots.has('aside') }]}>
+  <div class="te__main">
+    {src ? <iframe class="te__frame" src={src} title={title} loading="lazy" style={`height:${height}px`} /> : <slot />}
+  </div>
+  {Astro.slots.has('aside') && <aside class="te__aside" aria-label={`${title} summary`}><slot name="aside" /></aside>}
+</div>
+
+<style>
+  .te { display: grid; gap: var(--s-6); align-items: start; }
+  .te__main { display: grid; gap: var(--s-4); min-width: 0; }
+  .te__frame { width: 100%; border: 1px solid var(--line); border-radius: var(--r-xl); background: var(--paper); box-shadow: var(--shadow-card); }
+  .te__aside { display: grid; gap: var(--s-4); }
+  @media (min-width: 1000px) {
+    .te:not(.te--solo) { grid-template-columns: minmax(0, 1fr) 340px; }
+    .te__aside { position: sticky; top: calc(var(--header-h) + var(--s-6)); }
+  }
+</style>

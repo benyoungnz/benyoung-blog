@@ -1,0 +1,115 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '@kit/layout/Section.astro';
+import SectionHeading from '@kit/layout/SectionHeading.astro';
+import Grid from '@kit/layout/Grid.astro';
+import CenteredHero from '@kit/tools/CenteredHero.astro';
+import MetaList from '@kit/tools/MetaList.astro';
+import ToolEmbed from '@kit/tools/ToolEmbed.astro';
+import Panel from '@kit/tools/Panel.astro';
+import StatCard from '@kit/tools/StatCard.astro';
+import Steps from '@kit/tools/Steps.astro';
+import FeatureBand from '@kit/tools/FeatureBand.astro';
+import NumberedList from '@kit/tools/NumberedList.astro';
+import LinkTile from '@kit/tools/LinkTile.astro';
+import CtaCard from '@kit/blog/CtaCard.astro';
+import Button from '@kit/base/Button.astro';
+import { toolCategories } from '@data/tools';
+
+const others = toolCategories.flatMap((c) => c.tools.map((t) => ({ ...t, tone: c.tone }))).filter((t) => t.slug !== 'retention-calculator');
+---
+
+<BaseLayout title="Retention calculator" description="Count the restore points a GFS backup policy keeps.">
+  <CenteredHero
+    title="GFS retention calculator"
+    lede="Enter a grandfather-father-son policy and see how many restore points it keeps, and how far back you can go."
+  >
+    <MetaList align="center" items={[{ icon: 'lock', text: 'Runs in your browser' }, { icon: 'check', text: 'No sign-up' }, { icon: 'clock', text: 'Instant' }]} />
+  </CenteredHero>
+
+  <Section space="sm">
+    <ToolEmbed title="Retention calculator">
+      <Panel title="Policy">
+        <form class="fields" data-calc>
+          <label>Daily points <input type="number" name="d" value="14" min="0" inputmode="numeric" /></label>
+          <label>Weekly <input type="number" name="w" value="4" min="0" inputmode="numeric" /></label>
+          <label>Monthly <input type="number" name="m" value="12" min="0" inputmode="numeric" /></label>
+          <label>Yearly <input type="number" name="y" value="3" min="0" inputmode="numeric" /></label>
+        </form>
+      </Panel>
+      <Panel title="How the numbers work" tone="surface">
+        <p class="note">Each tier keeps its own points; overlapping points (a Sunday that is also a month-end) count once in Veeam, so treat the total as an upper bound.</p>
+      </Panel>
+
+      <Fragment slot="aside">
+        <StatCard label="Restore points" value="33" sub="Up to 3 years back" tone="mint" />
+        <Button block variant="secondary" href="/blog/veeam-built-ai-revolution-while-others-prepared" icon="arrow-right">Read the write-up</Button>
+        <CtaCard title="Sizing the repository too?" href="/tools/change-rate" action="Change-rate estimator" tone="sky">
+          <p>Turn these points into storage with a daily change rate.</p>
+        </CtaCard>
+      </Fragment>
+    </ToolEmbed>
+  </Section>
+
+  <Section aria-labelledby="how">
+    <SectionHeading id="how" eyebrow="How it works" title="Plan a policy in four steps" align="center" lede="The same order I use when sketching a policy with a customer." />
+    <Steps steps={[
+      { title: 'Start with dailies', text: 'How many days of short-term restores do people actually ask for? Usually 7 to 30.' },
+      { title: 'Add weeklies', text: 'Cover the gap between dailies and month-end without keeping every day.' },
+      { title: 'Set monthlies', text: 'Twelve covers a financial year; match it to audit needs.' },
+      { title: 'Decide on yearlies', text: 'Compliance usually sets this number. Keep them on cheaper storage.' },
+    ]} />
+  </Section>
+
+  <FeatureBand eyebrow="Checklist" title="What a good retention policy covers" tone="mint">
+    <Panel slot="visual">
+      <p class="eyebrow">Example policy</p>
+      <dl class="policy">
+        <div><dt>Daily</dt><dd>14</dd></div>
+        <div><dt>Weekly</dt><dd>4</dd></div>
+        <div><dt>Monthly</dt><dd>12</dd></div>
+        <div><dt>Yearly</dt><dd>3</dd></div>
+        <div class="policy__total"><dt>Restore points</dt><dd>33</dd></div>
+      </dl>
+    </Panel>
+    <NumberedList items={[
+      { title: 'A recovery point objective.', text: 'How much data can you lose? That sets how often you back up.' },
+      { title: 'Short-term restores.', text: 'Dailies for the “I deleted it yesterday” requests.' },
+      { title: 'Compliance windows.', text: 'Monthlies and yearlies sized to what auditors ask for.' },
+      { title: 'An immutable copy.', text: 'At least one copy ransomware can’t touch. See <a href="/blog/the-orthodontist-who-gets-it">why it matters</a>.' },
+      { title: 'A restore test.', text: 'A policy you have never restored from is a guess.' },
+    ]} />
+  </FeatureBand>
+
+  <Section aria-labelledby="more" tone="surface">
+    <SectionHeading id="more" eyebrow="More tools" title="Other projects" />
+    <Grid cols={3} gap="md">
+      {others.map((t) => <LinkTile href={t.href} title={t.title} text={t.description} icon={t.icon} tone={t.tone} />)}
+    </Grid>
+  </Section>
+</BaseLayout>
+
+<script>
+  // Demo logic only; real tools ship as their own islands or iframes.
+  const form = document.querySelector<HTMLFormElement>('[data-calc]');
+  const value = document.querySelector<HTMLElement>('.stat__value');
+  const sub = document.querySelector<HTMLElement>('.stat__sub');
+  const update = () => {
+    const n = (k: string) => Math.max(0, Number(new FormData(form!).get(k)) || 0);
+    const [d, w, m, y] = ['d', 'w', 'm', 'y'].map(n);
+    value!.textContent = String(d + w + m + y);
+    const days = Math.max(d, w * 7, m * 30, y * 365);
+    sub!.textContent = days >= 365 ? `Up to ${Math.round(days / 365)} years back` : `Up to ${days} days back`;
+  };
+  form?.addEventListener('input', update);
+</script>
+
+<style>
+  .note { color: var(--ink-2); font-size: var(--fs-sm); }
+  .policy { display: grid; gap: var(--s-2); }
+  .policy div { display: flex; justify-content: space-between; padding-block: var(--s-2); border-bottom: 1px solid var(--line); }
+  .policy dt { color: var(--ink-2); }
+  .policy dd { font-weight: 700; font-variant-numeric: tabular-nums; }
+  .policy__total { border-bottom: 0 !important; border-top: 2px solid var(--ink); }
+  .policy__total dd { font-family: var(--font-display); font-size: 1.5rem; }
+</style>

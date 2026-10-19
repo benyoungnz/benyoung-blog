@@ -49,6 +49,7 @@ What the importer keeps from each old post:
 | `src/components/site/` | Tag/category index and archive views |
 | `src/pages/` | `/`, `/blog/`, `/blog/<slug>/`, `/videos/`, `/videos/<slug>/`, `/tags/…`, `/categories/…`, `/about/`, `/search/`, `/rss.xml`, 404 |
 | `src/plugins/youtube-sync.ts` | Hourly YouTube → `videos` sync |
+| `src/plugins/post-ai.ts`, `src/lib/ai.ts` | AI takeaways, related content and link suggestions on save |
 | `scripts/` | Migration tooling (not deployed) |
 
 **URLs match the old site.** Posts stay at `/blog/<slug>/`, tags at `/tags/<tag>/`, categories at `/categories/<category>/` (case-insensitive, so the old `/categories/AI/` still resolves), and the feed stays at `/rss.xml`.
@@ -67,6 +68,18 @@ What the importer keeps from each old post:
 - Share images: posts use their hero image, and videos use the YouTube thumbnail. Every other page uses `public/og-default.png`, rendered offline by `node scripts/og-image.ts`, because rendering cards per request would blow the free plan's CPU budget.
 - Structured data: EmDash emits `WebSite` and `BlogPosting`. The layout adds `BreadcrumbList` (posts, videos, tags, categories) and `VideoObject` on video pages.
 
+**AI (OpenRouter).** The `post-ai` plugin (`src/plugins/post-ai.ts`) runs when a post or video is saved in the admin. It never runs while a page is being viewed. It fills these fields:
+- **Key takeaways** (`key_takeaways`): 3–5 "Lead: detail" lines, shown in the takeaways box at the top of the post. Written only when the field is empty and the post has real body text. Edit them freely; to regenerate, clear the field and save.
+- **Related** (`related`): the 3 most similar posts, recomputed on every save from embeddings stored in the plugin's KV. Shown as "Related posts", topped up by shared tags if fewer than 3.
+- **Internal link suggestions** (`link_suggestions`): phrases in the post worth linking to a similar post. These are for you to add by hand; nothing is linked automatically. Written when the field is empty.
+- **Videos** (`related_posts`): the most similar posts, shown on the video page. A post also lists videos that point at it under "Watch the video".
+
+Bulk tools, which work against the local site or a deployed one:
+- `node scripts/takeaways.ts` backfills takeaways. It writes `scripts/takeaways-review.md` for review; `--apply` writes them to EmDash.
+- `node scripts/interlink.ts` embeds every post, computes related lists and link suggestions, and writes `scripts/interlink-report.md` (orphans, posts with no internal links, every suggestion). `--apply` writes them to EmDash.
+
+Needs `OPENROUTER_API_KEY` (and optionally `OPENROUTER_MODEL`, default `~google/gemini-flash-latest`) in `web/.env` locally. In production it's a Worker secret: `npx wrangler secret put OPENROUTER_API_KEY`.
+
 **Caching.** The `cache` provider and `routeRules` in `astro.config.mjs` let Cloudflare's CDN hold public pages for a day, with stale-while-revalidate for a week. Responses carry EmDash cache tags, and publishing an entry purges exactly the pages that show it. A page view only costs Worker CPU on a cache miss, which matters on the free plan's 10 ms CPU limit. Search, admin and API routes are never cached.
 
 ## Cloudflare (free plan)
@@ -82,6 +95,8 @@ What the importer keeps from each old post:
 cd web
 npx wrangler login
 npx wrangler secret put EMDASH_ENCRYPTION_KEY   # paste a key from: npx emdash secrets generate
+npx wrangler secret put OPENROUTER_API_KEY      # AI takeaways, related posts, link suggestions
+npx wrangler secret put OPENROUTER_MODEL        # optional, e.g. ~google/gemini-flash-latest
 npm run deploy                                  # astro build && wrangler deploy
 ```
 

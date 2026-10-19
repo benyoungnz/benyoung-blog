@@ -9,6 +9,8 @@ import VideoPlayer from '../../components/video/VideoPlayer.astro';
 import VideoGrid from '../../components/video/VideoGrid.astro';
 import { formatDate, isoDate } from '@data/format';
 import { CHANNEL, getVideos } from '@lib/youtube';
+import { allPosts, toPost } from '@lib/content';
+import PostGrid from '@kit/blog/PostGrid.astro';
 
 const videos = await getVideos(Astro);
 const video = videos.find((v) => v.slug === Astro.params.slug);
@@ -16,6 +18,8 @@ if (!video) return Astro.rewrite('/404');
 
 // First real sentence of the description, for meta and structured data
 const summary = (video.description.split(/\n/).find((l) => l.trim().length > 20) ?? video.title).trim().slice(0, 160);
+const postsBySlug = new Map((await allPosts(Astro)).map((e) => [e.id, toPost(e)]));
+const relatedPosts = video.relatedPosts.map((s) => postsBySlug.get(s)).filter((p): p is NonNullable<typeof p> => Boolean(p));
 const more = videos.filter((v) => v.slug !== video.slug).slice(0, 3);
 
 // YouTube descriptions are plain text: escape, link URLs, keep paragraphs and line breaks
@@ -64,6 +68,13 @@ const descriptionHtml = video.description
       </div>
     </div>
   </div>
+
+  {relatedPosts.length > 0 && (
+    <Section tone="surface" aria-labelledby="related-posts">
+      <SectionHeading id="related-posts" title="Related posts" />
+      <PostGrid posts={relatedPosts} />
+    </Section>
+  )}
 
   {more.length > 0 && (
     <Section aria-labelledby="more-videos">

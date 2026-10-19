@@ -17,16 +17,71 @@
 			"label": "Posts",
 			"labelSingular": "Post",
 			"urlPattern": "/blog/{slug}/",
-			"supports": ["drafts", "revisions", "preview", "scheduling", "search", "seo"],
+			"supports": [
+				"drafts",
+				"revisions",
+				"preview",
+				"scheduling",
+				"search",
+				"seo"
+			],
 			"commentsEnabled": false,
 			"fields": [
-				{ "slug": "title", "label": "Title", "type": "string", "required": true, "searchable": true },
-				{ "slug": "description", "label": "Description", "type": "text", "required": true, "searchable": true },
-				{ "slug": "featured_image", "label": "Hero image", "type": "image" },
-				{ "slug": "cover_title", "label": "Cover title (short title on the typographic cover when there is no image)", "type": "string" },
-				{ "slug": "content", "label": "Content", "type": "portableText", "searchable": true },
-				{ "slug": "updated_date", "label": "Updated date (shown as \"Updated\" on the post)", "type": "datetime" },
-				{ "slug": "legacy_path", "label": "Legacy path (old URL, for redirects)", "type": "string" }
+				{
+					"slug": "title",
+					"label": "Title",
+					"type": "string",
+					"required": true,
+					"searchable": true
+				},
+				{
+					"slug": "description",
+					"label": "Description",
+					"type": "text",
+					"required": true,
+					"searchable": true
+				},
+				{
+					"slug": "featured_image",
+					"label": "Hero image",
+					"type": "image"
+				},
+				{
+					"slug": "cover_title",
+					"label": "Cover title (short title on the typographic cover when there is no image)",
+					"type": "string"
+				},
+				{
+					"slug": "key_takeaways",
+					"label": "Key takeaways (one per line, \"Lead: detail\". Leave empty and save to have AI write them)",
+					"type": "text"
+				},
+				{
+					"slug": "content",
+					"label": "Content",
+					"type": "portableText",
+					"searchable": true
+				},
+				{
+					"slug": "link_suggestions",
+					"label": "Internal link suggestions (AI, for you to add by hand. Clear and save to refresh)",
+					"type": "text"
+				},
+				{
+					"slug": "related",
+					"label": "Related posts (post slugs, kept up to date automatically)",
+					"type": "json"
+				},
+				{
+					"slug": "updated_date",
+					"label": "Updated date (shown as \"Updated\" on the post)",
+					"type": "datetime"
+				},
+				{
+					"slug": "legacy_path",
+					"label": "Legacy path (old URL, for redirects)",
+					"type": "string"
+				}
 			]
 		},
 		{
@@ -34,13 +89,47 @@
 			"label": "Videos",
 			"labelSingular": "Video",
 			"urlPattern": "/videos/{slug}/",
-			"supports": ["drafts", "search"],
+			"supports": [
+				"drafts",
+				"search"
+			],
 			"fields": [
-				{ "slug": "title", "label": "Title", "type": "string", "required": true, "searchable": true },
-				{ "slug": "youtube_id", "label": "YouTube video ID", "type": "string", "required": true, "unique": true },
-				{ "slug": "description", "label": "Description", "type": "text", "searchable": true },
-				{ "slug": "published_on", "label": "Published on YouTube", "type": "datetime", "required": true },
-				{ "slug": "is_short", "label": "YouTube Short", "type": "boolean" }
+				{
+					"slug": "title",
+					"label": "Title",
+					"type": "string",
+					"required": true,
+					"searchable": true
+				},
+				{
+					"slug": "youtube_id",
+					"label": "YouTube video ID",
+					"type": "string",
+					"required": true,
+					"unique": true
+				},
+				{
+					"slug": "description",
+					"label": "Description",
+					"type": "text",
+					"searchable": true
+				},
+				{
+					"slug": "published_on",
+					"label": "Published on YouTube",
+					"type": "datetime",
+					"required": true
+				},
+				{
+					"slug": "is_short",
+					"label": "YouTube Short",
+					"type": "boolean"
+				},
+				{
+					"slug": "related_posts",
+					"label": "Related posts (post slugs, kept up to date automatically)",
+					"type": "json"
+				}
 			]
 		}
 	],
@@ -50,16 +139,42 @@
 			"label": "Categories",
 			"labelSingular": "Category",
 			"hierarchical": false,
-			"collections": ["posts"],
+			"collections": [
+				"posts"
+			],
 			"terms": [
-				{ "slug": "veeam", "label": "Veeam" },
-				{ "slug": "ai", "label": "AI" },
-				{ "slug": "tfd", "label": "Tech Field Day" },
-				{ "slug": "infrastructure", "label": "Infrastructure" },
-				{ "slug": "security", "label": "Security" },
-				{ "slug": "ransomware", "label": "Ransomware" },
-				{ "slug": "veeam-data-cloud", "label": "Veeam Data Cloud" },
-				{ "slug": "random", "label": "Random" }
+				{
+					"slug": "veeam",
+					"label": "Veeam"
+				},
+				{
+					"slug": "ai",
+					"label": "AI"
+				},
+				{
+					"slug": "tfd",
+					"label": "Tech Field Day"
+				},
+				{
+					"slug": "infrastructure",
+					"label": "Infrastructure"
+				},
+				{
+					"slug": "security",
+					"label": "Security"
+				},
+				{
+					"slug": "ransomware",
+					"label": "Ransomware"
+				},
+				{
+					"slug": "veeam-data-cloud",
+					"label": "Veeam Data Cloud"
+				},
+				{
+					"slug": "random",
+					"label": "Random"
+				}
 			]
 		},
 		{
@@ -67,7 +182,9 @@
 			"label": "Tags",
 			"labelSingular": "Tag",
 			"hierarchical": false,
-			"collections": ["posts"],
+			"collections": [
+				"posts"
+			],
 			"terms": []
 		}
 	],
@@ -85,10 +202,26 @@
 			"name": "primary",
 			"label": "Primary Navigation",
 			"items": [
-				{ "type": "custom", "label": "Blog", "url": "/blog/" },
-				{ "type": "custom", "label": "Videos", "url": "/videos/" },
-				{ "type": "custom", "label": "Tags", "url": "/tags/" },
-				{ "type": "custom", "label": "About", "url": "/about/" }
+				{
+					"type": "custom",
+					"label": "Blog",
+					"url": "/blog/"
+				},
+				{
+					"type": "custom",
+					"label": "Videos",
+					"url": "/videos/"
+				},
+				{
+					"type": "custom",
+					"label": "Tags",
+					"url": "/tags/"
+				},
+				{
+					"type": "custom",
+					"label": "About",
+					"url": "/about/"
+				}
 			]
 		}
 	]

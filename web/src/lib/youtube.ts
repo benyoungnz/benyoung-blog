@@ -17,6 +17,8 @@ export interface Video {
 	thumbnail: string;
 	short: boolean;
 	url: string;
+	/** Post slugs picked by the post-ai plugin / scripts/interlink.ts */
+	relatedPosts: string[];
 }
 
 type CacheTarget = { cache?: { enabled?: boolean; set(hint: unknown): void } };
@@ -38,6 +40,7 @@ export function toVideo(entry: VideoEntry): Video {
 		thumbnail: `https://i.ytimg.com/vi/${id}/mqdefault.jpg`,
 		short: Boolean(d.is_short),
 		url: d.is_short ? `https://www.youtube.com/shorts/${id}` : `https://www.youtube.com/watch?v=${id}`,
+		relatedPosts: Array.isArray(d.related_posts) ? d.related_posts : [],
 	};
 }
 

@@ -42,6 +42,13 @@ export default defineConfig({
 					format: "native",
 					entrypoint: fileURLToPath(new URL("./src/plugins/youtube-sync.ts", import.meta.url)),
 				},
+				// Writes a post's "Key takeaways" with AI (OpenRouter) on save when the field is empty
+				{
+					id: "post-ai",
+					version: "1.0.0",
+					format: "native",
+					entrypoint: fileURLToPath(new URL("./src/plugins/post-ai.ts", import.meta.url)),
+				},
 			],
 		}),
 	],

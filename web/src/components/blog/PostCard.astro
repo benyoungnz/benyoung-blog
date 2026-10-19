@@ -10,7 +10,7 @@ interface Props {
   headingLevel?: 2 | 3;
   eager?: boolean;
 }
-const { post, href = `/blog/${post.slug}`, headingLevel = 3, eager } = Astro.props;
+const { post, href = `/blog/${post.slug}/`, headingLevel = 3, eager } = Astro.props;
 const H = `h${headingLevel}` as 'h2' | 'h3';
 ---
 

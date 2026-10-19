@@ -7,8 +7,8 @@
 // Idempotent: posts are matched by slug and updated; uploaded images are cached in
 // scripts/.cache/media-<host>.json so reruns don't upload them again.
 
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
-import { basename, join } from "node:path";
+import { copyFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { basename, dirname, join } from "node:path";
 import { EmDashClient } from "emdash/client";
 import { markdownToPortableText } from "./lib/md-to-pt.ts";
 import { localImagePath, readLegacyPosts, type LegacyPost } from "./lib/legacy.ts";
@@ -89,6 +89,17 @@ async function importPost(p: LegacyPost, bylineId: string | undefined) {
 	const uploaded = new Map<string, Awaited<ReturnType<typeof upload>>>();
 	for (const { src, alt } of imageSrcs) {
 		if (uploaded.has(src)) continue;
+		// EmDash rejects SVG uploads, so SVGs ship as static files at their original path
+		if (src.endsWith(".svg") && src.startsWith("/")) {
+			const file = localImagePath(src);
+			if (file && existsSync(file)) {
+				const dest = join(import.meta.dirname, "../public", decodeURI(src));
+				mkdirSync(dirname(dest), { recursive: true });
+				copyFileSync(file, dest);
+			} else warnings.push(`missing image ${src}`);
+			uploaded.set(src, null);
+			continue;
+		}
 		const media = src.startsWith("/") ? await upload(src, alt) : null;
 		if (src.startsWith("/") && !media) warnings.push(`missing image ${src}`);
 		uploaded.set(src, media);

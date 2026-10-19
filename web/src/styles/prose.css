@@ -49,7 +49,7 @@
 
 /* Inline + block code */
 /* Long API paths and URLs wrap inside the column instead of widening the page on phones */
-.prose :is(p, li, td, th, blockquote, a) { overflow-wrap: break-word; }
+.prose :is(p, li, td, th, blockquote, a, h2, h3, h4) { overflow-wrap: break-word; }
 .prose :not(pre) > code {
   overflow-wrap: anywhere;
   font-family: var(--font-mono);

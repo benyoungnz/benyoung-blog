@@ -9,7 +9,7 @@ interface Props {
   crumbs?: { label: string; href?: string }[];
 }
 const { post } = Astro.props;
-const crumbs = Astro.props.crumbs ?? [{ label: 'Blog', href: '/blog' }, { label: post.title }];
+const crumbs = Astro.props.crumbs ?? [{ label: 'Blog', href: '/blog/' }, { label: post.title }];
 ---
 
 <header class="ph">
@@ -18,7 +18,7 @@ const crumbs = Astro.props.crumbs ?? [{ label: 'Blog', href: '/blog' }, { label:
   <p class="lede">{post.description}</p>
   <div class="ph__meta">
     <ul class="ph__tags" aria-label="Tags">
-      {post.tags.map((t) => <li><Chip href={`/tags/${t}`} size="sm" tone={toneFor(t)}>{t}</Chip></li>)}
+      {post.tags.map((t) => <li><Chip href={`/tags/${t}/`} size="sm" tone={toneFor(t)}>{t}</Chip></li>)}
     </ul>
     <p>Published <time datetime={isoDate(post.pubDate)}>{formatDate(post.pubDate, 'long')}</time></p>
     {post.updatedDate && <p>Updated <time datetime={isoDate(post.updatedDate)}>{formatDate(post.updatedDate, 'long')}</time></p>}

@@ -12,7 +12,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "deploy": "astro build && wrangler deploy",
-    "typecheck": "astro check"
+    "typecheck": "astro check",
+    "ship": "node scripts/deploy.ts"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^14.3.1",

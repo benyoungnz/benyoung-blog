@@ -6,6 +6,9 @@
 // EMDASH_TOKEN (an API token from admin → Settings → API tokens).
 // Idempotent: posts are matched by slug and updated; uploaded images are cached in
 // scripts/.cache/media-<host>.json so reruns don't upload them again.
+//
+// --copy-ai-from <url>  copies key_takeaways, link_suggestions and related from another
+// EmDash instance (e.g. your local one) so production doesn't regenerate them on import.
 
 import { copyFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { basename, dirname, join } from "node:path";
@@ -30,7 +33,9 @@ export const PILOT = [
 const args = process.argv.slice(2);
 const urlFlag = args.indexOf("--url");
 const baseUrl = urlFlag >= 0 ? args[urlFlag + 1] : "http://localhost:4321";
-const positional = args.filter((a, i) => !a.startsWith("--") && args[i - 1] !== "--url");
+const aiFlag = args.indexOf("--copy-ai-from");
+const aiSource = aiFlag >= 0 ? args[aiFlag + 1] : undefined;
+const positional = args.filter((a, i) => !a.startsWith("--") && args[i - 1] !== "--url" && args[i - 1] !== "--copy-ai-from");
 const wanted = args.includes("--all") ? null : new Set(positional.length ? positional : PILOT);
 
 const token = process.env.EMDASH_TOKEN;
@@ -80,6 +85,23 @@ async function upload(src: string, alt: string) {
 }
 
 const report: { slug: string; status: string; warnings: string[] }[] = [];
+
+// AI fields to carry over, by slug
+const aiFields = new Map<string, Record<string, unknown>>();
+if (aiSource) {
+	const source = new EmDashClient({ baseUrl: aiSource, devBypass: true });
+	let cursor: string | undefined;
+	do {
+		const page = await source.list("posts", { limit: 100, cursor });
+		for (const item of page.items) {
+			const d = item.data as Record<string, unknown>;
+			const fields = Object.fromEntries(["key_takeaways", "link_suggestions", "related"].filter((k) => d[k] !== undefined && d[k] !== null && d[k] !== "").map((k) => [k, d[k]]));
+			if (Object.keys(fields).length) aiFields.set(item.slug ?? item.id, fields);
+		}
+		cursor = page.nextCursor;
+	} while (cursor);
+	console.log(`Copying AI fields for ${aiFields.size} posts from ${aiSource}`);
+}
 
 async function importPost(p: LegacyPost, bylineId: string | undefined) {
 	const warnings: string[] = [];
@@ -136,6 +158,7 @@ async function importPost(p: LegacyPost, bylineId: string | undefined) {
 		...(featured_image ? { featured_image } : {}),
 		...(p.updatedDate ? { updated_date: p.updatedDate.toISOString() } : {}),
 		legacy_path: `/blog/${p.slug}/`,
+		...(aiFields.get(p.slug) ?? {}),
 	};
 	const taxonomies = { category: p.category ? [p.category.slug] : [], tag: p.tags.map((t) => t.slug) };
 

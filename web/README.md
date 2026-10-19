@@ -89,18 +89,34 @@ Needs `OPENROUTER_API_KEY` (and optionally `OPENROUTER_MODEL`, default `~google/
 - **Cron**: every 15 minutes, for scheduled publishing and maintenance. That's 96 runs a day, against the template's every-minute default of 1,440.
 - **Sandboxed plugins are off.** They need Worker Loader, which is Workers Paid ($5/mo). Config-defined plugins still work.
 
-### First deploy (one-off, from a laptop)
+### Deploying from a laptop: `npm run ship`
 
 ```sh
 cd web
-npx wrangler login
-npx wrangler secret put EMDASH_ENCRYPTION_KEY   # paste a key from: npx emdash secrets generate
-npx wrangler secret put OPENROUTER_API_KEY      # AI takeaways, related posts, link suggestions
-npx wrangler secret put OPENROUTER_MODEL        # optional, e.g. ~google/gemini-flash-latest
-npm run deploy                                  # astro build && wrangler deploy
+npx wrangler login               # once
+npm run ship -- --dry-run        # checks + build + compile, uploads nothing (no login needed)
+npm run ship                     # the real thing
 ```
 
-Then open `https://benyoung-blog.<account>.workers.dev/_emdash/admin` and run the setup wizard. Skip the sample content.
+`scripts/deploy.ts` runs in this order:
+1. **Preflight:** git branch/commit (asks before deploying uncommitted changes), free-plan config (no Worker Loader, no every-minute cron), Cloudflare login and account.
+2. **Secrets:** compares `wrangler secret list` with what the site needs (`EMDASH_ENCRYPTION_KEY`, `OPENROUTER_API_KEY`, optional `OPENROUTER_MODEL`). It uploads only the missing ones, with the deploy itself (`wrangler deploy --secrets-file`), so the very first deploy works too.
+   - Values come from `web/.env.production` (gitignored).
+   - Production gets its **own** `EMDASH_ENCRYPTION_KEY`, generated on first run. Back that file up: D1 backups don't include it.
+   - For the OpenRouter values it offers to reuse what's in `web/.env`.
+   - Secret values are never printed.
+3. **Build:** `astro check`, `astro build`, then `wrangler deploy`, tagged with the commit message.
+4. **Smoke test:** checks the key routes on the deployed URL, then prints next steps.
+
+After the **first** deploy:
+1. Open `https://benyoung-blog.<account>.workers.dev/_emdash/admin`, run the setup wizard (skip the sample content) and register your passkey.
+2. Create an API token in admin → Settings → API tokens.
+3. Keep the local dev server running, then import. The AI fields are copied from your local site rather than regenerated:
+
+```sh
+EMDASH_TOKEN=… node scripts/import.ts --all --url https://benyoung-blog.<account>.workers.dev --copy-ai-from http://localhost:4321
+EMDASH_TOKEN=… node scripts/interlink.ts --url https://benyoung-blog.<account>.workers.dev
+```
 
 > **Passkeys are bound to the hostname they're created on.** Setting up on `workers.dev` and moving to `benyoung.blog` later means re-registering. Use **Settings → General → Change domain** at cutover, or put `/_emdash` behind Cloudflare Access. Back up `EMDASH_ENCRYPTION_KEY` outside D1.
 

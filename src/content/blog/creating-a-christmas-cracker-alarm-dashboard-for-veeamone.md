@@ -99,9 +99,10 @@ Click Add under notifications, select Run script as the action
 
 Now, in the Value field is where you want to put the reference to your Powershell file along with the param values containing the alarm detail. For example;
 
-powershell.exe "c:\alarmScripts\AlertTo-VeeamONEReceiver.ps1" '%1' '%2' '%3' '%4' '%5' '%6' %7
-
 ```
+powershell.exe "c:\alarmScripts\AlertTo-VeeamONEReceiver.ps1" '%1' '%2' '%3' '%4' '%5' '%6' %7
+```
+
 ![](/content/images/2021/11/image-1.png)
 Save the alarm, that's it. Now these alarms will send the detail through to your dashboard.
 

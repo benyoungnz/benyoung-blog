@@ -24,6 +24,7 @@ import {
 	generateTakeaways,
 	linkHrefs,
 	nearest,
+	NO_SUGGESTIONS,
 	plainText,
 	suggestLinks,
 } from '../lib/ai';
@@ -85,7 +86,7 @@ async function beforeSavePost(draft: Record<string, unknown>, id: string | undef
 			if (isBlank(current('link_suggestions')) && text.length >= MIN_CHARS) {
 				const candidates = nearest(v, pool, 12, id, 0.35).map((r) => r.item);
 				const links = await suggestLinks(cfg, { title, text, existingHrefs: linkHrefs(draft.content as unknown[]) }, candidates);
-				out.link_suggestions = links.length ? formatLinkSuggestions(links) : '';
+				out.link_suggestions = links.length ? formatLinkSuggestions(links) : NO_SUGGESTIONS;
 			}
 		})(),
 	);

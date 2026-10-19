@@ -179,6 +179,9 @@ export async function suggestLinks(
 		.map((l) => ({ phrase: l.phrase, slug: l.slug, title: bySlug.get(l.slug)!.title, why: l.why }));
 }
 
+/** Written when there's nothing worth linking, so saves don't keep asking. Clear it to ask again. */
+export const NO_SUGGESTIONS = 'No suggestions right now.';
+
 /** Stored in the post's `link_suggestions` field, one per line, for the editor to act on. */
 export const formatLinkSuggestions = (items: LinkSuggestion[]) =>
 	items.map((l) => `"${l.phrase}" → /blog/${l.slug}/ (${l.title}). ${l.why}`).join('\n');

@@ -14,8 +14,11 @@ export interface Post {
   featured_image?: { id: string; src?: string; alt?: string; caption?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; caption?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } };
   cover_title?: string;
   content?: PortableTextBlock[];
+  key_takeaways?: string;
   updated_date?: string;
   legacy_path?: string;
+  link_suggestions?: string;
+  related?: unknown;
   createdAt: Date;
   updatedAt: Date;
   publishedAt: Date | null;
@@ -33,6 +36,7 @@ export interface Video {
   description?: string;
   published_on: string;
   is_short?: boolean;
+  related_posts?: unknown;
   createdAt: Date;
   updatedAt: Date;
   publishedAt: Date | null;

@@ -80,3 +80,15 @@ export function readLegacyPost(file: string): LegacyPost {
 
 /** Local file for a site-relative image path, e.g. /content/images/2026/x.jpg */
 export const localImagePath = (src: string) => (src.startsWith("/") ? join(LEGACY_PUBLIC, decodeURI(src)) : undefined);
+
+/**
+ * Canonical href for a link inside an old post. Ghost-era internal links point at
+ * /<slug>/ or https://benyoung.blog/<slug>/ (no /blog/); they only work through redirects.
+ * Known post slugs become /blog/<slug>/ (keeping any #anchor); everything else is unchanged.
+ */
+export function canonicalHref(url: string, postSlugs: Set<string>): string {
+	const m = url.match(/^(?:https?:\/\/(?:www\.)?benyoung\.blog)?\/(?:blog\/)?([a-z0-9-]+)\/?(#.*)?$/i);
+	if (!m) return url.replace(/^https?:\/\/(?:www\.)?benyoung\.blog(?=\/)/i, "");
+	const slug = m[1].toLowerCase();
+	return postSlugs.has(slug) ? `/blog/${slug}/${m[2] ?? ""}` : url.replace(/^https?:\/\/(?:www\.)?benyoung\.blog(?=\/)/i, "");
+}

@@ -11,7 +11,7 @@ import { copyFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from
 import { basename, dirname, join } from "node:path";
 import { EmDashClient } from "emdash/client";
 import { markdownToPortableText } from "./lib/md-to-pt.ts";
-import { localImagePath, readLegacyPosts, type LegacyPost } from "./lib/legacy.ts";
+import { canonicalHref, localImagePath, readLegacyPosts, type LegacyPost } from "./lib/legacy.ts";
 
 // A spread of the edge cases the full migration has to handle
 export const PILOT = [
@@ -107,6 +107,7 @@ async function importPost(p: LegacyPost, bylineId: string | undefined) {
 
 	const content = markdownToPortableText(p.body, {
 		warn: (w) => warnings.push(w),
+		href: (url) => canonicalHref(url, allSlugs),
 		imageAsset: (src) => {
 			const media = uploaded.get(src);
 			return media ? { _ref: media.id, url: `/_emdash/api/media/file/${media.key}`, width: media.width, height: media.height } : { _ref: "", url: src };
@@ -169,7 +170,9 @@ async function ensureTerms(posts: LegacyPost[]) {
 	}
 }
 
-const posts = readLegacyPosts().filter((p) => !wanted || wanted.has(p.slug));
+const allPosts = readLegacyPosts();
+const allSlugs = new Set(allPosts.map((p) => p.slug));
+const posts = allPosts.filter((p) => !wanted || wanted.has(p.slug));
 if (wanted && posts.length !== wanted.size) {
 	const found = new Set(posts.map((p) => p.slug));
 	console.warn("Not found:", [...wanted].filter((s) => !found.has(s)));

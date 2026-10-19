@@ -16,6 +16,8 @@ export interface ConvertOptions {
 	imageAsset: (src: string, alt: string) => unknown;
 	/** Collects anything the converter had to guess at, for the migration report. */
 	warn?: (message: string) => void;
+	/** Rewrites link hrefs, e.g. old Ghost-era internal links to their canonical URL. */
+	href?: (url: string) => string;
 }
 
 const YOUTUBE = /(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{11})/;
@@ -90,7 +92,7 @@ function standaloneParagraph(node: Paragraph, opts: ConvertOptions): Block[] | n
 		// A linked image: [![alt](src)](href)
 		if (only.type === "link" && only.children.length === 1 && only.children[0].type === "image") {
 			const img = only.children[0];
-			return [{ ...imageBlock(img.url, img.alt ?? "", opts), link: { href: only.url } }];
+			return [{ ...imageBlock(img.url, img.alt ?? "", opts), link: { href: opts.href ? opts.href(only.url) : only.url } }];
 		}
 	}
 	return null;
@@ -205,7 +207,8 @@ function inline(nodes: PhrasingContent[], opts: ConvertOptions) {
 					break;
 				case "link": {
 					const k = key();
-					markDefs.push({ _type: "link", _key: k, href: n.url, ...(/^https?:/.test(n.url) && !n.url.includes("benyoung.blog") ? { blank: true } : {}) });
+					const href = opts.href ? opts.href(n.url) : n.url;
+					markDefs.push({ _type: "link", _key: k, href, ...(/^https?:/.test(href) && !href.includes("benyoung.blog") ? { blank: true } : {}) });
 					walk(n.children, [...marks, k]);
 					break;
 				}

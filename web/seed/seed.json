@@ -28,6 +28,20 @@
 				{ "slug": "updated_date", "label": "Updated date (shown as \"Updated\" on the post)", "type": "datetime" },
 				{ "slug": "legacy_path", "label": "Legacy path (old URL, for redirects)", "type": "string" }
 			]
+		},
+		{
+			"slug": "videos",
+			"label": "Videos",
+			"labelSingular": "Video",
+			"urlPattern": "/videos/{slug}/",
+			"supports": ["drafts", "search"],
+			"fields": [
+				{ "slug": "title", "label": "Title", "type": "string", "required": true, "searchable": true },
+				{ "slug": "youtube_id", "label": "YouTube video ID", "type": "string", "required": true, "unique": true },
+				{ "slug": "description", "label": "Description", "type": "text", "searchable": true },
+				{ "slug": "published_on", "label": "Published on YouTube", "type": "datetime", "required": true },
+				{ "slug": "is_short", "label": "YouTube Short", "type": "boolean" }
+			]
 		}
 	],
 	"taxonomies": [

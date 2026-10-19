@@ -8,15 +8,13 @@ import Prose from '@kit/blog/Prose.astro';
 import VideoPlayer from '../../components/video/VideoPlayer.astro';
 import VideoGrid from '../../components/video/VideoGrid.astro';
 import { formatDate, isoDate } from '@data/format';
-import { CHANNEL, formatViews, getVideos } from '@lib/youtube';
+import { CHANNEL, getVideos } from '@lib/youtube';
 
-const { videos } = await getVideos();
-const video = videos.find((v) => v.id === Astro.params.id);
-// Older uploads aren't in the 15-item feed yet; send people to YouTube rather than a dead end
-if (!video) return Astro.params.id ? Astro.redirect(`https://www.youtube.com/watch?v=${encodeURIComponent(Astro.params.id)}`, 302) : Astro.rewrite('/404');
+const videos = await getVideos(Astro);
+const video = videos.find((v) => v.slug === Astro.params.slug);
+if (!video) return Astro.rewrite('/404');
 
-const more = videos.filter((v) => v.id !== video.id).slice(0, 3);
-const views = formatViews(video.views);
+const more = videos.filter((v) => v.slug !== video.slug).slice(0, 3);
 
 // YouTube descriptions are plain text: escape, link URLs, keep paragraphs and line breaks
 const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -35,7 +33,6 @@ const descriptionHtml = video.description
       <h1>{video.title}</h1>
       <p class="meta">
         <time datetime={isoDate(video.published)}>{formatDate(video.published, 'long')}</time>
-        {views && <span>{views}</span>}
       </p>
     </header>
 

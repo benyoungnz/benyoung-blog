@@ -8,7 +8,7 @@ import VideoGrid from '../components/video/VideoGrid.astro';
 import { allPosts, toPost } from '@lib/content';
 import { getVideos } from '@lib/youtube';
 
-const [posts, { videos }] = await Promise.all([allPosts(Astro).then((e) => e.map(toPost)), getVideos()]);
+const [posts, videos] = await Promise.all([allPosts(Astro).then((e) => e.map(toPost)), getVideos(Astro)]);
 const latestVideos = videos.filter((v) => !v.short).slice(0, 3);
 ---
 

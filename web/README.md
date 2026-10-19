@@ -42,17 +42,24 @@ What the importer keeps from each old post:
 
 | Path | What |
 |---|---|
-| `seed/seed.json` | Schema: `posts` (title, description, hero image, cover title, content, updated date, legacy path), `category` + `tag` taxonomies, Ben's byline, primary menu. Applied once to an empty database |
+| `seed/seed.json` | Schema: `posts` (title, description, hero image, cover title, content, updated date, legacy path), `videos` (title, YouTube id, description, published date, short flag), `category` + `tag` taxonomies, Ben's byline, primary menu. Applied once to an empty database |
 | `src/lib/content.ts` | The only EmDash → site-kit adapter (`toPost`, `allPosts`, `headingsOf`, term helpers) |
 | `src/components/{base,layout,blog,tools}` | Copied from `site-kit/`. `PostCover` now renders EmDash's responsive `<Image>` |
 | `src/components/pt/` | Portable Text overrides: headings with TOC anchors, highlight.js code blocks |
 | `src/components/site/` | Tag/category index and archive views |
-| `src/pages/` | `/`, `/blog/`, `/blog/<slug>/`, `/tags/…`, `/categories/…`, `/about/`, `/search/`, `/rss.xml`, 404 |
+| `src/pages/` | `/`, `/blog/`, `/blog/<slug>/`, `/videos/`, `/videos/<slug>/`, `/tags/…`, `/categories/…`, `/about/`, `/search/`, `/rss.xml`, 404 |
+| `src/plugins/youtube-sync.ts` | Hourly YouTube → `videos` sync |
 | `scripts/` | Migration tooling (not deployed) |
 
 **URLs match the old site.** Posts stay at `/blog/<slug>/`, tags at `/tags/<tag>/`, categories at `/categories/<category>/` (case-insensitive, so the old `/categories/AI/` still resolves), and the feed stays at `/rss.xml`.
 
 **Images.** Requests go through Astro's image endpoint. In production that uses the Cloudflare Images binding (`IMAGES`, free for 5,000 unique transformations a month), which serves resized WebP with a `srcset`. Covers and body images get width hints, so phones don't download desktop images.
+
+**Videos.** `/videos/` and `/videos/<slug>/` read the EmDash `videos` collection. Each entry is an editable copy of one YouTube upload.
+- `src/plugins/youtube-sync.ts` (a native EmDash plugin, so it works on the free plan) checks the channel's RSS feed every hour and adds new uploads. The hourly run comes from EmDash's scheduler, which the Worker's 15-minute cron drives.
+- It never edits or removes existing videos: edits made in the admin stick, and unpublishing a video hides it for good.
+- Run a sync now (as an admin): `POST /_emdash/api/plugins/youtube-sync/sync`.
+- The feed only lists the latest 15 uploads, so anything older never gets added. To backfill, swap `fetchChannelFeed` in `src/lib/youtube-feed.ts` for the YouTube Data API.
 
 **Caching.** The `cache` provider and `routeRules` in `astro.config.mjs` let Cloudflare's CDN hold public pages for a day, with stale-while-revalidate for a week. Responses carry EmDash cache tags, and publishing an entry purges exactly the pages that show it. A page view only costs Worker CPU on a cache miss, which matters on the free plan's 10 ms CPU limit. Search, admin and API routes are never cached.
 

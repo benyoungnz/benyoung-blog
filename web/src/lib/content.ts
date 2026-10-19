@@ -25,7 +25,8 @@ export function toPost(entry: PostEntry): Post {
 		title: d.title,
 		description: d.description ?? '',
 		pubDate: d.publishedAt ?? d.createdAt,
-		updatedDate: d.updated_date ?? undefined,
+		// Custom datetime fields come back as ISO strings
+		updatedDate: d.updated_date ? new Date(d.updated_date) : undefined,
 		tags: terms(entry, 'tag').map((t) => t.slug),
 		image: d.featured_image?.id ? d.featured_image : null,
 		coverTitle: d.cover_title || undefined,

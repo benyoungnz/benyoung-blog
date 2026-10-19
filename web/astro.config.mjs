@@ -4,12 +4,11 @@ import react from "@astrojs/react";
 import { d1, r2 } from "@emdash-cms/cloudflare";
 import { defineConfig } from "astro/config";
 import emdash from "emdash/astro";
+import { fileURLToPath } from "node:url";
 
 // Public pages are cached at Cloudflare's edge and purged by tag when EmDash publishes,
 // so a page view only costs Worker CPU (10 ms on the free plan) on a cache miss.
 const page = { maxAge: 86400, swr: 604800 };
-// Videos come from YouTube, not EmDash, so nothing purges them: refresh every 6 hours instead
-const videos = { maxAge: 21600, swr: 86400 };
 
 export default defineConfig({
 	site: "https://benyoung.blog",
@@ -17,13 +16,13 @@ export default defineConfig({
 	adapter: cloudflare(),
 	cache: { provider: cacheCloudflare() },
 	routeRules: {
-		"/": videos, // home also shows the latest videos
+		"/": page,
 		"/blog/[...path]": page,
 		"/tags/[...path]": page,
 		"/categories/[...path]": page,
 		"/about": page,
 		"/rss.xml": page,
-		"/videos/[...path]": videos,
+		"/videos/[...path]": page,
 	},
 	image: {
 		layout: "constrained",
@@ -34,6 +33,15 @@ export default defineConfig({
 		emdash({
 			database: d1({ binding: "DB", session: "auto", coalesce: true }),
 			storage: r2({ binding: "MEDIA" }),
+			plugins: [
+				// Copies new uploads from the YouTube channel into the `videos` collection, hourly
+				{
+					id: "youtube-sync",
+					version: "1.0.0",
+					format: "native",
+					entrypoint: fileURLToPath(new URL("./src/plugins/youtube-sync.ts", import.meta.url)),
+				},
+			],
 		}),
 	],
 	devToolbar: { enabled: false },

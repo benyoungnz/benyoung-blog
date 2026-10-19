@@ -1,8 +1,8 @@
 ---
-/** Video card: 16:9 thumbnail with play badge → date · views → title. Same rhythm as PostCard. */
+/** Video card: 16:9 thumbnail with play badge → date → title. Same rhythm as PostCard. */
 import Icon from '@kit/base/Icon.astro';
 import { formatDate, isoDate } from '@data/format';
-import { formatViews, videoHref, type Video } from '@lib/youtube';
+import { videoHref, type Video } from '@lib/youtube';
 
 interface Props {
   video: Video;
@@ -11,7 +11,6 @@ interface Props {
 }
 const { video, headingLevel = 3, eager = false } = Astro.props;
 const H = `h${headingLevel}` as 'h2' | 'h3';
-const views = formatViews(video.views);
 ---
 
 <article class="vcard">
@@ -23,9 +22,8 @@ const views = formatViews(video.views);
   <div class="vcard__body">
     <p class="vcard__meta">
       <time datetime={isoDate(video.published)}>{formatDate(video.published)}</time>
-      {views && <span>{views}</span>}
     </p>
-    <H class="vcard__title"><a href={videoHref(video.id)}>{video.title}</a></H>
+    <H class="vcard__title"><a href={videoHref(video.slug)}>{video.title}</a></H>
   </div>
 </article>
 

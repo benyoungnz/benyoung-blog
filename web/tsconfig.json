@@ -1,0 +1,14 @@
+{
+	"extends": "astro/tsconfigs/base",
+	"compilerOptions": {
+		"types": ["node"],
+		"baseUrl": ".",
+		"paths": {
+			"@kit/*": ["src/components/*"],
+			"@styles/*": ["src/styles/*"],
+			"@data/*": ["src/data/*"],
+			"@lib/*": ["src/lib/*"]
+		}
+	},
+	"include": ["src", ".astro/types.d.ts", "emdash-env.d.ts", "worker-configuration.d.ts"]
+}

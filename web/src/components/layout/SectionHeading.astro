@@ -1,0 +1,41 @@
+---
+/**
+ * Eyebrow + heading + optional lede. `level` sets the heading tag, `size` its look,
+ * so the outline stays correct whatever the visual weight.
+ * Slot "actions" sits to the right on wide screens (e.g. a "View all" link).
+ */
+interface Props {
+  eyebrow?: string;
+  title: string;
+  lede?: string;
+  level?: 1 | 2 | 3;
+  size?: 'display' | 'h1' | 'h2' | 'h3';
+  align?: 'start' | 'center';
+  id?: string;
+}
+const { eyebrow, title, lede, level = 2, size = 'h2', align = 'start', id } = Astro.props;
+const H = `h${level}` as 'h1' | 'h2' | 'h3';
+---
+
+<header class:list={['sh', `sh--${align}`]}>
+  <div class="sh__text">
+    {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+    <H id={id} class:list={['sh__title', `sh__title--${size}`]}>{title}</H>
+    {lede && <p class="lede">{lede}</p>}
+  </div>
+  {Astro.slots.has('actions') && <div class="sh__actions"><slot name="actions" /></div>}
+</header>
+
+<style>
+  .sh { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: var(--s-4) var(--s-8); margin-bottom: var(--s-8); }
+  .sh__text { display: grid; gap: var(--s-3); max-width: 760px; }
+  .sh--center { justify-content: center; text-align: center; }
+  .sh--center .sh__text { justify-items: center; }
+  .sh--center .lede { margin-inline: auto; }
+
+  .sh__title { color: var(--ink); }
+  .sh__title--display { font-size: var(--fs-display); line-height: var(--lh-tight); letter-spacing: -0.035em; font-weight: 750; }
+  .sh__title--h1 { font-size: var(--fs-h1); line-height: 1.1; letter-spacing: -0.03em; }
+  .sh__title--h2 { font-size: var(--fs-h2); line-height: 1.15; }
+  .sh__title--h3 { font-size: var(--fs-h3); }
+</style>

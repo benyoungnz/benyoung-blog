@@ -1,0 +1,90 @@
+---
+import { getEmDashEntry, getSeoMeta, decodeSlug } from 'emdash';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '@kit/layout/Section.astro';
+import SectionHeading from '@kit/layout/SectionHeading.astro';
+import PostHeader from '@kit/blog/PostHeader.astro';
+import PostCover from '@kit/blog/PostCover.astro';
+import PostGrid from '@kit/blog/PostGrid.astro';
+import ArticleLayout from '@kit/blog/ArticleLayout.astro';
+import TableOfContents from '@kit/blog/TableOfContents.astro';
+import AuthorMini from '@kit/blog/AuthorMini.astro';
+import AuthorCard from '@kit/blog/AuthorCard.astro';
+import CtaCard from '@kit/blog/CtaCard.astro';
+import PostBody from '@kit/pt/PostBody.astro';
+import { author } from '@data/site';
+import { allPosts, headingsOf, postHref, terms, toPost } from '@lib/content';
+
+const slug = decodeSlug(Astro.params.slug);
+if (!slug) return Astro.rewrite('/404');
+
+const { entry, cacheHint } = await getEmDashEntry('posts', slug);
+if (!entry) return Astro.rewrite('/404');
+if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
+
+const post = toPost(entry);
+const headings = headingsOf(entry.data.content);
+const category = terms(entry, 'category')[0];
+const crumbs = [
+  { label: 'Blog', href: '/blog/' },
+  ...(category ? [{ label: category.label, href: `/categories/${category.slug}/` }] : []),
+  { label: post.title },
+];
+
+const imageUrl = entry.data.featured_image?.meta?.storageKey
+  ? new URL(`/_emdash/api/media/file/${entry.data.featured_image.meta.storageKey}`, Astro.url).href
+  : undefined;
+const seo = getSeoMeta(entry, { siteTitle: 'Ben Young', siteUrl: Astro.url.origin, path: postHref(slug), defaultOgImage: imageUrl });
+
+// Related: posts sharing the most tags, newest first
+const others = (await allPosts(Astro)).filter((e) => e.id !== entry.id).map(toPost);
+const related = others
+  .map((p) => ({ p, score: p.tags.filter((t) => post.tags.includes(t)).length }))
+  .filter((r) => r.score > 0)
+  .sort((a, b) => b.score - a.score || +b.p.pubDate - +a.p.pubDate)
+  .slice(0, 3)
+  .map((r) => r.p);
+---
+
+<BaseLayout
+  title={post.title}
+  description={seo.description ?? post.description}
+  image={seo.ogImage ?? imageUrl}
+  canonical={seo.canonical ?? new URL(postHref(slug), Astro.site).href}
+  robots={seo.robots}
+  type="article"
+  publishedTime={post.pubDate?.toISOString()}
+  modifiedTime={(post.updatedDate ?? entry.data.updatedAt)?.toISOString?.()}
+  content={{ collection: 'posts', id: entry.data.id, slug }}
+>
+  <div class="container">
+    <PostHeader post={post} crumbs={crumbs} />
+
+    <ArticleLayout>
+      {headings.length > 2 && <TableOfContents slot="toc-mobile" headings={headings} maxDepth={3} collapsible />}
+
+      {post.image && <div {...entry.edit.featured_image}><PostCover post={post} size="hero" eager /></div>}
+      <PostBody value={entry.data.content} class="article-body" />
+      <AuthorCard author={author} />
+
+      <Fragment slot="aside">
+        <AuthorMini author={author} />
+        {headings.length > 2 && <TableOfContents headings={headings} maxDepth={3} />}
+        <CtaCard title="New posts, roughly twice a month" href="/rss.xml" action="Get the RSS feed" tone="violet">
+          <p>No newsletter, no tracking. Just the feed.</p>
+        </CtaCard>
+      </Fragment>
+    </ArticleLayout>
+  </div>
+
+  {related.length > 0 && (
+    <Section aria-labelledby="related">
+      <SectionHeading id="related" title="Related posts" />
+      <PostGrid posts={related} />
+    </Section>
+  )}
+</BaseLayout>
+
+<style>
+  :global(.article-body) { margin-top: var(--s-10); }
+</style>

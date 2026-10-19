@@ -1,0 +1,34 @@
+---
+import type { Tone } from '@data/types';
+
+/** Small rounded label: value pills on cards ("v2.1"), status ("New"), trust badges. */
+interface Props {
+  tone?: Tone | 'neutral' | 'ink';
+}
+const { tone = 'neutral' } = Astro.props;
+---
+
+<span class:list={['badge', `badge--${tone}`]}><slot /></span>
+
+<style>
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35em;
+    padding: 0.3rem 0.6rem;
+    border-radius: var(--r-pill);
+    font-size: var(--fs-xs);
+    font-weight: 700;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .badge--neutral { background: var(--surface-2); color: var(--ink); }
+  .badge--ink { background: var(--ink); color: var(--mint); }
+  .badge--mint { background: var(--tint-mint); color: var(--deep-mint); }
+  .badge--sky { background: var(--tint-sky); color: var(--deep-sky); }
+  .badge--violet { background: var(--tint-violet); color: var(--deep-violet); }
+  .badge--coral { background: var(--tint-coral); color: var(--deep-coral); }
+  .badge--peach { background: var(--tint-peach); color: var(--deep-peach); }
+  .badge--lime { background: var(--tint-lime); color: var(--deep-lime); }
+</style>

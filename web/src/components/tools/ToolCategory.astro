@@ -1,0 +1,44 @@
+---
+import IconBlob from '../base/IconBlob.astro';
+import ToolCard from './ToolCard.astro';
+import type { ToolCategory } from '@data/types';
+
+/** Sticky intro column (number, count, title, blurb) + 2-column card grid. */
+interface Props {
+  category: ToolCategory;
+  index: number;
+}
+const { category: c, index } = Astro.props;
+const n = String(index).padStart(2, '0');
+---
+
+<section class="cat" id={c.id} aria-labelledby={`${c.id}-title`} style={`--soft: var(--tint-${c.tone}); --deep: var(--deep-${c.tone})`}>
+  <div class="cat__intro">
+    <IconBlob name={c.icon} tone={c.tone} size="lg" />
+    <p class="cat__count"><span class="cat__n">{n}</span>{c.tools.length} {c.tools.length === 1 ? 'tool' : 'tools'}</p>
+    <h2 id={`${c.id}-title`}>{c.title}</h2>
+    <p class="cat__blurb">{c.blurb}</p>
+  </div>
+  <ul class="cat__grid" role="list">
+    {c.tools.map((t) => <li><ToolCard tool={t} tone={c.tone} /></li>)}
+  </ul>
+</section>
+
+<style>
+  .cat { display: grid; gap: var(--s-8); scroll-margin-top: calc(var(--header-h) + var(--s-4)); }
+  .cat + :global(.cat) { margin-top: var(--s-24); }
+  .cat__intro { display: grid; gap: var(--s-3); justify-items: start; align-self: start; }
+  .cat__count { display: flex; align-items: center; gap: var(--s-2); font-size: var(--fs-xs); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); }
+  .cat__n { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: var(--soft); color: var(--deep); letter-spacing: 0; }
+  h2 { font-size: var(--fs-h2); line-height: 1.1; }
+  .cat__blurb { color: var(--ink-2); max-width: 34ch; }
+
+  .cat__grid { display: grid; gap: var(--s-4); list-style: none; padding: 0; }
+  .cat__grid > li { display: grid; }
+
+  @media (min-width: 640px) { .cat__grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1000px) {
+    .cat { grid-template-columns: 280px 1fr; gap: var(--s-12); }
+    .cat__intro { position: sticky; top: calc(var(--header-h) + var(--s-8)); }
+  }
+</style>

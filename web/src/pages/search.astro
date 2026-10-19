@@ -1,0 +1,63 @@
+---
+import { search } from 'emdash';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Section from '@kit/layout/Section.astro';
+import SectionHeading from '@kit/layout/SectionHeading.astro';
+import Button from '@kit/base/Button.astro';
+import { postHref } from '@lib/content';
+
+const query = Astro.url.searchParams.get('q')?.trim() || '';
+// EmDash's FTS index (D1) ranks and highlights; snippets come back with <mark> already escaped
+const { items: results } = query ? await search(query, { collections: ['posts'], limit: 30 }) : { items: [] };
+---
+
+<BaseLayout title={query ? `Search: ${query}` : 'Search'} description="Search every post on the blog." robots="noindex">
+  <Section space="sm">
+    <div class="head">
+      <SectionHeading level={1} size="display" title="Search the blog" lede="Titles and full text of every post." />
+      <form method="get" action="/search/" role="search" class="form">
+        <label for="q" class="visually-hidden">Search posts</label>
+        <input id="q" type="search" name="q" value={query} placeholder="Veeam API, MCP, ransomware…" autofocus={!query} />
+        <Button type="submit" icon="search">Search</Button>
+      </form>
+    </div>
+
+    {query && (
+      results.length ? (
+        <>
+          <p class="summary"><strong>{results.length} {results.length === 1 ? 'result' : 'results'}</strong> for “{query}”</p>
+          <ol class="results" role="list">
+            {results.map((r) => (
+              <li>
+                <a href={postHref(r.slug ?? r.id)}>{r.title ?? 'Untitled'}</a>
+                {r.snippet && <p set:html={r.snippet} />}
+              </li>
+            ))}
+          </ol>
+        </>
+      ) : (
+        <p class="summary">Nothing matched “{query}”. Try fewer words, or <a class="link" href="/tags/">browse by topic</a>.</p>
+      )
+    )}
+  </Section>
+</BaseLayout>
+
+<style>
+  .head { display: grid; gap: var(--s-6); padding-top: var(--s-8); max-width: 760px; }
+  .form { display: flex; gap: var(--s-3); }
+  .form input {
+    flex: 1;
+    min-width: 0;
+    padding: var(--s-3) var(--s-4);
+    border: 1px solid var(--line);
+    border-radius: var(--r-pill, 999px);
+    background: var(--paper);
+  }
+  .form input:focus-visible { outline: 2px solid var(--pop); outline-offset: 2px; }
+  .summary { margin-top: var(--s-10); color: var(--ink-2); }
+  .results { display: grid; gap: var(--s-6); max-width: 760px; margin-top: var(--s-6); padding: 0; list-style: none; }
+  .results a { font-family: var(--font-display); font-weight: 700; font-size: var(--fs-h3); color: var(--ink); text-decoration: none; }
+  .results a:hover { text-decoration: underline; }
+  .results p { margin-top: var(--s-1); color: var(--ink-2); font-size: var(--fs-sm); }
+  .results :global(mark) { background: var(--mint-soft); color: inherit; padding: 0 0.1em; border-radius: 3px; }
+</style>

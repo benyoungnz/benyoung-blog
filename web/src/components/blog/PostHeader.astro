@@ -1,0 +1,35 @@
+---
+import Breadcrumbs from '../base/Breadcrumbs.astro';
+import Chip from '../base/Chip.astro';
+import { toneFor, type Post } from '@data/types';
+import { formatDate, isoDate } from '@data/format';
+
+interface Props {
+  post: Post;
+  crumbs?: { label: string; href?: string }[];
+}
+const { post } = Astro.props;
+const crumbs = Astro.props.crumbs ?? [{ label: 'Blog', href: '/blog' }, { label: post.title }];
+---
+
+<header class="ph">
+  <Breadcrumbs items={crumbs} />
+  <h1>{post.title}</h1>
+  <p class="lede">{post.description}</p>
+  <div class="ph__meta">
+    <ul class="ph__tags" aria-label="Tags">
+      {post.tags.map((t) => <li><Chip href={`/tags/${t}`} size="sm" tone={toneFor(t)}>{t}</Chip></li>)}
+    </ul>
+    <p>Published <time datetime={isoDate(post.pubDate)}>{formatDate(post.pubDate, 'long')}</time></p>
+    {post.updatedDate && <p>Updated <time datetime={isoDate(post.updatedDate)}>{formatDate(post.updatedDate, 'long')}</time></p>}
+    {post.readingMinutes && <p>{post.readingMinutes} min read</p>}
+  </div>
+</header>
+
+<style>
+  .ph { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-5); max-width: 860px; padding-block: var(--s-10) var(--s-10); }
+  h1 { font-size: var(--fs-h1); line-height: 1.08; letter-spacing: -0.03em; font-weight: 750; }
+  .ph__meta { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-2) var(--s-4); font-size: var(--fs-sm); color: var(--ink-3); }
+  .ph__meta > p::before { content: '·'; margin-right: var(--s-4); }
+  .ph__tags { display: flex; flex-wrap: wrap; gap: var(--s-2); list-style: none; padding: 0; }
+</style>

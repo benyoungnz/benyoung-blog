@@ -1,0 +1,62 @@
+---
+import Button from '../base/Button.astro';
+import { site, footerCta, footerColumns } from '@data/site';
+---
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__top">
+      <div class="footer__brand">
+        <a class="brand" href="/">
+          <img src={site.logo} alt="" width="26" height="34" />
+          <span>{site.name}</span>
+        </a>
+        <p>{site.tagline}</p>
+      </div>
+      <div class="footer__cta">
+        <p>{footerCta.title}</p>
+        <Button href={footerCta.href} icon="arrow-right">{footerCta.label}</Button>
+      </div>
+    </div>
+
+    <div class="footer__cols">
+      {footerColumns.map((col) => (
+        <nav aria-label={col.title} style={`--dot: var(--deep-${col.tone})`}>
+          <h2>{col.title}</h2>
+          <ul>
+            {col.links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+          </ul>
+        </nav>
+      ))}
+    </div>
+
+    <div class="footer__bottom">
+      <p>© {new Date().getFullYear()} {site.name}. Opinions are my own.</p>
+      <a href="/_emdash/admin" rel="nofollow">Admin</a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background: linear-gradient(180deg, var(--surface) 0%, var(--mint-soft) 160%);
+    border-top: 1px solid var(--line);
+    padding-block: var(--s-16) var(--s-8);
+    font-size: var(--fs-sm);
+    color: var(--ink-2);
+  }
+  .footer__top { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--s-8); padding-bottom: var(--s-10); border-bottom: 1px solid var(--line); }
+  .footer__brand { display: grid; gap: var(--s-3); max-width: 38ch; }
+  .brand { display: inline-flex; align-items: center; gap: var(--s-3); text-decoration: none; color: var(--ink); font-family: var(--font-display); font-weight: 750; font-size: 1.2rem; }
+  .footer__cta { display: grid; gap: var(--s-3); justify-items: start; }
+  .footer__cta p { font-family: var(--font-display); font-weight: 650; font-size: 1.125rem; color: var(--ink); }
+
+  .footer__cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: var(--s-8); padding-block: var(--s-10); }
+  .footer__cols h2 { display: flex; align-items: center; gap: var(--s-2); font-family: var(--font-body); font-size: var(--fs-xs); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink); margin-bottom: var(--s-4); }
+  .footer__cols h2::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--dot); }
+  .footer__cols ul { list-style: none; padding: 0; display: grid; gap: var(--s-3); }
+  .footer a:not(.btn):not(.brand) { text-decoration: none; color: var(--ink-2); }
+  .footer a:not(.btn):not(.brand):hover { color: var(--ink); text-decoration: underline; text-decoration-color: var(--mint); text-decoration-thickness: 2px; }
+
+  .footer__bottom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--s-4); padding-top: var(--s-6); border-top: 1px solid var(--line); color: var(--ink-3); }
+</style>

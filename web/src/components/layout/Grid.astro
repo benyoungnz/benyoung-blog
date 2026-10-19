@@ -1,0 +1,22 @@
+---
+/**
+ * Responsive auto grid. `cols` is the max at ≥1000px; it steps down to 2 then 1.
+ * Pass tiles/cards directly as children.
+ */
+interface Props {
+  cols?: 2 | 3 | 4;
+  gap?: 'sm' | 'md' | 'lg';
+}
+const { cols = 3, gap = 'md' } = Astro.props;
+---
+
+<div class:list={['grid', `grid--${gap}`]} style={`--cols: ${cols}`}><slot /></div>
+
+<style>
+  .grid { display: grid; grid-template-columns: 1fr; }
+  .grid--sm { gap: var(--s-3); }
+  .grid--md { gap: var(--s-4); }
+  .grid--lg { gap: var(--s-8); }
+  @media (min-width: 560px) { .grid { grid-template-columns: repeat(min(2, var(--cols)), 1fr); } }
+  @media (min-width: 1000px) { .grid { grid-template-columns: repeat(var(--cols), 1fr); } }
+</style>

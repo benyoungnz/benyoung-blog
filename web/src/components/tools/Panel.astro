@@ -1,0 +1,36 @@
+---
+/** White card used to group form fields or results inside a ToolEmbed. */
+interface Props {
+  title?: string;
+  tone?: 'paper' | 'surface';
+}
+const { title, tone = 'paper' } = Astro.props;
+---
+
+<section class:list={['panel', `panel--${tone}`]}>
+  {title && <h2 class="panel__title">{title}</h2>}
+  <slot />
+</section>
+
+<style>
+  .panel { display: grid; gap: var(--s-4); padding: var(--s-6); border: 1px solid var(--line); border-radius: var(--r-xl); }
+  .panel--paper { background: var(--paper); box-shadow: var(--shadow-sm); }
+  .panel--surface { background: var(--surface); }
+  .panel__title { font-family: var(--font-body); font-size: var(--fs-body); font-weight: 700; letter-spacing: 0; }
+
+  /* Form controls inside panels */
+  .panel :global(label) { display: grid; gap: var(--s-2); font-size: var(--fs-sm); font-weight: 600; color: var(--ink); }
+  .panel :global(:is(input, select, textarea)) {
+    width: 100%;
+    padding: 0.7rem 0.85rem;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--r-md);
+    background: var(--paper);
+    font-size: 1rem;
+    font-weight: 400;
+    transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+  }
+  .panel :global(:is(input, select, textarea):hover) { border-color: var(--ink-3); }
+  .panel :global(:is(input, select, textarea):focus) { outline: none; border-color: var(--ink); box-shadow: 0 0 0 3px var(--mint-soft); }
+  .panel :global(.fields) { display: grid; gap: var(--s-4); grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+</style>

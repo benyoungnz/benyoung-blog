@@ -1,0 +1,12 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import TermIndex from '../../components/site/TermIndex.astro';
+import { allPosts, termIndex } from '@lib/content';
+
+const entries = await allPosts(Astro);
+const items = termIndex(entries, 'tag');
+---
+
+<BaseLayout title="Tags" description={`${items.length} topics across ${entries.length} posts.`}>
+  <TermIndex items={items} postCount={entries.length} base="/tags/" title="Tags" noun="topics" />
+</BaseLayout>

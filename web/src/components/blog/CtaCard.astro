@@ -1,0 +1,46 @@
+---
+import Button from '../base/Button.astro';
+import type { Tone } from '@data/types';
+
+/** Coloured promo card for sidebars and between sections. Body copy goes in the slot. */
+interface Props {
+  title: string;
+  href: string;
+  action: string;
+  tone?: Tone;
+}
+const { title, href, action, tone = 'mint' } = Astro.props;
+---
+
+<div class="cta" style={`--soft: var(--tint-${tone}); --deep: var(--deep-${tone})`}>
+  <p class="cta__title">{title}</p>
+  <div class="cta__body"><slot /></div>
+  <Button href={href} variant="secondary" size="sm" icon="arrow-right">{action}</Button>
+</div>
+
+<style>
+  .cta {
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    gap: var(--s-3);
+    justify-items: start;
+    padding: var(--s-6);
+    border-radius: var(--r-xl);
+    background: var(--soft);
+    isolation: isolate;
+  }
+  .cta::after {
+    content: '';
+    position: absolute;
+    right: -40px;
+    bottom: -40px;
+    width: 140px;
+    aspect-ratio: 1;
+    z-index: -1;
+    border-radius: 50%;
+    border: 18px solid color-mix(in srgb, var(--deep) 14%, transparent);
+  }
+  .cta__title { font-family: var(--font-display); font-weight: 750; font-size: 1.3rem; line-height: 1.15; color: var(--ink); letter-spacing: -0.02em; }
+  .cta__body { font-size: var(--fs-sm); color: var(--ink-2); }
+</style>

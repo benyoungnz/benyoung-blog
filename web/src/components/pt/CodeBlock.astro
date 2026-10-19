@@ -1,0 +1,26 @@
+---
+/**
+ * Code block with highlight.js (pure JS, cheap enough to run per request on a free-tier Worker).
+ * Colours come from the kit's tokens in prose.css, not a bundled theme.
+ */
+import hljs from 'highlight.js/lib/common';
+
+interface Props {
+  node: { _type: 'code'; code: string; language?: string; filename?: string };
+}
+const { node } = Astro.props;
+if (!node?.code) return null;
+
+const lang = node.language && hljs.getLanguage(node.language) ? node.language : undefined;
+const html = lang ? hljs.highlight(node.code, { language: lang, ignoreIllegals: true }).value : escape(node.code);
+const label = node.filename ?? (lang ? hljs.getLanguage(lang)?.name : undefined);
+
+function escape(s: string) {
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+---
+
+<figure class="code">
+  {label && <figcaption class="code__label">{label}</figcaption>}
+  <pre class:list={[lang && `language-${lang}`]}><code class="hljs" set:html={html} /></pre>
+</figure>

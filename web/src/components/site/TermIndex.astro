@@ -1,0 +1,56 @@
+---
+/** Grid of taxonomy terms with counts and latest post: the kit's /tags design, for tags and categories. */
+import Section from '@kit/layout/Section.astro';
+import SectionHeading from '@kit/layout/SectionHeading.astro';
+import Grid from '@kit/layout/Grid.astro';
+import { toneFor } from '@data/types';
+import { formatDate } from '@data/format';
+import type { TermSummary } from '@lib/content';
+
+interface Props {
+  items: TermSummary[];
+  postCount: number;
+  base: string;
+  title: string;
+  noun: string;
+}
+const { items, postCount, base, title, noun } = Astro.props;
+---
+
+<Section>
+  <SectionHeading level={1} size="display" title={title} lede={`${items.length} ${noun} across ${postCount} posts. The most written-about come first.`} />
+  <Grid cols={3}>
+    {items.map(({ slug, label, count, latest }) => (
+      <a class="tag" href={`${base}${slug}/`} style={`--soft: var(--tint-${toneFor(slug)}); --deep: var(--deep-${toneFor(slug)})`}>
+        <span class="tag__head">
+          <span class="tag__name"><span class="tag__dot" aria-hidden="true" />{label}</span>
+          <span class="tag__count">{count} {count === 1 ? 'post' : 'posts'}</span>
+        </span>
+        <span class="tag__latest">Latest: {latest.title}</span>
+        <span class="tag__date">{formatDate(latest.pubDate)}</span>
+      </a>
+    ))}
+  </Grid>
+</Section>
+
+<style>
+  .tag {
+    display: grid;
+    gap: var(--s-2);
+    align-content: start;
+    height: 100%;
+    padding: var(--s-5) var(--s-6);
+    border-radius: var(--r-xl);
+    background: var(--soft);
+    border: 1px solid color-mix(in srgb, var(--deep) 14%, transparent);
+    text-decoration: none;
+    transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+  }
+  .tag:hover { transform: translateY(-2px); box-shadow: var(--shadow-card); }
+  .tag__head { display: flex; justify-content: space-between; align-items: baseline; gap: var(--s-3); }
+  .tag__name { display: inline-flex; align-items: center; gap: var(--s-2); font-family: var(--font-display); font-weight: 750; font-size: var(--fs-h3); color: var(--ink); letter-spacing: -0.02em; }
+  .tag__dot { width: 10px; height: 10px; border-radius: 50%; background: var(--deep); flex: none; }
+  .tag__count { font-size: var(--fs-sm); font-weight: 650; color: var(--ink); white-space: nowrap; }
+  .tag__latest { color: var(--ink-2); font-size: var(--fs-sm); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .tag__date { font-size: var(--fs-xs); color: var(--ink-3); }
+</style>

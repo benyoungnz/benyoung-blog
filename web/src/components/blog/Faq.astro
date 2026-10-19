@@ -1,0 +1,74 @@
+---
+import type { Faq } from '@data/types';
+
+/**
+ * Native <details> accordion — works without JS. Emits FAQPage JSON-LD by default.
+ * `exclusive` makes it a one-open-at-a-time group (uses the details `name` attribute).
+ */
+interface Props {
+  items: Faq[];
+  title?: string;
+  id?: string;
+  exclusive?: boolean;
+  schema?: boolean;
+}
+const { items, title = 'Frequently asked questions', id = 'faq', exclusive = false, schema = true } = Astro.props;
+const group = exclusive ? `${id}-group` : undefined;
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: items.map((i) => ({ '@type': 'Question', name: i.question, acceptedAnswer: { '@type': 'Answer', text: i.answer } })),
+};
+---
+
+<section class="faq" aria-labelledby={id}>
+  <h2 id={id}>{title}</h2>
+  <div class="faq__list">
+    {items.map((item) => (
+      <details name={group}>
+        <summary>
+          <span class="faq__icon" aria-hidden="true" />
+          {item.question}
+        </summary>
+        <div class="faq__answer" set:html={item.answer} />
+      </details>
+    ))}
+  </div>
+  {schema && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+</section>
+
+<style>
+  .faq { max-width: var(--measure); margin-top: var(--s-12); }
+  h2 { font-size: var(--fs-h2); margin-bottom: var(--s-6); }
+  .faq__list { border-top: 1px solid var(--line); }
+  details { border-bottom: 1px solid var(--line); }
+  summary {
+    display: flex;
+    align-items: center;
+    gap: var(--s-4);
+    padding: var(--s-5) var(--s-2);
+    font-weight: 650;
+    color: var(--ink);
+    cursor: pointer;
+    list-style: none;
+    border-radius: var(--r-md);
+    transition: background-color var(--dur) var(--ease);
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary:hover { background: var(--surface); }
+
+  .faq__icon { position: relative; flex: none; width: 28px; height: 28px; border-radius: 50%; background: var(--mint-soft); transition: background-color var(--dur) var(--ease), transform 220ms var(--ease); }
+  .faq__icon::before, .faq__icon::after { content: ''; position: absolute; inset: 50% auto auto 50%; width: 12px; height: 2px; background: var(--ink); border-radius: 2px; translate: -50% -50%; }
+  .faq__icon::after { rotate: 90deg; transition: rotate 220ms var(--ease); }
+  details[open] .faq__icon { background: var(--mint); }
+  details[open] .faq__icon::after { rotate: 0deg; }
+
+  .faq__answer { padding: 0 var(--s-2) var(--s-6) calc(28px + var(--s-4) + var(--s-2)); color: var(--ink-2); }
+  .faq__answer :global(p + p) { margin-top: 0.8em; }
+  .faq__answer :global(a) { color: var(--ink); text-decoration-color: var(--mint); text-decoration-thickness: 2px; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    details::details-content { transition: height 240ms var(--ease), content-visibility 240ms allow-discrete; height: 0; overflow: clip; }
+    details[open]::details-content { height: auto; }
+  }
+</style>

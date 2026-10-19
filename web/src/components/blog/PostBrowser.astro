@@ -1,0 +1,74 @@
+---
+import Chip from '../base/Chip.astro';
+import Button from '../base/Button.astro';
+import PostGrid from './PostGrid.astro';
+import type { Post } from '@data/types';
+
+/**
+ * Tag filter chips + post grid + "Load more", all client-side.
+ * Renders every post in the HTML (good for SEO/no-JS) and hides the overflow.
+ * Honours ?tag=<tag> on load so footer/tag links can deep-link a filter.
+ */
+interface Props {
+  posts: Post[];
+  tags?: string[];
+  pageSize?: number;
+  label?: string;
+}
+const { posts, pageSize = 9, label = 'Filter posts by topic' } = Astro.props;
+const tags = Astro.props.tags ?? [...new Set(posts.flatMap((p) => p.tags))].sort();
+---
+
+<div class="browser" data-post-browser data-page-size={pageSize}>
+  <div class="browser__chips" role="group" aria-label={label}>
+    <Chip active data-filter="">All</Chip>
+    {tags.map((t) => <Chip data-filter={t}>{t}</Chip>)}
+  </div>
+
+  <PostGrid posts={posts} />
+
+  <p class="browser__empty" hidden data-empty>No posts with that tag yet.</p>
+  <p class="browser__status visually-hidden" aria-live="polite" data-status></p>
+  <div class="browser__more"><Button variant="outline" data-more>Load more</Button></div>
+</div>
+
+<script>
+  for (const root of document.querySelectorAll<HTMLElement>('[data-post-browser]')) {
+    const size = Number(root.dataset.pageSize);
+    const items = [...root.querySelectorAll<HTMLElement>('li[data-tags]')];
+    const chips = [...root.querySelectorAll<HTMLButtonElement>('[data-filter]')];
+    const more = root.querySelector<HTMLButtonElement>('[data-more]')!;
+    const empty = root.querySelector<HTMLElement>('[data-empty]')!;
+    const status = root.querySelector<HTMLElement>('[data-status]')!;
+    let filter = '';
+    let shown = size;
+
+    const render = () => {
+      const matches = items.filter((li) => !filter || li.dataset.tags!.split(' ').includes(filter));
+      items.forEach((li) => (li.hidden = true));
+      matches.slice(0, shown).forEach((li) => (li.hidden = false));
+      more.parentElement!.hidden = matches.length <= shown;
+      empty.hidden = matches.length > 0;
+      status.textContent = `Showing ${Math.min(shown, matches.length)} of ${matches.length} posts`;
+      chips.forEach((c) => {
+        const on = c.dataset.filter === filter;
+        c.classList.toggle('is-active', on);
+        c.setAttribute('aria-pressed', String(on));
+      });
+    };
+
+    chips.forEach((c) => c.addEventListener('click', () => { filter = c.dataset.filter!; shown = size; render(); }));
+    more.addEventListener('click', () => { shown += size; render(); });
+
+    const initial = new URLSearchParams(location.search).get('tag');
+    if (initial && chips.some((c) => c.dataset.filter === initial)) filter = initial;
+    render();
+  }
+</script>
+
+<style>
+  .browser__chips { display: flex; flex-wrap: wrap; gap: var(--s-2); margin-bottom: var(--s-10); }
+  .browser__more { display: flex; justify-content: center; margin-top: var(--s-12); }
+  .browser__more[hidden] { display: none; }
+  .browser__empty { padding: var(--s-10); text-align: center; color: var(--ink-3); background: var(--surface); border-radius: var(--r-lg); }
+</style>

@@ -1,0 +1,42 @@
+---
+import Icon, { type IconName } from '../base/Icon.astro';
+
+/**
+ * Boxed aside inside an article: key takeaways, tips, warnings, notes.
+ * Content goes in the slot and inherits prose styles.
+ */
+interface Props {
+  type?: 'takeaways' | 'tip' | 'warning' | 'note';
+  title?: string;
+}
+const { type = 'note' } = Astro.props;
+const preset: Record<NonNullable<Props['type']>, { tone: string; icon: IconName; title: string }> = {
+  takeaways: { tone: 'mint', icon: 'sparkles', title: 'Key takeaways' },
+  tip: { tone: 'sky', icon: 'check', title: 'Tip' },
+  warning: { tone: 'coral', icon: 'shield', title: 'Watch out' },
+  note: { tone: 'violet', icon: 'book', title: 'Note' },
+};
+const p = preset[type];
+const title = Astro.props.title ?? p.title;
+---
+
+<aside class="callout" style={`--soft: var(--tint-${p.tone}); --deep: var(--deep-${p.tone})`} aria-label={title}>
+  <p class="callout__title"><Icon name={p.icon} size={18} />{title}</p>
+  <div class="callout__body"><slot /></div>
+</aside>
+
+<style>
+  .callout {
+    padding: var(--s-5) var(--s-6);
+    border-radius: var(--r-lg);
+    background: var(--soft);
+    border: 1px solid color-mix(in srgb, var(--deep) 18%, transparent);
+    font-size: 1rem;
+  }
+  .callout__title { display: flex; align-items: center; gap: var(--s-2); font-family: var(--font-display); font-weight: 700; font-size: 1.0625rem; color: var(--ink); }
+  .callout__title :global(svg) { color: var(--deep); }
+  .callout__body { margin-top: var(--s-2); color: var(--ink-2); }
+  .callout__body > :global(* + *) { margin-top: 0.6em; }
+  .callout__body :global(ul) { padding-left: 1.2em; }
+  .callout__body :global(li::marker) { color: var(--deep); }
+</style>

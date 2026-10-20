@@ -87,17 +87,19 @@ else ok("Free-plan config (no Worker Loader)");
 const everyMinute = config.triggers?.crons?.some((cron) => cron.trim() === "* * * * *");
 if (everyMinute) warn("A cron runs every minute: 1,440 of the free plan's 100k daily requests");
 
+let dirty: string | undefined;
 try {
-	const dirty = execFileSync("git", ["status", "--porcelain", "--", "."], { cwd: root, encoding: "utf8" }).trim();
+	dirty = execFileSync("git", ["status", "--porcelain", "--", "."], { cwd: root, encoding: "utf8" }).trim();
 	const branch = execFileSync("git", ["rev-parse", "--abbrev-ref", "HEAD"], { cwd: root, encoding: "utf8" }).trim();
 	const sha = execFileSync("git", ["rev-parse", "--short", "HEAD"], { cwd: root, encoding: "utf8" }).trim();
 	ok(`git ${branch} @ ${sha}`);
-	if (dirty) {
-		warn(`Uncommitted changes in web/ will be deployed:\n${c.dim}${dirty.split("\n").map((l) => `      ${l}`).join("\n")}${c.off}`);
-		if (!dryRun && !(await confirm("Deploy with uncommitted changes?"))) fail("Commit first, or rerun and answer y");
-	}
 } catch {
 	warn("Not a git checkout; skipping git checks");
+}
+// Outside the try: a cancelled prompt (Ctrl-C) must stop the deploy, not read as "no git"
+if (dirty) {
+	warn(`Uncommitted changes in web/ will be deployed:\n${c.dim}${dirty.split("\n").map((l) => `      ${l}`).join("\n")}${c.off}`);
+	if (!dryRun && !(await confirm("Deploy with uncommitted changes?"))) fail("Commit first, or rerun and answer y");
 }
 
 if (wrangler(["--version"]).code !== 0) fail("wrangler isn't installed. Run: npm install");

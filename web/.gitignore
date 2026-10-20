@@ -20,3 +20,5 @@ scripts/.cache
 # Site export packages (full content + author emails; treat as backups)
 backups/
 *.emdash
+# EmDash CLI credentials when ~/.config is not writable
+.cli/

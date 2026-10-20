@@ -35,7 +35,9 @@ export default defineConfig({
 			database: d1({ binding: "DB", session: "auto", coalesce: true }),
 			storage: r2({ binding: "MEDIA" }),
 			plugins: [
-				// Copies new uploads from the YouTube channel into the `videos` collection, hourly
+				// Copies new uploads from the YouTube channel into the `videos` collection, hourly.
+				// Disable it before a whole-site import: its first run writes videos, and an import
+				// needs an empty site.
 				{
 					id: "youtube-sync",
 					version: "1.0.0",

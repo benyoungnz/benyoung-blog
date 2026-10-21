@@ -28,4 +28,10 @@ export const explainers: Record<string, ExplainerInfo> = {
     href: '/tools/iresops-ai-agents/',
     load: () => import('./iresops-ai-agents/film.js'),
   },
+  'iresops-rot': {
+    title: 'Finding and quarantining ROT with Veeam Intelligent ResOps for Microsoft 365',
+    tagline: "Data you don't need is still data you can lose",
+    href: '/tools/iresops-rot/',
+    load: () => import('./iresops-rot/film.js'),
+  },
 };

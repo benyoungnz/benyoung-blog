@@ -33,6 +33,30 @@ export const toolCategories: ToolCategory[] = [
           { label: 'Trusted context', text: 'Clean up ROT and label sensitive data so agents answer from the right files.' },
         ],
       },
+      {
+        slug: 'iresops-rot',
+        title: 'Finding and quarantining ROT with Veeam Intelligent ResOps for Microsoft 365',
+        description:
+          'An animated walkthrough of how redundant, obsolete and trivial data piles up in Microsoft 365, what it exposes you to, and how iResOps finds it and stages it out of reach.',
+        icon: 'archive',
+        badge: 'Explainer',
+        footnote: '4 parts, 19 chapters',
+        href: '/tools/iresops-rot/',
+        tags: ['iresops', 'microsoft365', 'rot'],
+        explainer: 'iresops-rot',
+        post: 'rot-data-you-can-lose',
+        about: [
+          'Every Microsoft 365 tenant collects redundant, obsolete and trivial data (ROT). Copies, old versions, drafts and clutter that nobody opens any more but everybody can still reach.',
+          "This explainer walks through why that matters beyond storage. Old files can be stolen, encrypted, pulled into a data request or quoted back by an AI agent. Then it shows how iResOps finds ROT with context, and how quarantine and your own retention policies take it out of reach.",
+          'Play it end to end, or turn on "Pause at each chapter" and click through it in a meeting. Northwind Group is a fictional company, and the file counts and dates are illustrative.',
+        ],
+        parts: [
+          { label: 'How ROT piles up', text: 'One file becomes eight, and years later most of it is never touched again.' },
+          { label: 'Data you can lose', text: 'Stolen, encrypted, in scope for requests and surfaced by AI agents.' },
+          { label: 'Find it with context', text: 'Redundant, obsolete and trivial, plus where it lives, who can reach it and what is inside.' },
+          { label: 'Quarantine, not delete', text: 'Review, stage it out of reach, and let your retention policies do the deletion.' },
+        ],
+      },
     ],
   },
 ];

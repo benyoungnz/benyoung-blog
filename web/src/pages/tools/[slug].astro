@@ -105,7 +105,7 @@ const crumbs = [{ label: 'Tools', href: '/tools/' }, { label: tool.title }];
   .about p { color: var(--ink-2); }
   .about p + p { margin-top: var(--s-3); }
   .parts { display: grid; gap: var(--s-2); list-style: none; padding: var(--s-5) 0 0; margin-top: var(--s-5); border-top: 1px dashed var(--line); }
-  @media (min-width: 720px) { .parts { grid-template-columns: repeat(3, 1fr); } }
+  @media (min-width: 720px) { .parts { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); } }
   .parts a { display: flex; gap: var(--s-3); height: 100%; padding: var(--s-3); border-radius: var(--r-lg); text-decoration: none; color: var(--ink-2); font-size: var(--fs-sm); }
   .parts a:hover { background: var(--surface); }
   .parts strong { display: block; color: var(--ink); }

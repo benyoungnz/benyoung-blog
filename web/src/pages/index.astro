@@ -22,7 +22,7 @@ const latestVideos = videos.filter((v) => !v.short).slice(0, 3);
         lede="Practical write-ups from the field: Veeam APIs, MCP servers, security, and the people side of technology."
       />
     </div>
-    {posts.length ? <PostGrid posts={posts.slice(0, 3)} eagerFirst={3} /> : <p class="empty">No posts yet. Write one in the <a class="link" href="/_emdash/admin/content/posts/new">admin</a>.</p>}
+    {posts.length ? <PostGrid posts={posts.slice(0, 3)} eagerFirst={3} /> : <p class="empty">No posts yet.</p>}
   </Section>
 
   {latestVideos.length > 0 && (

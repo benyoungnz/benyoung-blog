@@ -1,0 +1,113 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '@kit/layout/Section.astro';
+import SectionHeading from '@kit/layout/SectionHeading.astro';
+import Grid from '@kit/layout/Grid.astro';
+import Breadcrumbs from '@kit/base/Breadcrumbs.astro';
+import IconBlob from '@kit/base/IconBlob.astro';
+import CenteredHero from '@kit/tools/CenteredHero.astro';
+import MetaList from '@kit/tools/MetaList.astro';
+import Panel from '@kit/tools/Panel.astro';
+import LinkTile from '@kit/tools/LinkTile.astro';
+import PostGrid from '@kit/blog/PostGrid.astro';
+import CtaCard from '@kit/blog/CtaCard.astro';
+import Explainer from '@kit/explainers/Explainer.astro';
+import { allTools } from '@data/tools';
+import { allPosts, postHref, terms, toPost } from '@lib/content';
+
+const found = allTools.find(({ tool }) => tool.slug === Astro.params.slug && !tool.external);
+if (!found) return new Response(null, { status: 404 });
+const { tool, category } = found;
+
+// The tool's own write-up first, then other posts sharing a tag
+const entries = await allPosts(Astro);
+const writeUp = tool.post ? entries.find((e) => e.id === tool.post) : undefined;
+const related = entries
+  .filter((e) => e !== writeUp && terms(e, 'tag').some((t) => tool.tags?.includes(t.slug)))
+  .slice(0, 3)
+  .map(toPost);
+const siblings = category.tools.filter((t) => t.slug !== tool.slug);
+const crumbs = [{ label: 'Tools', href: '/tools/' }, { label: tool.title }];
+---
+
+<BaseLayout title={tool.title} description={tool.description} breadcrumbs={crumbs}>
+  <CenteredHero eyebrow={category.title} title={tool.title} lede={tool.description}>
+    <MetaList
+      align="center"
+      items={[
+        ...(tool.footnote ? [{ icon: 'play' as const, text: tool.footnote }] : []),
+        { icon: 'lock' as const, text: 'Runs in your browser' },
+        ...(writeUp ? [{ icon: 'book' as const, text: 'Write-up on the blog' }] : []),
+      ]}
+    />
+  </CenteredHero>
+
+  <Section space="sm">
+    <div class="crumbs"><Breadcrumbs items={crumbs} /></div>
+    {tool.explainer && <Explainer class="frame" id={tool.explainer} deeplink />}
+
+    <div class="info">
+      <Panel>
+        <div class="about">
+          <IconBlob name={tool.icon} tone={category.tone} size="lg" />
+          <div>
+            <h2>About this {tool.badge?.toLowerCase() ?? 'tool'}</h2>
+            {(tool.about ?? [tool.description]).map((p) => <p>{p}</p>)}
+          </div>
+        </div>
+        {tool.parts && tool.explainer && (
+          <ol class="parts" role="list">
+            {tool.parts.map((p, i) => (
+              <li>
+                <a href={`#part-${i + 1}`}>
+                  <span class="n">{i + 1}</span>
+                  <span><strong>{p.label}</strong>{p.text}</span>
+                </a>
+              </li>
+            ))}
+          </ol>
+        )}
+      </Panel>
+
+      {writeUp && (
+        <CtaCard title="Read the write-up" href={postHref(writeUp.id)} action="Read the post" tone={category.tone}>
+          <p>{writeUp.data.title}</p>
+        </CtaCard>
+      )}
+    </div>
+  </Section>
+
+  {related.length > 0 && (
+    <Section aria-labelledby="related">
+      <SectionHeading id="related" eyebrow="From the blog" title="Related posts" />
+      <PostGrid posts={related} />
+    </Section>
+  )}
+
+  {siblings.length > 0 && (
+    <Section tone="surface" aria-labelledby="more">
+      <SectionHeading id="more" eyebrow={category.title} title="More in this category" />
+      <Grid cols={3}>
+        {siblings.map((t) => <LinkTile href={t.href} title={t.title} text={t.description} icon={t.icon} tone={category.tone} />)}
+      </Grid>
+    </Section>
+  )}
+</BaseLayout>
+
+<style>
+  .crumbs { margin-bottom: var(--s-6); }
+  .crumbs + :global(.frame) { margin-top: 0; }
+  :global(.frame [data-explainer]) { scroll-margin-top: calc(var(--header-h) + var(--s-4)); }
+  .info { display: grid; gap: var(--s-6); align-items: start; }
+  @media (min-width: 1000px) { .info { grid-template-columns: minmax(0, 1fr) 340px; } }
+  .about { display: flex; gap: var(--s-5); align-items: flex-start; }
+  .about h2 { font-size: var(--fs-h4); margin-bottom: var(--s-2); }
+  .about p { color: var(--ink-2); }
+  .about p + p { margin-top: var(--s-3); }
+  .parts { display: grid; gap: var(--s-2); list-style: none; padding: var(--s-5) 0 0; margin-top: var(--s-5); border-top: 1px dashed var(--line); }
+  @media (min-width: 720px) { .parts { grid-template-columns: repeat(3, 1fr); } }
+  .parts a { display: flex; gap: var(--s-3); height: 100%; padding: var(--s-3); border-radius: var(--r-lg); text-decoration: none; color: var(--ink-2); font-size: var(--fs-sm); }
+  .parts a:hover { background: var(--surface); }
+  .parts strong { display: block; color: var(--ink); }
+  .n { flex: none; display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: var(--tint-violet); color: var(--deep-violet); font-weight: 700; font-size: var(--fs-xs); }
+</style>

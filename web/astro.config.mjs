@@ -24,6 +24,7 @@ export default defineConfig({
 		"/rss.xml": page,
 		"/sitemap.xml": page,
 		"/videos/[...path]": page,
+		"/tools/[...path]": page,
 	},
 	image: {
 		layout: "constrained",

@@ -1,0 +1,56 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '@kit/layout/Section.astro';
+import SectionHeading from '@kit/layout/SectionHeading.astro';
+import SplitHero from '@kit/tools/SplitHero.astro';
+import StatCard from '@kit/tools/StatCard.astro';
+import MetaList from '@kit/tools/MetaList.astro';
+import CategoryNav from '@kit/tools/CategoryNav.astro';
+import ToolCategory from '@kit/tools/ToolCategory.astro';
+import Badge from '@kit/base/Badge.astro';
+import { toolCategories, allTools } from '@data/tools';
+
+// No CMS content on this page, but the layout reads site settings and the menu, which set cache hints
+const count = allTools.length;
+---
+
+<BaseLayout title="Tools" description="Explainers, calculators and demos that go with the write-ups on the blog." breadcrumbs={[{ label: 'Tools' }]}>
+  <SplitHero
+    title="Tools and explainers"
+    lede="Interactive pieces that go with the write-ups. Play them, present them in a meeting, or send a team the link. Each one links back to the post with the detail."
+    tone="violet"
+  >
+    <MetaList items={[{ icon: 'play', text: `${count} ${count === 1 ? 'tool' : 'tools'}` }, { icon: 'lock', text: 'Runs in your browser' }, { icon: 'book', text: 'Each with a write-up' }]} />
+    <Fragment slot="visual">
+      <div class="collage">
+        <StatCard class="c1" label="AI agents found" value="62" sub="in one demo tenant" tilt={-3}>
+          <Badge tone="violet">iResOps explainer</Badge>
+        </StatCard>
+        <StatCard class="c2" label="Files flagged as ROT" value="12 / 20" sub="before the agent answers" tone="sky" tilt={2.5} />
+        <StatCard class="c3" label="Changes undone" value="1 agent" sub="everything else kept" tone="mint" tilt={-1.5} />
+      </div>
+    </Fragment>
+  </SplitHero>
+
+  <Section aria-labelledby="pick">
+    <SectionHeading id="pick" eyebrow="All tools" title="Pick a tool" lede="Grouped by what they help with." />
+    {toolCategories.length > 1 && <CategoryNav categories={toolCategories} />}
+    <div class="cats">
+      {toolCategories.map((c, i) => <ToolCategory category={c} index={i + 1} />)}
+    </div>
+  </Section>
+</BaseLayout>
+
+<style>
+  .cats { margin-top: var(--s-12); }
+
+  .collage { position: relative; width: min(480px, 100%); height: 360px; }
+  .collage :global(.stat) { position: absolute; }
+  .collage :global(.c1) { left: 0; top: 10px; }
+  .collage :global(.c2) { right: 0; top: 120px; }
+  .collage :global(.c3) { left: 14%; bottom: 0; }
+  @media (max-width: 519px) {
+    .collage { height: auto; display: grid; gap: var(--s-4); }
+    .collage :global(.stat) { position: static; }
+  }
+</style>

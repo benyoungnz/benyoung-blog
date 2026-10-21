@@ -1,0 +1,159 @@
+---
+/**
+ * Animated explainer: canvas film, transport bar and chapter list. Films are registered in
+ * ./registry.ts and load only on pages that show one. Lays out by its own width (container
+ * query), so it sits in a post column or full width on a tool page.
+ *
+ * part      open at that part (1-based) instead of the start
+ * deeplink  follow #part-N in the page URL (tool pages)
+ * from, to  clip mode: play only the chapters from `from` to `to` (chapter labels, inclusive),
+ *           with just a stage and play button, so a post can show one moment per section
+ */
+import { explainers } from './registry';
+
+interface Props {
+  id: string;
+  part?: number;
+  deeplink?: boolean;
+  /** Show "Open full screen version" under the player when the explainer has a tool page */
+  link?: boolean;
+  /** First chapter of a clip (its label); turns on clip mode */
+  from?: string;
+  /** Last chapter of a clip, inclusive; defaults to `from` */
+  to?: string;
+  caption?: string;
+  /** Makes the element ids unique when a page shows the same explainer more than once */
+  instance?: string;
+  class?: string;
+}
+const { id, part, deeplink, link = false, from, to, caption, instance, class: className } = Astro.props;
+const info = explainers[id];
+if (!info) return null;
+const domId = instance ? `xp-${id}-${instance}` : `xp-${id}`;
+const clip = Boolean(from);
+---
+
+<figure class:list={['xp', { 'xp--clip': clip }, className]}>
+  <div class="xp__box" id={domId} data-explainer={id} data-part={part} data-deeplink={deeplink ? '' : undefined} data-from={from} data-to={to ?? from}>
+    <div class="xp__layout">
+      <div class="xp__main">
+        <div class="xp__stage" data-stage tabindex="0" aria-label={`${info.title}. Click or press the right arrow for the next chapter.`}>
+          <canvas width="1600" height="900" role="img" aria-label={`Animated explainer: ${info.title}`}></canvas>
+          <div class="xp__poster" aria-hidden="true">
+            <span class="xp__poster-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg></span>
+            <strong data-poster-title>{info.title}</strong>
+            <span data-poster-sub>{info.tagline}</span>
+            <small data-poster-meta></small>
+          </div>
+        </div>
+        <div class="xp__bar">
+          <button type="button" class="xp__icon" data-prev aria-label="Previous chapter" title="Previous chapter"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h2v14H6zM20 5v14L9 12z" /></svg></button>
+          <button type="button" class="xp__icon xp__icon--primary" data-play aria-label="Play" title="Play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" /></svg></button>
+          <button type="button" class="xp__icon" data-next aria-label="Next chapter" title="Next chapter"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 5h2v14h-2zM4 5v14l11-7z" /></svg></button>
+          <div class="xp__now" data-now aria-live="polite"></div>
+          <button type="button" class="xp__icon xp__fs" data-fs aria-label="Full screen" title="Full screen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5v2H6v3zm11-5h5v5h-2V6h-3zM4 15h2v3h3v2H4zm14 3v-3h2v5h-5v-2z" /></svg></button>
+        </div>
+      </div>
+      <aside class="xp__panel" aria-label="Chapters">
+        <div class="xp__phead">
+          <strong>Chapters</strong>
+          <label class="xp__toggle"><input type="checkbox" data-presenter /><span>Pause at each chapter</span></label>
+        </div>
+        <div class="xp__list" data-beats></div>
+      </aside>
+    </div>
+  </div>
+  {caption && <figcaption>{caption}</figcaption>}
+  {!clip && link && info.href && (
+    <figcaption><a class="link" href={info.href}>Open the full-width version</a>, or turn on "Pause at each chapter" to click through it in a meeting.</figcaption>
+  )}
+</figure>
+
+<script>
+  import { mountExplainers } from './player';
+  mountExplainers();
+</script>
+
+<style>
+  .xp { margin: var(--s-8) 0; container-type: inline-size; font-family: var(--font-body); font-size: var(--fs-body); line-height: 1.45; color: var(--ink); }
+  .xp figcaption { margin-top: var(--s-3); font-size: var(--fs-sm); color: var(--ink-3); }
+
+  .xp__layout { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-4); align-items: start; }
+  @container (min-width: 900px) {
+    .xp__layout { grid-template-columns: minmax(0, 1fr) 300px; gap: var(--s-5); }
+    /* size containment: the player sets the row height and the chapter list scrolls inside it */
+    .xp__panel { align-self: stretch; contain: size; }
+  }
+  .xp__main { min-width: 0; }
+
+  /* clip: stage, play button and the chapter name only */
+  .xp--clip .xp__panel, .xp--clip [data-prev], .xp--clip [data-next] { display: none; }
+  .xp--clip .xp__layout { grid-template-columns: minmax(0, 1fr); }
+  .xp--clip .xp__icon--primary { width: 40px; height: 40px; }
+  .xp--clip .xp__now { margin-left: var(--s-1); }
+
+  .xp__stage { position: relative; overflow: hidden; border-radius: var(--r-lg); background: #0a1b26; cursor: pointer; box-shadow: var(--shadow-card); }
+  .xp__stage canvas { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; }
+  .xp__poster { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: var(--s-2); padding: var(--s-6); text-align: center; color: #e8eef2; background: radial-gradient(ellipse at center, rgb(10 27 38 / 0.82), rgb(10 27 38 / 0.96)); transition: opacity 300ms var(--ease); }
+  .xp__poster strong { font-family: var(--font-display); font-size: clamp(1.125rem, 4cqi, 2rem); line-height: var(--lh-snug); }
+  .xp__poster span:not(.xp__poster-play) { font-size: clamp(0.8125rem, 2cqi, 1.0625rem); color: #b9c8d2; }
+  .xp__poster small { margin-top: var(--s-1); font-size: var(--fs-xs); color: #8fa3b3; }
+  .xp__poster-play { display: grid; place-items: center; width: clamp(48px, 9cqi, 72px); aspect-ratio: 1; margin-bottom: var(--s-2); border-radius: 50%; background: #00b336; transition: transform var(--dur) var(--ease); }
+  .xp__poster-play svg { width: 45%; fill: #04140a; transform: translateX(6%); }
+  .xp__stage:hover .xp__poster-play { transform: scale(1.06); }
+  .is-started .xp__poster { opacity: 0; pointer-events: none; }
+  @container (max-width: 560px) {
+    .xp__poster { gap: var(--s-1); padding: var(--s-3); }
+    .xp__poster span:not(.xp__poster-play) { display: none; }
+    .xp__poster-play { margin-bottom: var(--s-1); }
+  }
+  .xp__stage:focus-visible { outline: 2px solid var(--pop); outline-offset: 3px; }
+  .xp__stage:fullscreen { display: flex; align-items: center; justify-content: center; border-radius: 0; }
+  .xp__stage:fullscreen canvas { width: min(100vw, 177.78vh); }
+
+  .xp__bar { display: flex; align-items: center; gap: var(--s-2); padding: var(--s-3) 0 0; }
+  .xp__icon { display: inline-grid; place-items: center; flex: none; width: 40px; height: 40px; padding: 0; border-radius: 50%; border: 1px solid var(--line-strong); background: var(--paper); color: var(--ink); cursor: pointer; transition: background-color var(--dur) var(--ease); }
+  .xp__icon:hover { background: var(--surface); }
+  .xp__icon svg { width: 18px; height: 18px; fill: currentColor; }
+  .xp__icon--primary { width: 48px; height: 48px; background: var(--mint); border-color: var(--mint); }
+  .xp__icon--primary:hover { background: var(--mint-hover); }
+  .xp__icon--primary svg { width: 22px; height: 22px; }
+  .xp__icon:focus-visible { outline: 2px solid var(--pop); outline-offset: 2px; }
+  .xp__now { flex: 1; min-width: 0; margin-left: var(--s-2); font-size: var(--fs-sm); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .xp__now :global(small) { display: block; font-size: var(--fs-xs); font-weight: 400; color: var(--ink-3); }
+
+  .xp__panel { display: flex; flex-direction: column; min-height: 0; overflow: hidden; background: var(--paper); border: 1px solid var(--line); border-radius: var(--r-lg); box-shadow: var(--shadow-card); }
+  .xp__phead { display: flex; align-items: center; justify-content: space-between; gap: var(--s-3); padding: var(--s-3) var(--s-4); border-bottom: 1px solid var(--line); font-size: var(--fs-sm); }
+  .xp__list { flex: 1; min-height: 0; overflow: auto; padding: var(--s-1); max-height: 320px; }
+  @container (min-width: 900px) { .xp__list { max-height: none; } }
+
+  .xp__toggle { display: inline-flex; align-items: center; gap: var(--s-2); font-size: var(--fs-xs); color: var(--ink-3); cursor: pointer; user-select: none; }
+  .xp__toggle input { appearance: none; position: relative; flex: none; width: 34px; height: 20px; margin: 0; border-radius: var(--r-pill); background: var(--line-strong); cursor: pointer; transition: background-color var(--dur) var(--ease); }
+  .xp__toggle input::after { content: ''; position: absolute; top: 3px; left: 3px; width: 14px; height: 14px; border-radius: 50%; background: var(--paper); transition: transform var(--dur) var(--ease); }
+  .xp__toggle input:checked { background: var(--deep-mint); }
+  .xp__toggle input:checked::after { transform: translateX(14px); }
+  .xp__toggle input:focus-visible { outline: 2px solid var(--pop); outline-offset: 2px; }
+
+  /* chapter list, built by player.ts */
+  .xp__list :global(.sec + .sec) { margin-top: 2px; }
+  .xp__list :global(.sechead) { all: unset; box-sizing: border-box; display: flex; align-items: center; gap: var(--s-2); width: 100%; padding: var(--s-2) var(--s-3); border-radius: var(--r-md); cursor: pointer; font-size: var(--fs-sm); font-weight: 600; }
+  .xp__list :global(.sechead:hover) { background: var(--surface); }
+  .xp__list :global(.sechead:focus-visible) { outline: 2px solid var(--pop); outline-offset: -2px; }
+  .xp__list :global(.chev) { flex: none; width: 16px; height: 16px; fill: var(--ink-3); transition: transform var(--dur) var(--ease); }
+  .xp__list :global(.sechead[aria-expanded='true'] .chev) { transform: rotate(90deg); }
+  .xp__list :global(.name) { flex: 1; }
+  .xp__list :global(.count) { font-size: var(--fs-xs); font-weight: 400; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+  .xp__list :global(.sechead.current .name) { color: var(--deep-mint); }
+  .xp__list :global(ol) { list-style: none; margin: 0 0 var(--s-1); padding: 0 0 0 var(--s-2); counter-reset: ch; }
+  .xp__list :global(ol[hidden]) { display: none; }
+  .xp__list :global(li) { counter-increment: ch; margin: 0; }
+  .xp__list :global(.ch) { all: unset; box-sizing: border-box; position: relative; display: flex; align-items: center; gap: var(--s-3); width: 100%; padding: var(--s-2) var(--s-3); border-radius: var(--r-md); overflow: hidden; cursor: pointer; font-size: var(--fs-sm); color: var(--ink); }
+  .xp__list :global(.ch::before) { content: counter(ch); flex: 0 0 22px; height: 22px; display: grid; place-items: center; border-radius: 50%; background: var(--surface-2); color: var(--ink-3); font-size: var(--fs-xs); font-weight: 600; }
+  .xp__list :global(.ch:hover) { background: var(--surface); }
+  .xp__list :global(.ch:focus-visible) { outline: 2px solid var(--pop); outline-offset: -2px; }
+  .xp__list :global(.ch.played) { color: var(--ink-3); }
+  .xp__list :global(.ch.played::before) { content: '\2713'; background: transparent; border: 1.5px solid var(--deep-mint); color: var(--deep-mint); }
+  .xp__list :global(.ch.on) { background: var(--mint-soft); font-weight: 600; color: var(--ink); }
+  .xp__list :global(.ch.on::before) { content: counter(ch); background: var(--deep-mint); color: var(--paper); border: 0; }
+  .xp__list :global(.prog) { position: absolute; left: 0; bottom: 0; height: 3px; width: 0; background: var(--deep-mint); }
+</style>

@@ -1,0 +1,15 @@
+---
+/**
+ * Portable Text `explainer` block: { _type: 'explainer', id: 'iresops-ai-agents', part?: 2 }, or a clip of
+ * one moment: { ..., from: 'Find ROT', to: 'One right answer', caption?: '...' } (chapter labels).
+ * Renders an animated explainer from src/components/explainers inline in the post.
+ */
+import Explainer from '@kit/explainers/Explainer.astro';
+
+interface Props {
+  node: { _type: 'explainer'; _key: string; id?: string; part?: number; from?: string; to?: string; caption?: string };
+}
+const { node } = Astro.props;
+---
+
+{node?.id && <Explainer id={node.id} part={node.part} from={node.from} to={node.to} caption={node.caption} instance={node._key} link />}

@@ -41,6 +41,14 @@ export interface Tool {
   tags?: string[];
   /** URL of a hosted build to show in the tool page's frame */
   embed?: string;
+  /** Slug of the post that explains this tool; the tool page links to it first */
+  post?: string;
+  /** Paragraphs for the "About" panel on the tool page */
+  about?: string[];
+  /** Animated explainer (id in src/components/explainers/registry.ts) shown on the tool page */
+  explainer?: string;
+  /** The explainer's parts, linked as #part-N on the tool page */
+  parts?: { label: string; text: string }[];
 }
 
 export interface ToolCategory {

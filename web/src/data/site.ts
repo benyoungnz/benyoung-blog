@@ -10,6 +10,7 @@ export const site = {
 export const nav = [
   { label: 'Blog', href: '/blog/' },
   { label: 'Videos', href: '/videos/' },
+  { label: 'Tools', href: '/tools/' },
   { label: 'Tags', href: '/tags/' },
   { label: 'About', href: '/about/' },
 ];
@@ -29,6 +30,7 @@ export const footerColumns = [
     links: [
       { label: 'All posts', href: '/blog/' },
       { label: 'Videos', href: '/videos/' },
+      { label: 'Tools', href: '/tools/' },
       { label: 'AI & data', href: '/blog/?tag=ai' },
       { label: 'Security', href: '/blog/?tag=security' },
       { label: 'Veeam APIs', href: '/blog/?tag=api' },

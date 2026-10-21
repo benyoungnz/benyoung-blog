@@ -5,6 +5,7 @@ import type { PortableTextBlock } from 'emdash';
 import Prose from '@kit/blog/Prose.astro';
 import Block from './Block.astro';
 import CodeBlock from './CodeBlock.astro';
+import ExplainerBlock from './ExplainerBlock.astro';
 import { headingsOf } from '@lib/content';
 
 interface Props {
@@ -19,5 +20,5 @@ const content = value.map((b) => (anchors.has((b as { _key: string })._key) ? { 
 ---
 
 <Prose class={className}>
-  <PortableText value={content} components={{ block: Block, type: { code: CodeBlock } }} />
+  <PortableText value={content} components={{ block: Block, type: { code: CodeBlock, explainer: ExplainerBlock } }} />
 </Prose>

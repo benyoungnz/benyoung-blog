@@ -11,7 +11,8 @@
 //      text worth linking to a similar post. These are suggestions for you to add by hand.
 //   4. Report: orphans (no other post links to them) and posts with no internal links.
 //
-// Rerun it whenever you like; it's cheap. Same --url / EMDASH_TOKEN options as import.ts.
+// Rerun it whenever you like; it's cheap. Defaults to the local site; for a deployed one pass
+// --url https://… with EMDASH_TOKEN (an API token from admin → Settings → API tokens).
 
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";

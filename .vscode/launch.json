@@ -2,8 +2,8 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "command": "./node_modules/.bin/astro dev",
-      "name": "Development server",
+      "command": "npm --prefix web run dev",
+      "name": "Development server (web)",
       "request": "launch",
       "type": "node-terminal"
     }

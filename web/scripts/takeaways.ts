@@ -5,8 +5,8 @@
 //   node scripts/takeaways.ts <slug>…    # only these posts
 //
 // Edit or delete entries in scripts/.cache/takeaways.json before --apply to change what's written.
-// Uses OPENROUTER_API_KEY / OPENROUTER_MODEL from web/.env. Same --url / EMDASH_TOKEN
-// options as scripts/import.ts for a deployed site.
+// Uses OPENROUTER_API_KEY / OPENROUTER_MODEL from web/.env. For a deployed site pass --url and
+// EMDASH_TOKEN (an API token from admin → Settings → API tokens).
 
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";

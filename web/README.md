@@ -1,6 +1,6 @@
-# benyoung.blog (new site)
+# benyoung.blog
 
-The next version of benyoung.blog: [EmDash](https://docs.emdashcms.com/) 1.3 on Astro 7, running as one Cloudflare Worker with D1 (content) and R2 (media), styled with the `site-kit/` components. The old Astro 4 site in the repo root stays live until cutover (see `../MIGRATION_PLAN.md`).
+[EmDash](https://docs.emdashcms.com/) 1.3 on Astro 7, running as one Cloudflare Worker with D1 (content) and R2 (media), styled with the `site-kit/` components. Live at https://benyoung.blog since October 2026. The previous Astro 4 site (and the Ghost-era content it carried) is in git history at the `legacy-site` tag.
 
 ## Local development
 
@@ -18,26 +18,6 @@ curl -X POST http://localhost:4321/_emdash/api/setup/dev-bypass
 
 Then open the admin at http://localhost:4321/_emdash/admin (or visit `/_emdash/api/setup/dev-bypass?redirect=/_emdash/admin` to sign in as the dev admin).
 
-### Importing posts from the old site
-
-```sh
-node scripts/import.ts           # the 10-post pilot (edge cases)
-node scripts/import.ts <slug>…   # specific posts
-node scripts/import.ts --all     # everything in ../src/content/blog
-```
-
-- Reruns are safe. Posts are matched by slug and updated, and uploaded images are cached in `scripts/.cache/` so they aren't uploaded twice.
-- Each run writes a per-post warning list to `scripts/.cache/import-report.json`.
-- Against a deployed site, pass `--url https://… ` and `EMDASH_TOKEN=<API token>` (create the token in admin → Settings → API tokens).
-
-What the importer keeps from each old post:
-- **URL**: the slug the old site actually served (frontmatter `slug`, else the filename).
-- **Dates**: the real publish date, plus `updatedDate` when the post has one.
-- **Taxonomy**: categories normalised to one lowercase spelling, and tags.
-- **Images**: the hero image and every body image, uploaded to R2. External hero images are copied in rather than hotlinked.
-
-`scripts/lib/md-to-pt.ts` converts Markdown to Portable Text with remark: headings, nested lists, code fences (with language), tables, images (including the Ghost habit of gluing an image line onto the next paragraph), YouTube links and iframes, and raw HTML (kept as an HTML block and flagged).
-
 ## How it fits together
 
 | Path | What |
@@ -50,7 +30,8 @@ What the importer keeps from each old post:
 | `src/pages/` | `/`, `/blog/`, `/blog/<slug>/`, `/videos/`, `/videos/<slug>/`, `/tags/…`, `/categories/…`, `/about/`, `/search/`, `/rss.xml`, 404 |
 | `src/plugins/youtube-sync.ts` | Hourly YouTube → `videos` sync |
 | `src/plugins/post-ai.ts`, `src/lib/ai.ts` | AI takeaways, related content and link suggestions on save |
-| `scripts/` | Migration tooling (not deployed) |
+| `scripts/` | Deploy, AI backfill (`takeaways.ts`, `interlink.ts`) and share-card tooling (not deployed) |
+| `public/_redirects` | Old URLs from the previous sites: Ghost root paths, `/blog/2/`… pagination and `/content/images/…` files, all 301s. Applied by Workers static assets before the Worker runs (limit 2,000 rules) |
 
 **URLs match the old site.** Posts stay at `/blog/<slug>/`, tags at `/tags/<tag>/`, categories at `/categories/<category>/` (case-insensitive, so the old `/categories/AI/` still resolves), and the feed stays at `/rss.xml`.
 
@@ -108,15 +89,24 @@ npm run ship                     # the real thing
 3. **Build:** `astro check`, `astro build`, then `wrangler deploy`, tagged with the commit message.
 4. **Smoke test:** checks the key routes on the deployed URL, then prints next steps.
 
-After the **first** deploy:
-1. Open `https://benyoung-blog.<account>.workers.dev/_emdash/admin`, run the setup wizard (skip the sample content) and register your passkey.
-2. Create an API token in admin → Settings → API tokens.
-3. Keep the local dev server running, then import. The AI fields are copied from your local site rather than regenerated:
+### Moving content between sites
+
+Production was filled from the local site with EmDash's whole-site transfer (content model, entries, revisions, media and settings; not users or secrets):
 
 ```sh
-EMDASH_TOKEN=… node scripts/import.ts --all --url https://benyoung-blog.<account>.workers.dev --copy-ai-from http://localhost:4321
-EMDASH_TOKEN=… node scripts/interlink.ts --url https://benyoung-blog.<account>.workers.dev
+export XDG_CONFIG_HOME="$PWD/.cli"   # only if ~/.config isn't writable; .cli/ is gitignored
+npx emdash site export --url http://localhost:4321 --output backups/site.emdash
+npx emdash login --url https://benyoung.blog
+npx emdash site import backups/site.emdash --url https://benyoung.blog --analyze \
+  --map-principal 'ben@minutepast2.com=ben@minutepast2.com'
+npx emdash site import backups/site.emdash --url https://benyoung.blog --plan sha256:<digest> --confirm
 ```
+
+- The target must be empty: a fresh database after the setup wizard, with sample content skipped.
+- **Turn `youtube-sync` off in `astro.config.mjs` and deploy before importing.** Its first run publishes the channel's videos, after which the site no longer counts as empty.
+- If it stops partway: `npx emdash site import resume <operation-id> backups/site.emdash --url …`.
+- Media keys change on import, so anything that maps to media URLs (like `public/_redirects`) has to use the target site's keys.
+- Afterwards, `EMDASH_TOKEN=… node scripts/interlink.ts --url https://benyoung.blog` reloads the post embeddings used for related posts.
 
 > **Passkeys are bound to the hostname they're created on.** Setting up on `workers.dev` and moving to `benyoung.blog` later means re-registering. Use **Settings → General → Change domain** at cutover, or put `/_emdash` behind Cloudflare Access. Back up `EMDASH_ENCRYPTION_KEY` outside D1.
 

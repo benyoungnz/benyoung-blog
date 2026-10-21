@@ -79,7 +79,7 @@ const config = JSON.parse(stripJsonc(readFileSync(join(root, "wrangler.jsonc"), 
 	name: string;
 	worker_loaders?: unknown[];
 	triggers?: { crons?: string[] };
-	routes?: unknown[];
+	routes?: { pattern?: string; custom_domain?: boolean }[];
 };
 ok(`Worker: ${config.name}`);
 if (config.worker_loaders?.length) warn("worker_loaders is enabled: sandboxed plugins need Workers Paid ($5/mo)");
@@ -226,7 +226,9 @@ if (dryRun) {
 // ---------------------------------------------------------------------------
 step("Smoke test");
 
-const base = process.env.DEPLOY_URL ?? deployedUrl;
+// A custom domain turns workers.dev off, so fall back to the domain in wrangler.jsonc
+const customDomain = config.routes?.find((r) => r.custom_domain && r.pattern)?.pattern;
+const base = process.env.DEPLOY_URL ?? deployedUrl ?? (customDomain ? `https://${customDomain}` : undefined);
 if (!base) {
 	warn("Couldn't find the deployed URL in wrangler's output; set DEPLOY_URL to smoke test");
 } else {
@@ -243,9 +245,6 @@ if (!base) {
 }
 
 step("Next");
-console.log(`  • First deploy? Open ${base ?? "the Worker URL"}/_emdash/admin, run the setup wizard (skip sample content) and register your passkey.
-  • Then import content (with the local dev server running, so AI fields are copied, not regenerated):
-      create an API token in admin → Settings → API tokens, then
-      EMDASH_TOKEN=… node scripts/import.ts --all --url ${base ?? "<url>"} --copy-ai-from http://localhost:4321
-      EMDASH_TOKEN=… node scripts/interlink.ts --url ${base ?? "<url>"}   # loads post embeddings for related posts
+console.log(`  • Brand-new database? Open ${base ?? "the site"}/_emdash/admin, run the setup wizard (skip sample content) and register your passkey.
+  • Moving a whole site in: npx emdash site export / site import (see README, "Moving content between sites").
   • Code deploys on push once Workers Builds is connected (see README).`);

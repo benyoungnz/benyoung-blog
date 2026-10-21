@@ -19,3 +19,5 @@ pnpm-debug.log*
 # macOS-specific files
 .DS_Store
 web/.cli/emdash/auth.json
+
+content-drafts/

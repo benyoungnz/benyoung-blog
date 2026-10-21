@@ -1,0 +1,57 @@
+---
+import { Code } from 'astro:components';
+
+/** One cheat-sheet entry: name, import path, when to use, props, live demo (slot), snippet. */
+interface Props {
+  name: string;
+  path: string;
+  use: string;
+  props?: [string, string][];
+  code: string;
+  wide?: boolean;
+  surface?: boolean;
+}
+const { name, path, use, props = [], code, wide, surface } = Astro.props;
+const id = name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+---
+
+<article class="spec" id={id}>
+  <header class="spec__head">
+    <h3><a href={`#${id}`}>{name}</a></h3>
+    <code class="spec__path">@kit/{path}</code>
+  </header>
+  <p class="spec__use">{use}</p>
+  <div class:list={['spec__demo', { 'spec__demo--wide': wide, 'spec__demo--surface': surface }]}><slot /></div>
+  <div class="spec__ref">
+    {props.length > 0 && (
+      <table>
+        <thead><tr><th>Prop</th><th>Type / default</th></tr></thead>
+        <tbody>{props.map(([p, t]) => <tr><td><code>{p}</code></td><td>{t}</td></tr>)}</tbody>
+      </table>
+    )}
+    <Code code={code.trim()} lang="astro" theme="github-light" wrap />
+  </div>
+</article>
+
+<style>
+  .spec { display: grid; gap: var(--s-4); padding-block: var(--s-10); border-top: 1px solid var(--line); scroll-margin-top: calc(var(--header-h) + var(--s-4)); }
+  .spec__head { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--s-2) var(--s-4); }
+  h3 { font-size: var(--fs-h3); }
+  h3 a { text-decoration: none; }
+  h3 a:hover { text-decoration: underline; text-decoration-color: var(--mint); text-decoration-thickness: 3px; }
+  .spec__path { font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--brand-ink); background: var(--mint-soft); padding: 0.2rem 0.5rem; border-radius: var(--r-sm); }
+  .spec__use { color: var(--ink-2); max-width: 70ch; }
+
+  .spec__demo { padding: var(--s-8); border: 1px dashed var(--line-strong); border-radius: var(--r-xl); background: var(--paper); overflow: hidden; }
+  .spec__demo--surface { background: var(--surface); }
+  .spec__demo--wide { padding: 0; }
+
+  .spec__ref { display: grid; gap: var(--s-4); align-items: start; }
+  @media (min-width: 1000px) { .spec__ref { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); } }
+  table { width: 100%; border-collapse: collapse; font-size: var(--fs-sm); }
+  th, td { text-align: left; padding: var(--s-2) var(--s-3); border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-size: var(--fs-xs); text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-3); }
+  td code { font-family: var(--font-mono); font-size: 0.8rem; color: var(--ink); white-space: nowrap; }
+  td { color: var(--ink-2); }
+  .spec__ref :global(pre) { margin: 0; padding: var(--s-4) var(--s-5); border-radius: var(--r-lg); border: 1px solid var(--line); background: var(--surface) !important; font-family: var(--font-mono); font-size: 0.8rem; line-height: 1.6; }
+</style>

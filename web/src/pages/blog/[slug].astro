@@ -1,0 +1,118 @@
+---
+import { getEmDashEntry, getSeoMeta, decodeSlug } from 'emdash';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '@kit/layout/Section.astro';
+import SectionHeading from '@kit/layout/SectionHeading.astro';
+import PostHeader from '@kit/blog/PostHeader.astro';
+import PostCover from '@kit/blog/PostCover.astro';
+import PostGrid from '@kit/blog/PostGrid.astro';
+import ArticleLayout from '@kit/blog/ArticleLayout.astro';
+import TableOfContents from '@kit/blog/TableOfContents.astro';
+import AuthorMini from '@kit/blog/AuthorMini.astro';
+import AuthorCard from '@kit/blog/AuthorCard.astro';
+import CtaCard from '@kit/blog/CtaCard.astro';
+import PostBody from '@kit/pt/PostBody.astro';
+import Callout from '@kit/blog/Callout.astro';
+import { parseTakeaways } from '@lib/ai';
+import { author } from '@data/site';
+import { allPosts, headingsOf, postHref, terms, toPost } from '@lib/content';
+import { getVideos } from '@lib/youtube';
+import VideoGrid from '../../components/video/VideoGrid.astro';
+
+const slug = decodeSlug(Astro.params.slug);
+if (!slug) return Astro.rewrite('/404');
+
+const { entry, cacheHint } = await getEmDashEntry('posts', slug);
+if (!entry) return Astro.rewrite('/404');
+if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
+
+const post = toPost(entry);
+const headings = headingsOf(entry.data.content);
+const takeaways = parseTakeaways(entry.data.key_takeaways);
+const category = terms(entry, 'category')[0];
+const crumbs = [
+  { label: 'Blog', href: '/blog/' },
+  ...(category ? [{ label: category.label, href: `/categories/${category.slug}/` }] : []),
+  { label: post.title },
+];
+
+const imageUrl = entry.data.featured_image?.meta?.storageKey
+  ? new URL(`/_emdash/api/media/file/${entry.data.featured_image.meta.storageKey}`, Astro.url).href
+  : undefined;
+// Canonical origin (benyoung.blog), not the request host, so previews and workers.dev don't self-canonicalise
+const seo = getSeoMeta(entry, { siteTitle: 'Ben Young', siteUrl: (Astro.site ?? Astro.url).origin, path: postHref(slug), defaultOgImage: imageUrl });
+
+// Related: the AI-picked list (similar content), topped up by shared tags if it's short
+const others = (await allPosts(Astro)).filter((e) => e.id !== entry.id).map(toPost);
+const bySlug = new Map(others.map((p) => [p.slug, p]));
+const picked = ((entry.data.related as string[] | undefined) ?? []).map((s) => bySlug.get(s)).filter((p): p is NonNullable<typeof p> => Boolean(p));
+const byTags = others
+  .filter((p) => !picked.includes(p))
+  .map((p) => ({ p, score: p.tags.filter((t) => post.tags.includes(t)).length }))
+  .filter((r) => r.score > 0)
+  .sort((a, b) => b.score - a.score || +b.p.pubDate - +a.p.pubDate)
+  .map((r) => r.p);
+const related = [...picked, ...byTags].slice(0, 3);
+// Videos that list this post among their related posts
+const relatedVideos = (await getVideos(Astro)).filter((v) => v.relatedPosts.includes(slug)).slice(0, 3);
+---
+
+<BaseLayout
+  title={post.title}
+  description={seo.description ?? post.description}
+  image={seo.ogImage ?? imageUrl}
+  canonical={seo.canonical ?? new URL(postHref(slug), Astro.site).href}
+  robots={seo.robots}
+  type="article"
+  publishedTime={post.pubDate?.toISOString()}
+  modifiedTime={(post.updatedDate ?? entry.data.updatedAt)?.toISOString?.()}
+  content={{ collection: 'posts', id: entry.data.id, slug }}
+  breadcrumbs={crumbs}
+>
+  <div class="container">
+    <PostHeader post={post} crumbs={crumbs} />
+
+    <ArticleLayout>
+      {headings.length > 2 && <TableOfContents slot="toc-mobile" headings={headings} maxDepth={3} collapsible />}
+
+      {post.image && <div {...entry.edit.featured_image}><PostCover post={post} size="hero" eager /></div>}
+      {takeaways.length > 0 && (
+        <div class="takeaways" {...entry.edit.key_takeaways}>
+          <Callout type="takeaways">
+            <ul>{takeaways.map((t) => <li>{t.lead && <strong>{t.lead}.</strong>} {t.detail}</li>)}</ul>
+          </Callout>
+        </div>
+      )}
+      <PostBody value={entry.data.content} class="article-body" />
+      <AuthorCard author={author} />
+
+      <Fragment slot="aside">
+        <AuthorMini author={author} />
+        {headings.length > 2 && <TableOfContents headings={headings} maxDepth={3} />}
+        <CtaCard title="New posts, roughly twice a month" href="/rss.xml" action="Get the RSS feed" tone="violet">
+          <p>No newsletter, no tracking. Just the feed.</p>
+        </CtaCard>
+      </Fragment>
+    </ArticleLayout>
+  </div>
+
+  {relatedVideos.length > 0 && (
+    <Section tone="surface" aria-labelledby="related-videos">
+      <SectionHeading id="related-videos" eyebrow="YouTube" title="Watch the video" />
+      <VideoGrid videos={relatedVideos} />
+    </Section>
+  )}
+
+  {related.length > 0 && (
+    <Section aria-labelledby="related">
+      <SectionHeading id="related" title="Related posts" />
+      <PostGrid posts={related} />
+    </Section>
+  )}
+</BaseLayout>
+
+<style>
+  :global(.article-body) { margin-top: var(--s-10); }
+  .takeaways { margin-top: var(--s-10); }
+  .takeaways :global(ul) { display: grid; gap: var(--s-2); padding-left: 1.1em; margin: 0; }
+</style>

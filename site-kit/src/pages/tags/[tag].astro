@@ -1,0 +1,51 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '@kit/layout/Section.astro';
+import SectionHeading from '@kit/layout/SectionHeading.astro';
+import Breadcrumbs from '@kit/base/Breadcrumbs.astro';
+import Chip from '@kit/base/Chip.astro';
+import PostGrid from '@kit/blog/PostGrid.astro';
+import ToolCard from '@kit/tools/ToolCard.astro';
+import Grid from '@kit/layout/Grid.astro';
+import { posts } from '@data/posts';
+import { toolCategories } from '@data/tools';
+import { toneFor } from '@data/types';
+
+export function getStaticPaths() {
+  return [...new Set(posts.flatMap((p) => p.tags))].map((tag) => ({ params: { tag } }));
+}
+
+const { tag } = Astro.params as { tag: string };
+const tagged = posts.filter((p) => p.tags.includes(tag)).sort((a, b) => +b.pubDate - +a.pubDate);
+const tools = toolCategories.flatMap((c) => c.tools.filter((t) => t.tags?.includes(tag)).map((t) => ({ tool: t, tone: c.tone })));
+const others = [...new Set(posts.flatMap((p) => p.tags))].filter((t) => t !== tag).sort();
+---
+
+<BaseLayout title={`Posts tagged ${tag}`} description={`${tagged.length} posts about ${tag}.`}>
+  <Section space="sm">
+    <div class="head">
+      <Breadcrumbs items={[{ label: 'Tags', href: '/tags' }, { label: tag }]} />
+      <SectionHeading level={1} size="display" title={`#${tag}`} lede={`${tagged.length} ${tagged.length === 1 ? 'post' : 'posts'}${tools.length ? ` and ${tools.length} ${tools.length === 1 ? 'tool' : 'tools'}` : ''}, newest first.`} />
+    </div>
+    <PostGrid posts={tagged} eagerFirst={3} />
+  </Section>
+
+  {tools.length > 0 && (
+    <Section tone="surface" aria-labelledby="tag-tools">
+      <SectionHeading id="tag-tools" eyebrow="Tools" title={`Tools for ${tag}`} />
+      <Grid cols={3}>{tools.map(({ tool, tone }) => <ToolCard tool={tool} tone={tone} />)}</Grid>
+    </Section>
+  )}
+
+  <Section aria-labelledby="other-tags" space="sm">
+    <SectionHeading id="other-tags" title="Other topics" size="h3" />
+    <nav class="others" aria-labelledby="other-tags">
+      {others.map((t) => <Chip href={`/tags/${t}`} tone={toneFor(t)}>{t}</Chip>)}
+    </nav>
+  </Section>
+</BaseLayout>
+
+<style>
+  .head { display: grid; gap: var(--s-6); padding-top: var(--s-8); }
+  .others { display: flex; flex-wrap: wrap; gap: var(--s-2); }
+</style>

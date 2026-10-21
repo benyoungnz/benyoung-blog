@@ -1,0 +1,82 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '@kit/layout/Section.astro';
+import SectionHeading from '@kit/layout/SectionHeading.astro';
+import PostHeader from '@kit/blog/PostHeader.astro';
+import PostCover from '@kit/blog/PostCover.astro';
+import PostGrid from '@kit/blog/PostGrid.astro';
+import ArticleLayout from '@kit/blog/ArticleLayout.astro';
+import Prose from '@kit/blog/Prose.astro';
+import TableOfContents from '@kit/blog/TableOfContents.astro';
+import AuthorMini from '@kit/blog/AuthorMini.astro';
+import AuthorCard from '@kit/blog/AuthorCard.astro';
+import CtaCard from '@kit/blog/CtaCard.astro';
+import LinkList from '@kit/blog/LinkList.astro';
+import Callout from '@kit/blog/Callout.astro';
+import Faq from '@kit/blog/Faq.astro';
+import { posts } from '@data/posts';
+import { author } from '@data/site';
+import { toolCategories } from '@data/tools';
+import type { Post } from '@data/types';
+import { Content, getHeadings } from '@data/sample-article.md';
+
+export function getStaticPaths() {
+  return posts.map((post) => ({ params: { slug: post.slug }, props: { post } }));
+}
+
+const { post } = Astro.props as { post: Post };
+// Demo: every post renders the same sample body. With EmDash, render the entry's content here.
+const headings = [...getHeadings(), { depth: 2, slug: 'faq', text: 'Frequently asked questions' }];
+const related = posts.filter((p) => p.slug !== post.slug && p.tags.some((t) => post.tags.includes(t))).slice(0, 3);
+const tools = toolCategories.flatMap((c) => c.tools).slice(0, 4);
+const faqs = [
+  { question: 'Are MCP servers safe to install?', answer: '<p>As safe as any other dependency you run with access to your data. Pin versions, scope credentials and read the code of anything that touches mail or files.</p>' },
+  { question: 'How do I pin an MCP server version?', answer: '<p>Use an exact version in the command, for example <code>npx mail-mcp@1.4.2</code>, instead of a bare package name.</p>' },
+  { question: 'Does this apply to Veeam Intelligence MCP?', answer: '<p>Yes, the same rules apply. The wrapper defaults to read-only tools and logs every call.</p>' },
+];
+---
+
+<BaseLayout title={post.title} description={post.description}>
+  <div class="container">
+    <PostHeader post={post} />
+
+    <ArticleLayout>
+      <TableOfContents slot="toc-mobile" headings={headings} collapsible />
+
+      <PostCover post={post} size="hero" eager />
+      <Prose class="article-body">
+        <Callout type="takeaways">
+          <ul>
+            <li><strong>MCP servers are dependencies.</strong> Treat them like code with access to your data.</li>
+            <li><strong>Pin every version.</strong> Unpinned <code>npx</code> pulls whatever is newest.</li>
+            <li><strong>Scope and log.</strong> Least-privilege credentials, and read the logs.</li>
+          </ul>
+        </Callout>
+        <Content />
+      </Prose>
+      <Faq items={faqs} />
+      <AuthorCard author={author} />
+
+      <Fragment slot="aside">
+        <AuthorMini author={author} />
+        <TableOfContents headings={headings} />
+        <CtaCard title="Try the MCP wrapper" href="/tools/veeam-intelligence-mcp" action="Open the tool" tone="violet">
+          <p>Streamable HTTP for Veeam Intelligence, read-only by default.</p>
+        </CtaCard>
+        <LinkList title="Tools" links={tools.map((t) => ({ label: t.title, href: t.href }))} more={{ label: 'All tools', href: '/tools' }} />
+      </Fragment>
+    </ArticleLayout>
+  </div>
+
+  {related.length > 0 && (
+    <Section aria-labelledby="related">
+      <SectionHeading id="related" title="Related posts" />
+      <PostGrid posts={related} />
+    </Section>
+  )}
+</BaseLayout>
+
+<style>
+  /* Prose is a child component, so reach its root with :global */
+  :global(.article-body) { margin-top: var(--s-10); }
+</style>

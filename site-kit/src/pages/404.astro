@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Section from '@kit/layout/Section.astro';
+import SectionHeading from '@kit/layout/SectionHeading.astro';
+import Button from '@kit/base/Button.astro';
+import CenteredHero from '@kit/tools/CenteredHero.astro';
+import PostGrid from '@kit/blog/PostGrid.astro';
+import { posts } from '@data/posts';
+
+const recent = [...posts].sort((a, b) => +b.pubDate - +a.pubDate).slice(0, 3);
+---
+
+<BaseLayout title="Page not found" description="That page doesn't exist.">
+  <CenteredHero eyebrow="404" title="That restore point doesn't exist" lede="The page may have moved when the blog changed platforms, or the link has a typo.">
+    <div class="actions">
+      <Button href="/blog" icon="arrow-right">Browse the blog</Button>
+      <Button href="/tools" variant="outline">See the tools</Button>
+    </div>
+  </CenteredHero>
+
+  <Section aria-labelledby="recent">
+    <SectionHeading id="recent" title="Recent posts" align="center" />
+    <PostGrid posts={recent} />
+  </Section>
+</BaseLayout>
+
+<style>
+  .actions { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--s-3); }
+</style>

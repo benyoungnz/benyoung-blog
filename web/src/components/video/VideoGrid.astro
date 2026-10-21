@@ -1,0 +1,22 @@
+---
+/** 3 → 2 → 1 columns of VideoCards; `data-kind` lets the /videos/ chips filter it. */
+import VideoCard from './VideoCard.astro';
+import type { Video } from '@lib/youtube';
+
+interface Props {
+  videos: Video[];
+  eagerFirst?: number;
+}
+const { videos, eagerFirst = 0 } = Astro.props;
+---
+
+<ul class="grid" role="list">
+  {videos.map((v, i) => <li data-kind={v.short ? 'short' : 'video'}><VideoCard video={v} eager={i < eagerFirst} /></li>)}
+</ul>
+
+<style>
+  .grid { display: grid; gap: var(--s-12) var(--s-8); list-style: none; padding: 0; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1000px) { .grid { grid-template-columns: repeat(3, 1fr); } }
+  li[hidden] { display: none; }
+</style>

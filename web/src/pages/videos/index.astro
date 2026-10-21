@@ -1,0 +1,68 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '@kit/layout/Section.astro';
+import SectionHeading from '@kit/layout/SectionHeading.astro';
+import Chip from '@kit/base/Chip.astro';
+import Button from '@kit/base/Button.astro';
+import VideoGrid from '../../components/video/VideoGrid.astro';
+import { CHANNEL, getVideos } from '@lib/youtube';
+
+const videos = await getVideos(Astro);
+const shorts = videos.filter((v) => v.short).length;
+---
+
+<BaseLayout title="Videos" description="Demos, walkthroughs and the occasional ramble from Ben's YouTube channel.">
+  <Section space="sm">
+    <div class="intro">
+      <SectionHeading
+        level={1}
+        size="display"
+        eyebrow="YouTube"
+        title="Videos"
+        lede="Demos, walkthroughs and the occasional ramble: Veeam APIs, MCP, AI and whatever I'm building at the time."
+      >
+        <Button slot="actions" href={`${CHANNEL.url}?sub_confirmation=1`} icon="arrow-up-right" target="_blank" rel="noopener">Subscribe on YouTube</Button>
+      </SectionHeading>
+    </div>
+
+    {videos.length ? (
+      <div data-video-browser>
+        {shorts > 0 && (
+          <div class="chips" role="group" aria-label="Filter videos">
+            <Chip active data-filter="">All</Chip>
+            <Chip data-filter="video" count={videos.length - shorts}>Videos</Chip>
+            <Chip data-filter="short" count={shorts}>Shorts</Chip>
+          </div>
+        )}
+        <VideoGrid videos={videos} eagerFirst={3} />
+        <p class="more"><a class="link" href={`${CHANNEL.url}/videos`} target="_blank" rel="noopener">See the channel on YouTube</a></p>
+      </div>
+    ) : (
+      <p class="empty">No videos yet. <a class="link" href={CHANNEL.url}>Watch on the channel</a> instead.</p>
+    )}
+  </Section>
+</BaseLayout>
+
+<script>
+  for (const root of document.querySelectorAll<HTMLElement>('[data-video-browser]')) {
+    const chips = [...root.querySelectorAll<HTMLButtonElement>('[data-filter]')];
+    const items = [...root.querySelectorAll<HTMLElement>('li[data-kind]')];
+    chips.forEach((chip) =>
+      chip.addEventListener('click', () => {
+        const kind = chip.dataset.filter!;
+        items.forEach((li) => (li.hidden = Boolean(kind) && li.dataset.kind !== kind));
+        chips.forEach((c) => {
+          c.classList.toggle('is-active', c === chip);
+          c.setAttribute('aria-pressed', String(c === chip));
+        });
+      }),
+    );
+  }
+</script>
+
+<style>
+  .intro { padding-top: var(--s-8); margin-bottom: var(--s-10); }
+  .chips { display: flex; flex-wrap: wrap; gap: var(--s-2); margin-bottom: var(--s-10); }
+  .more { margin-top: var(--s-12); text-align: center; color: var(--ink-3); }
+  .empty { color: var(--ink-3); }
+</style>

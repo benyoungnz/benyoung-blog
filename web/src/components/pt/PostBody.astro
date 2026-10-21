@@ -1,0 +1,23 @@
+---
+/** Renders a post's Portable Text inside the kit's Prose wrapper, with the site's block overrides. */
+import { PortableText } from 'emdash/ui';
+import type { PortableTextBlock } from 'emdash';
+import Prose from '@kit/blog/Prose.astro';
+import Block from './Block.astro';
+import CodeBlock from './CodeBlock.astro';
+import { headingsOf } from '@lib/content';
+
+interface Props {
+  value: PortableTextBlock[] | undefined;
+  class?: string;
+}
+const { value = [], class: className } = Astro.props;
+
+// Tag h2/h3 blocks with the same ids the table of contents uses
+const anchors = new Map(headingsOf(value).map((h) => [h.key, h.slug]));
+const content = value.map((b) => (anchors.has((b as { _key: string })._key) ? { ...b, anchor: anchors.get((b as { _key: string })._key) } : b));
+---
+
+<Prose class={className}>
+  <PortableText value={content} components={{ block: Block, type: { code: CodeBlock } }} />
+</Prose>

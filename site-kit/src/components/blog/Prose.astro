@@ -1,0 +1,11 @@
+---
+import '@styles/prose.css';
+
+/** Wrap rendered Markdown / CMS rich text. Styles live in styles/prose.css. */
+interface Props {
+  class?: string;
+}
+const { class: className } = Astro.props;
+---
+
+<div class:list={['prose', className]}><slot /></div>

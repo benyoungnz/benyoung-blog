@@ -1,0 +1,16 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import TermArchive from '../../components/site/TermArchive.astro';
+import { allPosts, postsWithTerm, termIndex, toPost } from '@lib/content';
+
+const slug = Astro.params.category?.toLowerCase();
+const entries = await allPosts(Astro);
+const index = termIndex(entries, 'category');
+const term = index.find((t) => t.slug === slug);
+if (!term) return Astro.rewrite('/404');
+const posts = postsWithTerm(entries, 'category', term.slug).map(toPost);
+---
+
+<BaseLayout title={`${term.label} posts`} description={`${posts.length} posts about ${term.label}.`} breadcrumbs={[{ label: 'Categories', href: '/categories/' }, { label: term.label }]}>
+  <TermArchive term={term} posts={posts} others={index.filter((t) => t.slug !== term.slug)} base="/categories/" crumb="Categories" prefix="" />
+</BaseLayout>

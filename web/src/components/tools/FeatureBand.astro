@@ -1,0 +1,35 @@
+---
+import Section from '../layout/Section.astro';
+import SectionHeading from '../layout/SectionHeading.astro';
+import type { Tone } from '@data/types';
+
+/**
+ * Full-bleed colourful band: centred heading, then a visual (slot "visual") beside
+ * the default slot (usually a NumberedList). `flip` puts the visual on the right.
+ */
+interface Props {
+  eyebrow?: string;
+  title: string;
+  lede?: string;
+  tone?: Tone;
+  flip?: boolean;
+}
+const { eyebrow, title, lede, tone = 'mint', flip } = Astro.props;
+---
+
+<Section tone={tone}>
+  <SectionHeading eyebrow={eyebrow} title={title} lede={lede} align="center" />
+  <div class:list={['fb', { 'fb--flip': flip }]}>
+    {Astro.slots.has('visual') && <div class="fb__visual"><slot name="visual" /></div>}
+    <div class="fb__body"><slot /></div>
+  </div>
+</Section>
+
+<style>
+  .fb { display: grid; gap: var(--s-10); align-items: center; margin-top: var(--s-4); }
+  .fb__visual > :global(*) { box-shadow: var(--shadow-lift); }
+  @media (min-width: 900px) {
+    .fb { grid-template-columns: 1fr 1fr; gap: var(--s-16); }
+    .fb--flip .fb__visual { order: 2; }
+  }
+</style>

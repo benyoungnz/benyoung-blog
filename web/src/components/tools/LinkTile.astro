@@ -1,0 +1,44 @@
+---
+import IconBlob from '../base/IconBlob.astro';
+import type { IconName } from '../base/Icon.astro';
+import type { Tone } from '@data/types';
+
+/** Compact icon + title + one-liner link. Use inside TileGrid. */
+interface Props {
+  href: string;
+  title: string;
+  text?: string;
+  icon: IconName;
+  tone?: Tone;
+  variant?: 'paper' | 'surface';
+}
+const { href, title, text, icon, tone = 'mint', variant = 'paper' } = Astro.props;
+---
+
+<a class:list={['tile', `tile--${variant}`]} href={href}>
+  <IconBlob name={icon} tone={tone} size="sm" />
+  <span class="tile__text">
+    <span class="tile__title">{title}</span>
+    {text && <span class="tile__sub">{text}</span>}
+  </span>
+</a>
+
+<style>
+  .tile {
+    display: flex;
+    gap: var(--s-3);
+    align-items: flex-start;
+    height: 100%;
+    padding: var(--s-4) var(--s-5);
+    border-radius: var(--r-lg);
+    text-decoration: none;
+    border: 1px solid transparent;
+    transition: transform var(--dur) var(--ease), border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+  }
+  .tile--paper { background: var(--paper); border-color: var(--line); }
+  .tile--surface { background: var(--surface); }
+  .tile:hover { transform: translateY(-2px); border-color: var(--line-strong); box-shadow: var(--shadow-card); }
+  .tile__text { display: grid; gap: 2px; }
+  .tile__title { font-family: var(--font-display); font-weight: 700; color: var(--ink); line-height: 1.25; }
+  .tile__sub { font-size: var(--fs-sm); color: var(--ink-3); line-height: 1.4; }
+</style>

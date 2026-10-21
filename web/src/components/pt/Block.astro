@@ -1,0 +1,16 @@
+---
+/**
+ * Paragraph/heading/blockquote renderer. Matches EmDash's Block output (including the
+ * has-text-align-* class the editor can set), plus an `id` on h2/h3 from PostBody so the
+ * table of contents can link to them.
+ */
+interface Props {
+  node: { style?: string; anchor?: string; textAlign?: string };
+}
+const { node } = Astro.props;
+const align = node.textAlign && ['center', 'right', 'justify'].includes(node.textAlign) ? `has-text-align-${node.textAlign}` : undefined;
+const style = node.style ?? 'normal';
+const Tag = (/^h[1-6]$/.test(style) ? style : style === 'blockquote' ? 'blockquote' : 'p') as 'p';
+---
+
+<Tag id={node.anchor} class={align}><slot /></Tag>

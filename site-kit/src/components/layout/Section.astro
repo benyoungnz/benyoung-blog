@@ -1,0 +1,33 @@
+---
+import type { Tone } from '@data/types';
+
+/**
+ * Full-bleed vertical band with a centred container inside.
+ * tone: paper (default) · surface (soft grey-green) · a Tone for a colourful band.
+ */
+interface Props {
+  tone?: 'paper' | 'surface' | Tone;
+  space?: 'none' | 'sm' | 'md';
+  id?: string;
+  narrow?: boolean;
+  dots?: boolean;
+  as?: 'section' | 'div';
+  'aria-labelledby'?: string;
+}
+
+const { tone = 'paper', space = 'md', id, narrow, dots, as: Tag = 'section', ...rest } = Astro.props;
+const bg = tone === 'paper' ? 'var(--paper)' : tone === 'surface' ? 'var(--surface)' : `var(--tint-${tone})`;
+---
+
+<Tag id={id} class:list={['section', `section--${space}`, { 'dot-grid': dots }]} style={`--section-bg: ${bg}`} {...rest}>
+  <div class:list={['container', { 'container--narrow': narrow }]}>
+    <slot />
+  </div>
+</Tag>
+
+<style>
+  .section { background-color: var(--section-bg); }
+  .section--md { padding-block: var(--section-y); }
+  .section--sm { padding-block: calc(var(--section-y) / 2); }
+  .container--narrow { max-width: calc(var(--measure) + var(--gutter) * 2); }
+</style>

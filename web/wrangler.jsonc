@@ -1,0 +1,32 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "benyoung-blog",
+	"main": "./src/worker.ts",
+	"compatibility_date": "2026-02-24",
+	"compatibility_flags": ["nodejs_compat"],
+	// D1 and R2 are provisioned by wrangler on first deploy (no ids needed here).
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "benyoung-blog",
+		},
+	],
+	"r2_buckets": [
+		{
+			"binding": "MEDIA",
+			"bucket_name": "benyoung-blog-media",
+		},
+	],
+	// Sandboxed plugins need Worker Loader (Workers Paid). Left off to stay on the free plan:
+	// "worker_loaders": [{ "binding": "LOADER" }],
+	// Maintenance + scheduled publishing. Every 15 min keeps cron at 96 runs/day
+	// (the template's every-minute default costs 1,440/day against the free plan).
+	"triggers": {
+		"crons": ["*/15 * * * *"],
+	},
+	"observability": { "enabled": true },
+	// Serve the apex domain from this Worker. Cloudflare creates the DNS record and cert on
+	// deploy; it refuses if benyoung.blog still has its own A/CNAME record (delete that first).
+	// www.benyoung.blog keeps its existing redirect to the apex.
+	"routes": [{ "pattern": "benyoung.blog", "custom_domain": true }],
+}

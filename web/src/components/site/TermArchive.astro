@@ -1,0 +1,42 @@
+---
+/** One tag or category: header, its posts, and chips for the other terms. */
+import Section from '@kit/layout/Section.astro';
+import SectionHeading from '@kit/layout/SectionHeading.astro';
+import Breadcrumbs from '@kit/base/Breadcrumbs.astro';
+import Chip from '@kit/base/Chip.astro';
+import PostGrid from '@kit/blog/PostGrid.astro';
+import { toneFor, type Post } from '@data/types';
+import type { TermSummary } from '@lib/content';
+
+interface Props {
+  term: { slug: string; label: string };
+  posts: Post[];
+  others: TermSummary[];
+  base: string;
+  crumb: string;
+  prefix?: string;
+}
+const { term, posts, others, base, crumb, prefix = '' } = Astro.props;
+---
+
+<Section space="sm">
+  <div class="head">
+    <Breadcrumbs items={[{ label: crumb, href: base }, { label: term.label }]} />
+    <SectionHeading level={1} size="display" title={`${prefix}${term.label}`} lede={`${posts.length} ${posts.length === 1 ? 'post' : 'posts'}, newest first.`} />
+  </div>
+  <PostGrid posts={posts} eagerFirst={3} />
+</Section>
+
+{others.length > 0 && (
+  <Section aria-labelledby="other-terms" space="sm">
+    <SectionHeading id="other-terms" title="Other topics" size="h3" />
+    <nav class="others" aria-labelledby="other-terms">
+      {others.map((t) => <Chip href={`${base}${t.slug}/`} tone={toneFor(t.slug)} count={t.count}>{t.label}</Chip>)}
+    </nav>
+  </Section>
+)}
+
+<style>
+  .head { display: grid; gap: var(--s-6); padding-top: var(--s-8); }
+  .others { display: flex; flex-wrap: wrap; gap: var(--s-2); }
+</style>

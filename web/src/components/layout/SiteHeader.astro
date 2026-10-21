@@ -1,0 +1,112 @@
+---
+import Button from '../base/Button.astro';
+import Icon from '../base/Icon.astro';
+import { site, nav as defaultNav, headerCta } from '@data/site';
+
+interface Props {
+  /** Primary nav; the layout passes the EmDash "primary" menu */
+  nav?: { label: string; href: string }[];
+  siteName?: string;
+}
+const { nav = defaultNav, siteName = site.name } = Astro.props;
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isCurrent = (href: string) => {
+  const h = href.replace(/\/$/, '') || '/';
+  return h !== '/' && (path === h || path.startsWith(h + '/'));
+};
+---
+
+<header class="header" data-header>
+  <div class="container header__bar">
+    <a class="brand" href="/" aria-label={`${siteName}, home`}>
+      <img src={site.logo} alt="" width="28" height="36" />
+      <span>{siteName}</span>
+    </a>
+
+    <nav class="nav" id="site-nav" aria-label="Main">
+      <ul>
+        {nav.map((item) => (
+          <li><a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>{item.label}</a></li>
+        ))}
+      </ul>
+      <Button href={headerCta.href} size="sm" class="nav__cta">{headerCta.label}</Button>
+    </nav>
+
+    <button class="menu-btn" type="button" aria-controls="site-nav" aria-expanded="false" data-menu-btn>
+      <span class="visually-hidden">Menu</span>
+      <Icon name="menu" class="menu-btn__open" />
+      <Icon name="close" class="menu-btn__close" />
+    </button>
+  </div>
+</header>
+
+<script>
+  const header = document.querySelector<HTMLElement>('[data-header]');
+  const btn = header?.querySelector<HTMLButtonElement>('[data-menu-btn]');
+  btn?.addEventListener('click', () => {
+    const open = btn.getAttribute('aria-expanded') !== 'true';
+    btn.setAttribute('aria-expanded', String(open));
+    header!.classList.toggle('is-open', open);
+  });
+  // Shadow appears once the page scrolls under the sticky bar
+  const onScroll = () => header?.classList.toggle('is-scrolled', scrollY > 8);
+  addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+</script>
+
+<style>
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgb(255 255 255 / 0.86);
+    backdrop-filter: saturate(1.4) blur(12px);
+    border-bottom: 1px solid transparent;
+    transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+  }
+  .header.is-scrolled { border-color: var(--line); box-shadow: var(--shadow-sm); }
+
+  .header__bar { display: flex; align-items: center; justify-content: space-between; gap: var(--s-6); height: var(--header-h); }
+
+  .brand { display: inline-flex; align-items: center; gap: var(--s-3); text-decoration: none; font-family: var(--font-display); font-weight: 750; font-size: 1.25rem; letter-spacing: -0.02em; }
+  .brand img { width: 28px; height: auto; }
+
+  .nav { display: flex; align-items: center; gap: var(--s-6); }
+  .nav ul { display: flex; gap: var(--s-1); list-style: none; padding: 0; }
+  .nav a:not(.btn) {
+    display: block;
+    padding: 0.5rem 0.8rem;
+    border-radius: var(--r-pill);
+    font-weight: 550;
+    font-size: 0.9375rem;
+    color: var(--ink-2);
+    text-decoration: none;
+    transition: background-color var(--dur) var(--ease), color var(--dur) var(--ease);
+  }
+  .nav a:not(.btn):hover { color: var(--ink); background: var(--surface-2); }
+  .nav a[aria-current='page'] { color: var(--ink); background: var(--mint-soft); }
+
+  .menu-btn { display: none; background: none; border: 0; padding: var(--s-2); border-radius: var(--r-md); }
+  .menu-btn :global(.menu-btn__close) { display: none; }
+
+  @media (max-width: 819px) {
+    .menu-btn { display: inline-grid; }
+    .nav {
+      position: absolute;
+      inset: var(--header-h) 0 auto;
+      flex-direction: column;
+      align-items: stretch;
+      gap: var(--s-4);
+      padding: var(--s-4) var(--gutter) var(--s-6);
+      background: var(--paper);
+      border-bottom: 1px solid var(--line);
+      box-shadow: var(--shadow-card);
+      display: none;
+    }
+    .nav ul { flex-direction: column; }
+    .nav a:not(.btn) { padding: 0.8rem 0.9rem; font-size: 1.0625rem; }
+    .header.is-open .nav { display: flex; }
+    .header.is-open :global(.menu-btn__open) { display: none; }
+    .header.is-open :global(.menu-btn__close) { display: block; }
+  }
+</style>

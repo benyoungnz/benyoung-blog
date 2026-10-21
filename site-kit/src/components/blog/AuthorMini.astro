@@ -1,0 +1,25 @@
+---
+import Avatar from '../base/Avatar.astro';
+import type { Author } from '@data/types';
+
+interface Props {
+  author: Author;
+}
+const { author } = Astro.props;
+---
+
+<div class="am">
+  <Avatar src={author.avatar} alt="" size={44} />
+  <div>
+    <p class="am__name">{author.href ? <a href={author.href}>{author.name}</a> : author.name}</p>
+    <p class="am__role">{author.role}</p>
+  </div>
+</div>
+
+<style>
+  .am { display: flex; align-items: center; gap: var(--s-3); }
+  .am__name { font-weight: 650; color: var(--ink); line-height: 1.3; }
+  .am__name a { text-decoration: none; }
+  .am__name a:hover { text-decoration: underline; text-decoration-color: var(--mint); text-decoration-thickness: 2px; }
+  .am__role { font-size: var(--fs-sm); color: var(--ink-3); line-height: 1.3; }
+</style>

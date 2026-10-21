@@ -1,0 +1,28 @@
+---
+import Icon from '../base/Icon.astro';
+
+/** Titled list of arrow links. `more` adds a bold final link (e.g. "All tools"). */
+interface Props {
+  title: string;
+  links: { label: string; href: string }[];
+  more?: { label: string; href: string };
+}
+const { title, links, more } = Astro.props;
+---
+
+<nav class="ll" aria-label={title}>
+  <p class="eyebrow">{title}</p>
+  <ul>
+    {links.map((l) => <li><a href={l.href}>{l.label}<Icon name="arrow-right" size={16} /></a></li>)}
+    {more && <li class="ll__more"><a href={more.href}>{more.label}<Icon name="arrow-right" size={16} /></a></li>}
+  </ul>
+</nav>
+
+<style>
+  ul { list-style: none; padding: 0; margin-top: var(--s-3); display: grid; }
+  a { display: flex; justify-content: space-between; align-items: center; gap: var(--s-3); padding: 0.55rem 0; border-bottom: 1px solid var(--line); font-size: 0.9375rem; color: var(--ink-2); text-decoration: none; transition: color var(--dur) var(--ease); }
+  a :global(svg) { color: var(--ink-3); transition: transform var(--dur) var(--ease), color var(--dur) var(--ease); }
+  a:hover { color: var(--ink); }
+  a:hover :global(svg) { transform: translateX(3px); color: var(--ink); }
+  .ll__more a { font-weight: 650; color: var(--ink); border-bottom: 0; }
+</style>

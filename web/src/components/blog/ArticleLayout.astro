@@ -1,0 +1,26 @@
+---
+/**
+ * Two columns from 1200px: content (≤ --measure) + sticky sidebar (--sidebar).
+ * Below that the sidebar drops under the article. Put the TOC first in "aside"
+ * and it also renders as a collapsible block above the article on small screens
+ * when you pass it to the "toc-mobile" slot.
+ */
+---
+
+<div class="al">
+  {Astro.slots.has('toc-mobile') && <div class="al__toc-mobile"><slot name="toc-mobile" /></div>}
+  <div class="al__main"><slot /></div>
+  <aside class="al__aside" aria-label="Article sidebar"><div class="al__sticky"><slot name="aside" /></div></aside>
+</div>
+
+<style>
+  .al { display: grid; gap: var(--s-12); grid-template-columns: minmax(0, 1fr); }
+  .al__main { min-width: 0; }
+  .al__sticky { display: grid; gap: var(--s-8); }
+
+  @media (min-width: 1200px) {
+    .al { grid-template-columns: minmax(0, var(--measure)) var(--sidebar); justify-content: space-between; }
+    .al__toc-mobile { display: none; }
+    .al__sticky { position: sticky; top: calc(var(--header-h) + var(--s-6)); max-height: calc(100vh - var(--header-h) - var(--s-10)); overflow-y: auto; scrollbar-width: thin; padding: 2px; }
+  }
+</style>

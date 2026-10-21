@@ -1,0 +1,38 @@
+---
+import Icon, { type IconName } from './Icon.astro';
+import type { Tone } from '@data/types';
+
+/** An icon sitting on an offset coloured blob — the kit's stand-in for illustrations. */
+interface Props {
+  name: IconName;
+  tone?: Tone;
+  size?: 'sm' | 'md' | 'lg';
+}
+const { name, tone = 'mint', size = 'md' } = Astro.props;
+const px = { sm: 18, md: 22, lg: 30 }[size];
+---
+
+<span class:list={['blob', `blob--${size}`]} style={`--soft: var(--tint-${tone}); --deep: var(--deep-${tone})`} aria-hidden="true">
+  <Icon name={name} size={px} />
+</span>
+
+<style>
+  .blob {
+    position: relative;
+    display: inline-grid;
+    place-items: center;
+    color: var(--ink);
+    isolation: isolate;
+  }
+  .blob::before {
+    content: '';
+    position: absolute;
+    inset: 12% 0 0 18%;
+    z-index: -1;
+    background: var(--soft);
+    border-radius: 58% 42% 55% 45% / 50% 60% 40% 50%;
+  }
+  .blob--sm { width: 32px; height: 32px; }
+  .blob--md { width: 44px; height: 44px; }
+  .blob--lg { width: 60px; height: 60px; }
+</style>

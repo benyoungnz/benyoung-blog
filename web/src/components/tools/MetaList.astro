@@ -1,0 +1,21 @@
+---
+import Icon, { type IconName } from '../base/Icon.astro';
+
+/** Row of small icon + text facts ("No sign-up", "Runs in your browser"). */
+interface Props {
+  items: { icon: IconName; text: string }[];
+  align?: 'start' | 'center';
+}
+const { items, align = 'start' } = Astro.props;
+---
+
+<ul class:list={['meta', `meta--${align}`]}>
+  {items.map((i) => <li><Icon name={i.icon} size={16} />{i.text}</li>)}
+</ul>
+
+<style>
+  .meta { display: flex; flex-wrap: wrap; gap: var(--s-2) var(--s-6); list-style: none; padding: 0; font-size: var(--fs-sm); color: var(--ink-2); }
+  .meta--center { justify-content: center; }
+  li { display: inline-flex; align-items: center; gap: var(--s-2); }
+  li :global(svg) { color: var(--brand); }
+</style>

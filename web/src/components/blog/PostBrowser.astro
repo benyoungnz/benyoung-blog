@@ -1,0 +1,309 @@
+---
+import Chip from '../base/Chip.astro';
+import Button from '../base/Button.astro';
+import Icon from '../base/Icon.astro';
+import PostGrid from './PostGrid.astro';
+import type { Post } from '@data/types';
+
+/**
+ * Topic filter + post grid + "Load more", all client-side.
+ * Renders every post in the HTML (good for SEO/no-JS) and hides the overflow.
+ * - The most-used topics sit inline as quick chips; every topic lives in a
+ *   searchable multi-select ("Popular" first, then A–Z), each with its post count.
+ * - Selecting several topics shows posts tagged with any of them.
+ * - Honours ?tag=<tag> (repeatable, or comma-separated) on load so footer/tag links
+ *   can deep-link a filter, and keeps the URL in sync as the filter changes.
+ */
+interface Props {
+  posts: Post[];
+  pageSize?: number;
+  popular?: number;
+  label?: string;
+}
+const { posts, pageSize = 9, popular = 8, label = 'Filter posts by topic' } = Astro.props;
+
+const counts = new Map<string, number>();
+for (const t of posts.flatMap((p) => p.tags)) counts.set(t, (counts.get(t) ?? 0) + 1);
+const byCount = [...counts].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+const top = byCount.slice(0, popular);
+const rest = byCount.slice(popular).sort((a, b) => a[0].localeCompare(b[0]));
+const id = `pb-${Math.random().toString(36).slice(2, 8)}`;
+---
+
+<div class="browser" data-post-browser data-page-size={pageSize}>
+  <div class="browser__bar">
+    <div class="browser__chips" role="group" aria-label={label}>
+      <Chip active data-clear count={posts.length}>All</Chip>
+      {top.map(([t, n]) => <Chip data-quick={t} count={n}>{t}</Chip>)}
+      <span class="browser__extra" data-extra></span>
+    </div>
+
+    <div class="picker" data-picker>
+      <button type="button" class="picker__toggle" aria-expanded="false" aria-controls={`${id}-panel`} data-toggle>
+        <span>All topics</span>
+        <span class="picker__badge" data-badge hidden></span>
+        <Icon name="chevron-down" size={16} />
+      </button>
+
+      <div class="picker__panel" id={`${id}-panel`} hidden data-panel>
+        <label class="picker__search">
+          <Icon name="search" size={16} />
+          <span class="visually-hidden">Search topics</span>
+          <input type="search" placeholder={`Search ${counts.size} topics`} autocomplete="off" data-search />
+        </label>
+
+        <div class="picker__list" role="group" aria-label="Topics">
+          <p class="picker__group" data-group>Popular</p>
+          {top.map(([t, n]) => (
+            <label class="picker__opt" data-opt={t}>
+              <input type="checkbox" value={t} />
+              <span class="picker__name">{t}</span>
+              <span class="picker__count">{n}</span>
+            </label>
+          ))}
+          {rest.length > 0 && <p class="picker__group" data-group>All topics A–Z</p>}
+          {rest.map(([t, n]) => (
+            <label class="picker__opt" data-opt={t}>
+              <input type="checkbox" value={t} />
+              <span class="picker__name">{t}</span>
+              <span class="picker__count">{n}</span>
+            </label>
+          ))}
+          <p class="picker__none" hidden data-none>No topics match.</p>
+        </div>
+
+        <div class="picker__foot">
+          <button type="button" class="picker__link" data-clear>Clear</button>
+          <Button size="sm" variant="secondary" data-done>Done</Button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p class="browser__summary" data-summary>{posts.length} posts</p>
+
+  <PostGrid posts={posts} />
+
+  <p class="browser__empty" hidden data-empty>No posts with those topics yet.</p>
+  <p class="browser__status visually-hidden" aria-live="polite" data-status></p>
+  <div class="browser__more"><Button variant="outline" data-more>Load more</Button></div>
+</div>
+
+<script>
+  for (const root of document.querySelectorAll<HTMLElement>('[data-post-browser]')) {
+    const size = Number(root.dataset.pageSize);
+    const items = [...root.querySelectorAll<HTMLElement>('li[data-tags]')];
+    const tagsOf = new Map(items.map((li) => [li, li.dataset.tags!.split(' ')]));
+    const boxes = [...root.querySelectorAll<HTMLInputElement>('[data-opt] input')];
+    const quick = [...root.querySelectorAll<HTMLButtonElement>('[data-quick]')];
+    const allChip = root.querySelector<HTMLButtonElement>('.browser__chips [data-clear]')!;
+    const extra = root.querySelector<HTMLElement>('[data-extra]')!;
+    const picker = root.querySelector<HTMLElement>('[data-picker]')!;
+    const toggle = root.querySelector<HTMLButtonElement>('[data-toggle]')!;
+    const panel = root.querySelector<HTMLElement>('[data-panel]')!;
+    const search = root.querySelector<HTMLInputElement>('[data-search]')!;
+    const badge = root.querySelector<HTMLElement>('[data-badge]')!;
+    const none = root.querySelector<HTMLElement>('[data-none]')!;
+    const summary = root.querySelector<HTMLElement>('[data-summary]')!;
+    const more = root.querySelector<HTMLButtonElement>('[data-more]')!;
+    const empty = root.querySelector<HTMLElement>('[data-empty]')!;
+    const status = root.querySelector<HTMLElement>('[data-status]')!;
+    const known = new Set(boxes.map((b) => b.value));
+    const popular = new Set(quick.map((c) => c.dataset.quick!));
+    const selected = new Set<string>();
+    let shown = size;
+
+    const syncUrl = () => {
+      const url = new URL(location.href);
+      url.searchParams.delete('tag');
+      for (const t of selected) url.searchParams.append('tag', t);
+      history.replaceState(history.state, '', url);
+    };
+
+    const render = () => {
+      const matches = items.filter((li) => !selected.size || tagsOf.get(li)!.some((t) => selected.has(t)));
+      items.forEach((li) => (li.hidden = true));
+      matches.slice(0, shown).forEach((li) => (li.hidden = false));
+      more.parentElement!.hidden = matches.length <= shown;
+      empty.hidden = matches.length > 0;
+
+      const list = [...selected];
+      summary.textContent = list.length
+        ? `${matches.length} of ${items.length} posts tagged ${list.length > 1 ? list.slice(0, -1).join(', ') + ' or ' + list.at(-1) : list[0]}`
+        : `${items.length} posts`;
+      status.textContent = `Showing ${Math.min(shown, matches.length)} of ${matches.length} posts`;
+
+      boxes.forEach((b) => (b.checked = selected.has(b.value)));
+      quick.forEach((c) => {
+        const on = selected.has(c.dataset.quick!);
+        c.classList.toggle('is-active', on);
+        c.setAttribute('aria-pressed', String(on));
+      });
+      allChip.classList.toggle('is-active', !selected.size);
+      allChip.setAttribute('aria-pressed', String(!selected.size));
+      badge.hidden = !selected.size;
+      badge.textContent = String(selected.size);
+
+      // Selected topics that aren't quick chips get their own removable chip.
+      extra.replaceChildren(
+        ...list.filter((t) => !popular.has(t)).map((t) => {
+          const b = document.createElement('button');
+          b.type = 'button';
+          b.className = 'pill';
+          b.dataset.remove = t;
+          b.setAttribute('aria-label', `Remove ${t} filter`);
+          b.innerHTML = `<span></span><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>`;
+          b.firstElementChild!.textContent = t;
+          return b;
+        }),
+      );
+    };
+
+    const update = (fn: () => void) => { fn(); shown = size; render(); syncUrl(); };
+
+    const open = (on: boolean) => {
+      panel.hidden = !on;
+      toggle.setAttribute('aria-expanded', String(on));
+      if (on) search.focus();
+      else { search.value = ''; filterList(); }
+    };
+
+    const filterList = () => {
+      const q = search.value.trim().toLowerCase();
+      let any = false;
+      for (const box of boxes) {
+        const hit = !q || box.value.toLowerCase().includes(q);
+        box.closest<HTMLElement>('[data-opt]')!.hidden = !hit;
+        any ||= hit;
+      }
+      root.querySelectorAll<HTMLElement>('[data-group]').forEach((g) => (g.hidden = !!q));
+      none.hidden = any;
+    };
+
+    boxes.forEach((b) => b.addEventListener('change', () => update(() => (b.checked ? selected.add(b.value) : selected.delete(b.value)))));
+    quick.forEach((c) => c.addEventListener('click', () => {
+      const t = c.dataset.quick!;
+      update(() => (selected.has(t) ? selected.delete(t) : selected.add(t)));
+    }));
+    root.querySelectorAll('[data-clear]').forEach((b) => b.addEventListener('click', () => update(() => selected.clear())));
+    extra.addEventListener('click', (e) => {
+      const t = (e.target as Element).closest<HTMLElement>('[data-remove]')?.dataset.remove;
+      if (t) update(() => selected.delete(t));
+    });
+    more.addEventListener('click', () => { shown += size; render(); });
+
+    toggle.addEventListener('click', () => open(panel.hasAttribute('hidden')));
+    root.querySelector('[data-done]')!.addEventListener('click', () => { open(false); toggle.focus(); });
+    search.addEventListener('input', filterList);
+    search.addEventListener('keydown', (e) => {
+      if (e.key !== 'Enter') return;
+      e.preventDefault();
+      boxes.find((b) => !b.closest<HTMLElement>('[data-opt]')!.hidden)?.click();
+    });
+    picker.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !panel.hidden) { open(false); toggle.focus(); }
+    });
+    document.addEventListener('click', (e) => {
+      if (!panel.hidden && !picker.contains(e.target as Node)) open(false);
+    });
+
+    const params = new URLSearchParams(location.search).getAll('tag').flatMap((v) => v.split(','));
+    params.filter((t) => known.has(t)).forEach((t) => selected.add(t));
+    render();
+  }
+</script>
+
+<style>
+  .browser__bar { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: var(--s-3) var(--s-6); }
+  .browser__chips { display: flex; flex-wrap: wrap; gap: var(--s-2); flex: 1 1 32rem; }
+  .browser__extra { display: contents; }
+
+  .browser__extra :global(.pill) {
+    display: inline-flex; align-items: center; gap: 0.4em;
+    padding: 0.55rem 0.8rem 0.55rem 0.95rem;
+    border: 1px solid var(--ink); border-radius: var(--r-pill);
+    background: var(--ink); color: var(--paper);
+    font: inherit; font-size: var(--fs-sm); font-weight: 550; line-height: 1; cursor: pointer;
+  }
+  .browser__extra :global(.pill svg) { color: var(--mint); }
+  .browser__extra :global(.pill:hover) { background: var(--ink-2); }
+
+  .browser__summary { margin: var(--s-5) 0 var(--s-10); font-size: var(--fs-sm); color: var(--ink-3); }
+
+  .picker { position: relative; flex: none; }
+  .picker__toggle {
+    display: inline-flex; align-items: center; gap: var(--s-2);
+    padding: 0.55rem 0.85rem 0.55rem 1rem;
+    border: 1px solid var(--line-strong); border-radius: var(--r-pill);
+    background: var(--surface); color: var(--ink);
+    font: inherit; font-size: var(--fs-sm); font-weight: 600; line-height: 1; cursor: pointer;
+    transition: border-color var(--dur) var(--ease);
+  }
+  .picker__toggle:hover, .picker__toggle[aria-expanded='true'] { border-color: var(--ink); }
+  .picker__toggle :global(svg) { transition: transform var(--dur) var(--ease); }
+  .picker__toggle[aria-expanded='true'] :global(svg) { transform: rotate(180deg); }
+  .picker__badge {
+    min-width: 1.4em; padding: 0.15em 0.4em; border-radius: var(--r-pill);
+    background: var(--mint); color: var(--ink); font-size: var(--fs-xs); text-align: center; font-variant-numeric: tabular-nums;
+  }
+  .picker__badge[hidden] { display: none; }
+
+  .picker__panel {
+    position: absolute; z-index: 20; top: calc(100% + var(--s-2)); right: 0;
+    width: min(20rem, calc(100vw - 2 * var(--gutter)));
+    background: var(--paper); border: 1px solid var(--line); border-radius: var(--r-lg); box-shadow: var(--shadow-lift);
+    overflow: hidden;
+  }
+  .picker__panel[hidden] { display: none; }
+
+  .picker__search {
+    display: flex; align-items: center; gap: var(--s-2);
+    margin: var(--s-3); padding: 0 var(--s-3);
+    border: 1px solid var(--line-strong); border-radius: var(--r-md); color: var(--ink-3);
+  }
+  .picker__search:focus-within { border-color: var(--ink); }
+  .picker__search input { flex: 1; min-width: 0; padding: 0.6rem 0; border: 0; background: none; font: inherit; font-size: var(--fs-sm); color: var(--ink); outline: none; }
+
+  .picker__list { max-height: min(22rem, 55vh); overflow-y: auto; padding: 0 var(--s-2) var(--s-2); overscroll-behavior: contain; }
+  .picker__group {
+    margin: var(--s-3) var(--s-2) var(--s-1); font-size: var(--fs-xs); font-weight: 650;
+    letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-3);
+  }
+  .picker__group:first-child { margin-top: 0; }
+  .picker__opt {
+    display: flex; align-items: center; gap: var(--s-3);
+    padding: var(--s-2); border-radius: var(--r-sm); font-size: var(--fs-sm); color: var(--ink-2); cursor: pointer;
+  }
+  .picker__opt:hover { background: var(--surface); color: var(--ink); }
+  .picker__opt[hidden], .picker__group[hidden], .picker__none[hidden] { display: none; }
+  .picker__opt input { width: 1rem; height: 1rem; margin: 0; accent-color: var(--ink); flex: none; }
+  .picker__opt:has(input:checked) { color: var(--ink); font-weight: 600; }
+  .picker__name { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+  .picker__count { color: var(--ink-3); font-variant-numeric: tabular-nums; font-size: var(--fs-xs); }
+  .picker__none { padding: var(--s-4) var(--s-2); font-size: var(--fs-sm); color: var(--ink-3); text-align: center; }
+
+  .picker__foot {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: var(--s-2) var(--s-3); border-top: 1px solid var(--line); background: var(--surface);
+  }
+  .picker__link { padding: var(--s-2); border: 0; background: none; font: inherit; font-size: var(--fs-sm); color: var(--ink-2); text-decoration: underline; cursor: pointer; }
+  .picker__link:hover { color: var(--ink); }
+
+  /* Phones: full-width picker on top, quick chips become one swipeable row. */
+  @media (max-width: 639px) {
+    .picker { order: -1; width: 100%; }
+    .picker__toggle { width: 100%; }
+    .picker__toggle > span:first-child { flex: 1; text-align: left; }
+    .picker__panel { left: 0; width: 100%; }
+    .browser__chips {
+      flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none;
+      margin-inline: calc(-1 * var(--gutter)); padding-inline: var(--gutter);
+    }
+    .browser__chips::-webkit-scrollbar { display: none; }
+    .browser__chips > :global(*) { flex: none; }
+  }
+
+  .browser__more { display: flex; justify-content: center; margin-top: var(--s-12); }
+  .browser__more[hidden] { display: none; }
+  .browser__empty { padding: var(--s-10); text-align: center; color: var(--ink-3); background: var(--surface); border-radius: var(--r-lg); }
+</style>

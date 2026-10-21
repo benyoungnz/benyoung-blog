@@ -1,0 +1,61 @@
+---
+import IconBlob from '../base/IconBlob.astro';
+import Badge from '../base/Badge.astro';
+import Icon from '../base/Icon.astro';
+import type { Tone, Tool } from '@data/types';
+
+/** Card for one tool/project. The whole card is the link (stretched). */
+interface Props {
+  tool: Tool;
+  tone?: Tone;
+  headingLevel?: 3 | 4;
+}
+const { tool, tone = 'mint', headingLevel = 3 } = Astro.props;
+const H = `h${headingLevel}` as 'h3' | 'h4';
+---
+
+<article class="tc">
+  <div class="tc__top">
+    <IconBlob name={tool.icon} tone={tone} />
+    {tool.badge && <Badge>{tool.badge}</Badge>}
+  </div>
+  <H class="tc__title">
+    <a href={tool.href} target={tool.external ? '_blank' : undefined} rel={tool.external ? 'noopener' : undefined}>
+      {tool.title}{tool.external && <span class="visually-hidden"> (opens in a new tab)</span>}
+    </a>
+  </H>
+  <p class="tc__desc">{tool.description}</p>
+  <div class="tc__foot">
+    {tool.footnote && <p>{tool.footnote}</p>}
+    <span class="tc__go" aria-hidden="true"><Icon name={tool.external ? 'arrow-up-right' : 'arrow-right'} size={16} /></span>
+  </div>
+</article>
+
+<style>
+  .tc {
+    position: relative;
+    display: grid;
+    grid-template-rows: auto auto 1fr auto;
+    gap: var(--s-2);
+    padding: var(--s-5) var(--s-6) var(--s-5);
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--r-xl);
+    box-shadow: var(--shadow-card);
+    transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease), border-color var(--dur) var(--ease);
+  }
+  .tc:hover { transform: translateY(-2px); box-shadow: var(--shadow-lift); border-color: var(--line-strong); }
+  .tc:has(a:focus-visible) { outline: 2px solid var(--pop); outline-offset: 3px; }
+  .tc a:focus-visible { outline: none; }
+
+  .tc__top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: var(--s-2); }
+  .tc__title { font-size: 1.25rem; line-height: 1.2; }
+  .tc__title a { text-decoration: none; }
+  .tc__title a::after { content: ''; position: absolute; inset: 0; border-radius: inherit; }
+  .tc__desc { color: var(--ink-2); font-size: 0.9375rem; line-height: 1.5; }
+
+  .tc__foot { display: flex; align-items: center; justify-content: space-between; gap: var(--s-3); margin-top: var(--s-3); padding-top: var(--s-3); border-top: 1px dashed var(--line); }
+  .tc__foot p { font-size: var(--fs-xs); color: var(--ink-3); }
+  .tc__go { flex: none; display: grid; place-items: center; width: 32px; height: 32px; margin-left: auto; border-radius: 50%; border: 1px solid var(--line-strong); transition: background-color var(--dur) var(--ease), border-color var(--dur) var(--ease); }
+  .tc:hover .tc__go { background: var(--mint); border-color: var(--mint); }
+</style>

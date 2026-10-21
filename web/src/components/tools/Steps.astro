@@ -1,0 +1,51 @@
+---
+/** Numbered steps joined by a dashed line on wide screens; a vertical list on phones. */
+interface Props {
+  steps: { title: string; text: string }[];
+}
+const { steps } = Astro.props;
+---
+
+<ol class="steps" style={`--n: ${steps.length}`}>
+  {steps.map((s, i) => (
+    <li>
+      <span class="steps__num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+      <h3>{s.title}</h3>
+      <p>{s.text}</p>
+    </li>
+  ))}
+</ol>
+
+<style>
+  .steps { display: grid; gap: var(--s-8); list-style: none; padding: 0; counter-reset: step; }
+  li { position: relative; display: grid; gap: var(--s-2); align-content: start; }
+  .steps__num {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    margin-bottom: var(--s-3);
+    border-radius: 50%;
+    border: 2px solid var(--ink);
+    background: var(--paper);
+    font-family: var(--font-display);
+    font-weight: 750;
+    font-size: 0.95rem;
+    box-shadow: -5px 5px 0 var(--mint);
+  }
+  h3 { font-size: var(--fs-h4); }
+  p { color: var(--ink-2); font-size: 0.9375rem; }
+
+  @media (min-width: 820px) {
+    .steps { grid-template-columns: repeat(var(--n), 1fr); }
+    li:not(:last-child)::before {
+      content: '';
+      position: absolute;
+      top: 22px;
+      left: 56px;
+      right: calc(var(--s-8) * -1 + 12px);
+      border-top: 2px dashed var(--line-strong);
+    }
+  }
+</style>

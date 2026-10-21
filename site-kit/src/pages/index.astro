@@ -1,0 +1,24 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Section from '@kit/layout/Section.astro';
+import SectionHeading from '@kit/layout/SectionHeading.astro';
+import Grid from '@kit/layout/Grid.astro';
+import LinkTile from '@kit/tools/LinkTile.astro';
+---
+
+<BaseLayout title="Ben Young">
+  <Section>
+    <SectionHeading level={1} size="display" eyebrow="Site kit" title="Components, tokens and demo pages" lede="Start with the style guide; the demo pages show the modules assembled." />
+    <Grid cols={2}>
+      <LinkTile href="/styleguide" title="Style guide & cheat sheet" text="Tokens, type, and every module with its props" icon="book" tone="violet" />
+      <LinkTile href="/blog" title="Blog listing" text="Featured row, filters, load more" icon="rss" tone="mint" />
+      <LinkTile href="/blog/the-mcp-backdoor" title="Post detail" text="Sticky TOC, prose, FAQ, author, related" icon="book" tone="coral" />
+      <LinkTile href="/tools" title="Tools hub" text="Split hero, categories, tool cards" icon="terminal" tone="sky" />
+      <LinkTile href="/tools/retention-calculator" title="Tool page" text="Embed frame, steps, feature band, tiles" icon="chart" tone="peach" />
+      <LinkTile href="/tools/veeam-intelligence-mcp" title="Tool page template" text="Generated for every tool in tools.ts" icon="sparkles" tone="violet" />
+      <LinkTile href="/tags" title="Tags" text="Topic index and per-tag pages" icon="search" tone="lime" />
+      <LinkTile href="/about" title="About" text="Profile card, bio, topics, recent posts" icon="user" tone="sky" />
+      <LinkTile href="/404" title="404" text="Not-found page" icon="close" tone="coral" />
+    </Grid>
+  </Section>
+</BaseLayout>

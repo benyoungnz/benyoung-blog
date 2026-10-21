@@ -1,0 +1,499 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Section from '@kit/layout/Section.astro';
+import SectionHeading from '@kit/layout/SectionHeading.astro';
+import Grid from '@kit/layout/Grid.astro';
+import Spec from '@kit/styleguide/Spec.astro';
+import Swatch from '@kit/styleguide/Swatch.astro';
+import Button from '@kit/base/Button.astro';
+import Chip from '@kit/base/Chip.astro';
+import Badge from '@kit/base/Badge.astro';
+import Icon from '@kit/base/Icon.astro';
+import IconBlob from '@kit/base/IconBlob.astro';
+import Avatar from '@kit/base/Avatar.astro';
+import Breadcrumbs from '@kit/base/Breadcrumbs.astro';
+import PostCover from '@kit/blog/PostCover.astro';
+import PostCard from '@kit/blog/PostCard.astro';
+import PostGrid from '@kit/blog/PostGrid.astro';
+import PostBrowser from '@kit/blog/PostBrowser.astro';
+import PostHeader from '@kit/blog/PostHeader.astro';
+import Prose from '@kit/blog/Prose.astro';
+import Callout from '@kit/blog/Callout.astro';
+import TableOfContents from '@kit/blog/TableOfContents.astro';
+import AuthorMini from '@kit/blog/AuthorMini.astro';
+import AuthorCard from '@kit/blog/AuthorCard.astro';
+import CtaCard from '@kit/blog/CtaCard.astro';
+import LinkList from '@kit/blog/LinkList.astro';
+import Faq from '@kit/blog/Faq.astro';
+import StatCard from '@kit/tools/StatCard.astro';
+import MetaList from '@kit/tools/MetaList.astro';
+import CategoryNav from '@kit/tools/CategoryNav.astro';
+import ToolCard from '@kit/tools/ToolCard.astro';
+import ToolCategory from '@kit/tools/ToolCategory.astro';
+import Panel from '@kit/tools/Panel.astro';
+import Steps from '@kit/tools/Steps.astro';
+import NumberedList from '@kit/tools/NumberedList.astro';
+import LinkTile from '@kit/tools/LinkTile.astro';
+import { posts } from '@data/posts';
+import { toolCategories } from '@data/tools';
+import { author } from '@data/site';
+import { tones } from '@data/types';
+
+const neutrals = [
+  ['--paper', '#ffffff', 'Page'],
+  ['--surface', '#f5f8f4', 'Soft bands, demo frames'],
+  ['--surface-2', '#ebf1ea', 'Hover fills, inline code'],
+  ['--line', '#dfe6de', 'Borders'],
+  ['--line-strong', '#c5d0c4', 'Input & chip borders'],
+  ['--ink', '#12201a', 'Headings, primary text'],
+  ['--ink-2', '#3b4a42', 'Body copy'],
+  ['--ink-3', '#5f6e66', 'Meta, captions (AA on white)'],
+];
+const brand = [
+  ['--mint', '#50fd81', 'Primary button, highlights. Never as text on white'],
+  ['--mint-soft', '#d3fbdd', 'Active nav, focus halo'],
+  ['--brand', '#627f6e', 'Logo sage. Large text / icons only'],
+  ['--brand-ink', '#456251', 'Sage for small text & links'],
+  ['--pop', '#6a46ff', 'Focus ring'],
+];
+const hex: Record<string, [string, string]> = {
+  mint: ['#d3fbdd', '#0b7a3a'], sky: ['#d7ebff', '#1b5fb0'], violet: ['#e6defe', '#5636c8'],
+  coral: ['#ffdcd2', '#bf3a1f'], peach: ['#ffe9c9', '#9a5200'], lime: ['#eaf7c2', '#4f7300'],
+};
+const typeScale = [
+  ['--fs-display', '40 → 62px', 'Page heroes', 'display'],
+  ['--fs-h1', '34 → 52px', 'Post titles', 'h1'],
+  ['--fs-h2', '26 → 34px', 'Section headings', 'h2'],
+  ['--fs-h3', '24px', 'Card group / sub-sections', 'h3'],
+  ['--fs-h4', '19px', 'Card titles, steps', 'h4'],
+  ['--fs-lede', '17 → 19px', 'Intro paragraphs', 'lede'],
+  ['--fs-prose', '18px', 'Article body', 'prose'],
+  ['--fs-body', '16px', 'UI text', 'body'],
+  ['--fs-sm', '14px', 'Meta, chips', 'sm'],
+  ['--fs-xs', '12px', 'Eyebrows, badges', 'xs'],
+];
+const space = ['--s-1', '--s-2', '--s-3', '--s-4', '--s-5', '--s-6', '--s-8', '--s-10', '--s-12', '--s-16', '--s-24'];
+const spacePx = [4, 8, 12, 16, 20, 24, 32, 40, 48, 64, 96];
+const sections = [
+  ['Foundations', 'foundations'], ['Colour', 'colour'], ['Type', 'type'], ['Space & shape', 'space'],
+  ['Base', 'base'], ['Layout', 'layout'], ['Blog', 'blog'], ['Tools', 'tools'], ['Recipes', 'recipes'],
+];
+const demoPost = posts.find((p) => p.slug === 'the-mcp-backdoor')!;
+const photoPost = posts[0];
+const demoHeadings = [
+  { depth: 2, slug: 'what-actually-happened', text: 'What actually happened' },
+  { depth: 2, slug: 'why-ai-makes-it-worse', text: 'Why AI makes the old trick worse' },
+  { depth: 3, slug: 'quick-check', text: 'A quick check you can run today' },
+  { depth: 2, slug: 'what-to-do', text: 'What to do about it' },
+];
+---
+
+<BaseLayout title="Style guide" description="Tokens, type and every module in the kit, with props and snippets.">
+  <Section space="sm" tone="surface" dots>
+    <div class="sg-hero">
+      <SectionHeading level={1} size="display" eyebrow="Ben Young site kit" title="Style guide & module cheat sheet" lede="Light, colourful, built on the letter-B logo. Every module below is live; copy the snippet, swap the data." />
+      <nav class="sg-nav" aria-label="Style guide sections">
+        {sections.map(([label, id]) => <Chip href={`#${id}`} size="sm">{label}</Chip>)}
+      </nav>
+    </div>
+  </Section>
+
+  <Section id="foundations">
+    <SectionHeading title="Foundations" lede="Five rules the components already follow. Keep to them when you add new ones." />
+    <ol class="rules">
+      <li><strong>Tokens only.</strong> Colours, sizes, radii and shadows come from <code>styles/tokens.css</code>. No raw hex in components.</li>
+      <li><strong>One accent per object.</strong> A card, category or callout takes a single <code>tone</code>: its soft tint fills, its deep partner marks icons and dots.</li>
+      <li><strong>Mint is a fill, not a text colour.</strong> On white it fails contrast. Use it behind ink text, for underlines and for highlights.</li>
+      <li><strong>Heading level ≠ heading size.</strong> <code>SectionHeading</code> takes <code>level</code> for the outline and <code>size</code> for the look.</li>
+      <li><strong>Works without JS.</strong> Filters, load-more and TOC highlighting enhance HTML that is already complete; FAQ uses native <code>&lt;details&gt;</code>.</li>
+    </ol>
+  </Section>
+
+  <Section id="colour" tone="surface">
+    <SectionHeading title="Colour" lede="White page, green-black ink, logo mint and sage, plus six tints for colour coding." />
+    <h3 class="sg-h">Neutrals</h3>
+    <div class="swatches">{neutrals.map(([t, v, n]) => <Swatch token={t} value={v} note={n} />)}</div>
+    <h3 class="sg-h">Brand</h3>
+    <div class="swatches">{brand.map(([t, v, n]) => <Swatch token={t} value={v} note={n} />)}</div>
+    <h3 class="sg-h">Tones <span>tone="mint | sky | violet | coral | peach | lime"</span></h3>
+    <div class="tones">
+      {tones.map((t) => (
+        <div class="tone" style={`--soft: var(--tint-${t}); --deep: var(--deep-${t})`}>
+          <div class="tone__fill"><span class="tone__dot" /> <strong>{t}</strong></div>
+          <code>--tint-{t} {hex[t][0]}</code>
+          <code>--deep-{t} {hex[t][1]}</code>
+        </div>
+      ))}
+    </div>
+  </Section>
+
+  <Section id="type">
+    <SectionHeading title="Type" lede="Bricolage Grotesque for display, Instrument Sans for reading, JetBrains Mono for code. All OFL, self-hosted via Fontsource." />
+    <div class="faces">
+      <div><p class="eyebrow">Display · --font-display</p><p class="face face--display">Bricolage Grotesque</p></div>
+      <div><p class="eyebrow">Body · --font-body</p><p class="face face--body">Instrument Sans</p></div>
+      <div><p class="eyebrow">Mono · --font-mono</p><p class="face face--mono">JetBrains Mono</p></div>
+    </div>
+    <dl class="scale">
+      {typeScale.map(([token, px, use, cls]) => (
+        <div>
+          <dt><code>{token}</code><span>{px} · {use}</span></dt>
+          <dd class={`t-${cls}`}>Backups are a data strategy</dd>
+        </div>
+      ))}
+    </dl>
+  </Section>
+
+  <Section id="space" tone="surface">
+    <SectionHeading title="Space & shape" lede="4px base. Sections breathe with --section-y (56 → 96px). Container 1200px, article measure 760px, sidebar 300px." />
+    <div class="space">
+      {space.map((t, i) => <div class="space__row"><code>{t}</code><span class="space__bar" style={`width: var(${t})`} /><span>{spacePx[i]}px</span></div>)}
+    </div>
+    <div class="shapes">
+      {['--r-sm', '--r-md', '--r-lg', '--r-xl', '--r-pill'].map((r) => <div class="shape" style={`border-radius: var(${r})`}><code>{r}</code></div>)}
+      {['--shadow-sm', '--shadow-card', '--shadow-lift'].map((s) => <div class="shape shape--shadow" style={`box-shadow: var(${s})`}><code>{s}</code></div>)}
+    </div>
+    <p class="note">Breakpoints: <code>820px</code> (two columns, mobile nav off) and <code>1200px</code> (sidebar, three-column grids from 1000px). CSS can't read variables in media queries, so they're written as numbers.</p>
+  </Section>
+
+  <Section id="base">
+    <SectionHeading eyebrow="Modules" title="Base" lede="Primitives everything else is built from." />
+
+    <Spec name="Button" path="base/Button.astro" use="Every call to action. Renders a link when href is set." props={[
+      ['variant', "'primary' | 'secondary' | 'outline' | 'ghost' = 'primary'"], ['size', "'sm' | 'md' | 'lg' = 'md'"],
+      ['href', 'string — makes it an <a>'], ['icon / iconStart', 'IconName (trailing arrow nudges on hover)'], ['block', 'boolean — full width'],
+    ]} code={`<Button href="/rss.xml" icon="arrow-right">Subscribe</Button>
+<Button variant="secondary">Secondary</Button>
+<Button variant="outline" size="sm">Load more</Button>`}>
+      <div class="row">
+        <Button icon="arrow-right">Primary</Button>
+        <Button variant="secondary">Secondary</Button>
+        <Button variant="outline">Outline</Button>
+        <Button variant="ghost" iconStart="search">Ghost</Button>
+        <Button size="sm">Small</Button>
+        <Button size="lg" icon="arrow-right">Large</Button>
+      </div>
+    </Spec>
+
+    <Spec name="Chip" path="base/Chip.astro" use="Tags, filters and category jump links. A toggle button when there's no href." props={[
+      ['href', 'string — link chip'], ['active', 'boolean (sets aria-pressed)'], ['tone', 'Tone — adds a colour dot'],
+      ['count', 'number — trailing count'], ['size', "'sm' | 'md'"], ['static', 'boolean — non-interactive label'], ['data-*', 'passed through'],
+    ]} code={`<Chip active>All</Chip>
+<Chip href="/blog?tag=ai" tone="violet" size="sm">ai</Chip>
+<Chip href="#calculators" tone="mint" count={2}>Calculators</Chip>`}>
+      <div class="row">
+        <Chip active>All</Chip><Chip>security</Chip><Chip href="#" tone="violet" size="sm">ai</Chip>
+        <Chip href="#" tone="mint" count={2}>Calculators</Chip><Chip static tone="coral">Static</Chip>
+      </div>
+    </Spec>
+
+    <Spec name="Badge" path="base/Badge.astro" use="Small value pill: version, status, price-like figures on cards." props={[['tone', "Tone | 'neutral' | 'ink' = 'neutral'"]]}
+      code={`<Badge>v2.1</Badge>
+<Badge tone="ink">New</Badge>
+<Badge tone="sky">REST</Badge>`}>
+      <div class="row"><Badge>v2.1</Badge><Badge tone="ink">New</Badge>{tones.map((t) => <Badge tone={t}>{t}</Badge>)}</div>
+    </Spec>
+
+    <Spec name="Icon & IconBlob" path="base/Icon.astro · base/IconBlob.astro" use="Stroke icons on a 24px grid. IconBlob sets one on a coloured blob in place of an illustration. Add icons to the paths map in Icon.astro." props={[
+      ['name', 'IconName'], ['size', 'number = 20 (Icon) / sm·md·lg (IconBlob)'], ['label', 'string — makes the icon meaningful (role="img")'], ['tone', 'Tone (IconBlob)'],
+    ]} code={`<Icon name="arrow-right" />
+<IconBlob name="bot" tone="violet" size="lg" />`}>
+      <div class="row icons">
+        {(['arrow-right', 'arrow-up-right', 'plus', 'check', 'calendar', 'clock', 'download', 'lock', 'menu', 'close', 'code', 'server', 'shield', 'sparkles', 'chart', 'book', 'terminal', 'bot', 'search', 'rss', 'mail', 'user'] as const).map((n) => <span title={n}><Icon name={n} /></span>)}
+      </div>
+      <div class="row" style="margin-top: var(--s-6)">{tones.map((t, i) => <IconBlob name={(['bot', 'chart', 'terminal', 'shield', 'calendar', 'code'] as const)[i]} tone={t} size="lg" />)}</div>
+    </Spec>
+
+    <Spec name="Avatar" path="base/Avatar.astro" use="Round photo with a mint ring." props={[['src / alt', 'string'], ['size', 'number = 44']]} code={`<Avatar src="/benyoung.jpg" alt="Ben Young" size={56} />`}>
+      <div class="row"><Avatar src="/benyoung.jpg" alt="Ben Young" size={32} /><Avatar src="/benyoung.jpg" alt="Ben Young" size={44} /><Avatar src="/benyoung.jpg" alt="Ben Young" size={72} /></div>
+    </Spec>
+
+    <Spec name="Breadcrumbs" path="base/Breadcrumbs.astro" use="Top of detail pages. The last item is the current page." props={[['items', '{ label, href? }[]']]}
+      code={`<Breadcrumbs items={[{ label: 'Blog', href: '/blog' }, { label: post.title }]} />`}>
+      <Breadcrumbs items={[{ label: 'Blog', href: '/blog' }, { label: 'Security', href: '#' }, { label: 'The MCP Backdoor' }]} />
+    </Spec>
+  </Section>
+
+  <Section id="layout" tone="surface">
+    <SectionHeading eyebrow="Modules" title="Layout" lede="Bands, headings and grids that every page is assembled from." />
+
+    <Spec name="Section" path="layout/Section.astro" use="Full-bleed band with the container inside. Alternate paper and surface to separate content; use a tone for a feature band." props={[
+      ['tone', "'paper' | 'surface' | Tone = 'paper'"], ['space', "'none' | 'sm' | 'md' = 'md'"], ['narrow', 'boolean — article measure'], ['dots', 'boolean — dot-grid backdrop'], ['as', "'section' | 'div'"], ['id / aria-labelledby', 'string'],
+    ]} code={`<Section tone="surface" aria-labelledby="more">
+  <SectionHeading id="more" title="More tools" />
+  …
+</Section>`} wide>
+      <div class="bands">
+        <div style="background: var(--paper)">paper</div>
+        <div style="background: var(--surface)">surface</div>
+        <div class="dot-grid" style="background-color: var(--surface)">surface + dots</div>
+        <div style="background: var(--tint-violet)">tone="violet"</div>
+      </div>
+    </Spec>
+
+    <Spec name="SectionHeading" path="layout/SectionHeading.astro" use="Eyebrow, heading, lede, and an optional actions slot on the right." props={[
+      ['title', 'string'], ['eyebrow / lede', 'string'], ['level', '1 | 2 | 3 = 2'], ['size', "'display' | 'h1' | 'h2' | 'h3' = 'h2'"], ['align', "'start' | 'center'"], ['id', 'string — for aria-labelledby'], ['slot actions', 'e.g. a “View all” button'],
+    ]} code={`<SectionHeading eyebrow="How it works" title="Plan a policy in four steps" align="center">
+  <Button slot="actions" variant="outline" size="sm">View all</Button>
+</SectionHeading>`}>
+      <SectionHeading eyebrow="Latest" title="Recent write-ups" lede="Fresh from the field.">
+        <Button slot="actions" variant="outline" size="sm" icon="arrow-right">View all</Button>
+      </SectionHeading>
+    </Spec>
+
+    <Spec name="Grid" path="layout/Grid.astro" use="Responsive grid for tiles and cards: steps from cols to 2 to 1." props={[['cols', '2 | 3 | 4 = 3'], ['gap', "'sm' | 'md' | 'lg' = 'md'"]]}
+      code={`<Grid cols={4} gap="sm">
+  <LinkTile … />
+</Grid>`}>
+      <Grid cols={4} gap="sm">{tones.slice(0, 4).map((t) => <div class="cell" style={`background: var(--tint-${t})`}>{t}</div>)}</Grid>
+    </Spec>
+  </Section>
+
+  <Section id="blog">
+    <SectionHeading eyebrow="Modules" title="Blog" lede="Listing, article and sidebar modules." />
+
+    <Spec name="PostCover" path="blog/PostCover.astro" use="Photo when the post has heroImage; otherwise a typographic cover in the post's tone (stable per slug if unset)." props={[
+      ['post', 'Pick<Post, slug | title | heroImage | coverTitle | tone>'], ['size', "'card' | 'hero'"], ['eager', 'boolean — above the fold'],
+    ]} code={`<PostCover post={post} size="hero" eager />`}>
+      <div class="two"><PostCover post={photoPost} /><PostCover post={demoPost} /></div>
+    </Spec>
+
+    <Spec name="PostCard & PostGrid" path="blog/PostCard.astro · blog/PostGrid.astro" use="Cover, date and reading time, title, three-line excerpt. The whole card is one link. PostGrid lays out 3 → 2 → 1." props={[
+      ['post', 'Post'], ['href', 'string = /blog/{slug}'], ['headingLevel', '2 | 3 = 3'], ['posts (grid)', 'Post[]'], ['eagerFirst (grid)', 'number = 0'],
+    ]} code={`<PostGrid posts={featured} eagerFirst={3} />`}>
+      <PostGrid posts={posts.slice(3, 6)} />
+    </Spec>
+
+    <Spec name="PostBrowser" path="blog/PostBrowser.astro" use="Tag chips + grid + Load more, all in the browser. Reads ?tag= on load." props={[
+      ['posts', 'Post[]'], ['tags', 'string[] = every tag in posts'], ['pageSize', 'number = 9'], ['label', 'string — group label for screen readers'],
+    ]} code={`<PostBrowser posts={allPosts} pageSize={9} />`}>
+      <PostBrowser posts={posts} pageSize={3} />
+    </Spec>
+
+    <Spec name="PostHeader" path="blog/PostHeader.astro" use="Breadcrumbs, H1, lede, tag chips, dates, reading time." props={[['post', 'Post'], ['crumbs', '{ label, href? }[] = Blog › title']]}
+      code={`<PostHeader post={post} />`}>
+      <PostHeader post={posts[1]} />
+    </Spec>
+
+    <Spec name="ArticleLayout" path="blog/ArticleLayout.astro" use="Content column + sticky sidebar from 1200px. Below that the sidebar drops under the article; the toc-mobile slot shows a collapsible TOC above." props={[
+      ['default slot', 'cover, Prose, Faq, AuthorCard'], ['slot aside', 'AuthorMini, TOC, CtaCard, LinkList'], ['slot toc-mobile', 'TableOfContents collapsible'],
+    ]} code={`<ArticleLayout>
+  <TableOfContents slot="toc-mobile" headings={headings} collapsible />
+  <Prose><Content /></Prose>
+  <Fragment slot="aside">
+    <AuthorMini author={author} />
+    <TableOfContents headings={headings} />
+  </Fragment>
+</ArticleLayout>`}>
+      <div class="al-diagram"><div>main · ≤ 760px<br />cover → prose → FAQ → author</div><div>aside · 300px, sticky</div></div>
+    </Spec>
+
+    <Spec name="Prose" path="blog/Prose.astro" use="Wrap CMS / Markdown HTML. Styles headings, lists, links, quotes, tables, code and images. Rules live in styles/prose.css." props={[['class', 'string']]}
+      code={`<Prose><Fragment set:html={entry.content} /></Prose>`}>
+      <Prose>
+        <h2>Section heading</h2>
+        <p>Body copy at 18px with a <a href="#">mint-underlined link</a>, some <strong>strong text</strong> and <code>inline code</code>.</p>
+        <ul><li><strong>Bold lead.</strong> Then the explanation.</li><li>Second point.</li></ul>
+        <blockquote><p>Pull quotes use the display face.</p></blockquote>
+        <table><thead><tr><th>Term</th><th>Means</th></tr></thead><tbody><tr><td>RPO</td><td>How much data you can lose</td></tr><tr><td>RTO</td><td>How long you can be down</td></tr></tbody></table>
+      </Prose>
+    </Spec>
+
+    <Spec name="Callout" path="blog/Callout.astro" use="Boxed aside inside an article. Presets set tone, icon and title." props={[['type', "'takeaways' | 'tip' | 'warning' | 'note' = 'note'"], ['title', 'string — overrides the preset']]}
+      code={`<Callout type="takeaways">
+  <ul><li><strong>Pin versions.</strong> …</li></ul>
+</Callout>`}>
+      <div class="two">
+        <Callout type="takeaways"><ul><li><strong>Pin versions.</strong> Always.</li><li>Scope credentials.</li></ul></Callout>
+        <Callout type="tip"><p>Run the restore test quarterly.</p></Callout>
+        <Callout type="warning"><p>Unpinned npx pulls the newest version.</p></Callout>
+        <Callout type="note" title="Heads up"><p>Applies to v12 and later.</p></Callout>
+      </div>
+    </Spec>
+
+    <Spec name="TableOfContents" path="blog/TableOfContents.astro" use="Pass getHeadings(). Highlights the section in view with a mint bar." props={[
+      ['headings', '{ depth, slug, text }[]'], ['maxDepth', '2 | 3 = 2'], ['title', "string = 'On this page'"], ['collapsible', 'boolean — <details> for phones'],
+    ]} code={`<TableOfContents headings={getHeadings()} maxDepth={3} />`}>
+      <div class="two"><TableOfContents headings={demoHeadings} maxDepth={3} /><TableOfContents headings={demoHeadings} collapsible /></div>
+    </Spec>
+
+    <Spec name="AuthorMini & AuthorCard" path="blog/AuthorMini.astro · blog/AuthorCard.astro" use="Mini goes at the top of the sidebar; the card closes the article." props={[['author', 'Author'], ['label (card)', "string = 'Written by'"]]}
+      code={`<AuthorMini author={author} />
+<AuthorCard author={author} />`}>
+      <AuthorMini author={author} />
+      <AuthorCard author={author} />
+    </Spec>
+
+    <Spec name="CtaCard" path="blog/CtaCard.astro" use="Coloured promo card for sidebars, the tool aside and between sections." props={[['title / href / action', 'string'], ['tone', "Tone = 'mint'"], ['slot', 'body copy']]}
+      code={`<CtaCard title="Try the MCP wrapper" href="/tools/…" action="Open the tool" tone="violet">
+  <p>Read-only by default.</p>
+</CtaCard>`}>
+      <div class="three">
+        <CtaCard title="Try the MCP wrapper" href="#" action="Open the tool" tone="violet"><p>Read-only by default.</p></CtaCard>
+        <CtaCard title="Get new posts" href="#" action="RSS feed"><p>Roughly twice a month.</p></CtaCard>
+        <CtaCard title="Size a repository" href="#" action="Calculator" tone="peach"><p>From a daily change rate.</p></CtaCard>
+      </div>
+    </Spec>
+
+    <Spec name="LinkList" path="blog/LinkList.astro" use="Titled list of arrow links for sidebars." props={[['title', 'string'], ['links', '{ label, href }[]'], ['more', '{ label, href } — bold last row']]}
+      code={`<LinkList title="Tools" links={links} more={{ label: 'All tools', href: '/tools' }} />`}>
+      <div style="max-width: 300px"><LinkList title="Tools" links={[{ label: 'Retention calculator', href: '#' }, { label: 'Veeam KB API', href: '#' }]} more={{ label: 'All tools', href: '#' }} /></div>
+    </Spec>
+
+    <Spec name="Faq" path="blog/Faq.astro" use="Native <details> accordion that emits FAQPage JSON-LD. Answers are HTML strings, so CMS rich text passes straight through." props={[
+      ['items', '{ question, answer (HTML) }[]'], ['title', 'string'], ['id', "string = 'faq'"], ['exclusive', 'boolean — one open at a time'], ['schema', 'boolean = true'],
+    ]} code={`<Faq items={entry.faqs} exclusive />`}>
+      <Faq id="faq-demo" schema={false} exclusive items={[{ question: 'Does the FAQ need JavaScript?', answer: '<p>No. It is plain details/summary.</p>' }, { question: 'Can answers contain links?', answer: '<p>Yes, <a href="#">like this</a>.</p>' }]} />
+    </Spec>
+  </Section>
+
+  <Section id="tools" tone="surface">
+    <SectionHeading eyebrow="Modules" title="Tools" lede="Hub, category and tool-page modules. Use these to link to projects or embed them." />
+
+    <Spec name="SplitHero & CenteredHero" path="tools/SplitHero.astro · tools/CenteredHero.astro" use="SplitHero: copy plus a collage on a colour blob (tools hub). CenteredHero: centred title for a single tool page. Both sit on a dot grid." props={[
+      ['title / lede', 'string'], ['tone (split)', "Tone = 'mint' — blob colour"], ['slot visual (split)', 'StatCards etc.'], ['slot (both)', 'MetaList, buttons'], ['eyebrow (centred)', 'string'],
+    ]} code={`<SplitHero title="Tools" lede="…" tone="violet">
+  <MetaList items={[…]} />
+  <Fragment slot="visual"><StatCard … /></Fragment>
+</SplitHero>`}>
+      <p class="note">See <a class="link" href="/tools">/tools</a> and <a class="link" href="/tools/retention-calculator">/tools/retention-calculator</a>.</p>
+    </Spec>
+
+    <Spec name="StatCard" path="tools/StatCard.astro" use="Floating result card for hero collages and the tool aside. Extra content goes in the slot." props={[['label / value / sub', 'string'], ['tone', "Tone | 'paper'"], ['tilt', 'number (degrees)']]}
+      code={`<StatCard label="Restore points" value="33" sub="GFS 14/4/12/3" tilt={-3} />`}>
+      <div class="row" style="padding: var(--s-4)"><StatCard label="Restore points" value="33" sub="GFS 14 / 4 / 12 / 3" tilt={-2}><Badge tone="mint">Retention</Badge></StatCard><StatCard label="Daily change" value="5%" sub="≈ 1.4 TB a month" tone="peach" tilt={2} /></div>
+    </Spec>
+
+    <Spec name="MetaList" path="tools/MetaList.astro" use="Row of icon facts under a hero." props={[['items', '{ icon, text }[]'], ['align', "'start' | 'center'"]]}
+      code={`<MetaList items={[{ icon: 'lock', text: 'Runs in your browser' }]} />`}>
+      <MetaList items={[{ icon: 'lock', text: 'Runs in your browser' }, { icon: 'check', text: 'No sign-up' }, { icon: 'code', text: 'Open source' }]} />
+    </Spec>
+
+    <Spec name="ToolCard" path="tools/ToolCard.astro" use="One tool or project. Lifts on hover. External links get an ↗ and open in a new tab." props={[['tool', 'Tool'], ['tone', 'Tone'], ['headingLevel', '3 | 4']]}
+      code={`<ToolCard tool={tool} tone="violet" />`}>
+      <div class="two">{toolCategories[0].tools.slice(1, 3).map((t) => <ToolCard tool={t} tone="violet" />)}</div>
+    </Spec>
+
+    <Spec name="CategoryNav & ToolCategory" path="tools/CategoryNav.astro · tools/ToolCategory.astro" use="Jump chips with counts, then one block per category: a sticky intro column and a 2-column card grid." props={[['categories (nav)', 'ToolCategory[]'], ['category', 'ToolCategory'], ['index', 'number — shown as 01, 02…']]}
+      code={`<CategoryNav categories={cats} />
+{cats.map((c, i) => <ToolCategory category={c} index={i + 1} />)}`}>
+      <CategoryNav categories={toolCategories} />
+      <div style="margin-top: var(--s-10)"><ToolCategory category={toolCategories[1]} index={2} /></div>
+    </Spec>
+
+    <Spec name="ToolEmbed & Panel" path="tools/ToolEmbed.astro · tools/Panel.astro" use="App area for a tool page: your island or an iframe (src) on the left, sticky aside on the right. Panel groups fields and styles inputs inside it." props={[
+      ['src', 'string — embed a hosted project'], ['title', 'string — iframe title'], ['height', 'number = 720'], ['slot aside', 'StatCard, Button, CtaCard'], ['Panel title / tone', "string / 'paper' | 'surface'"],
+    ]} code={`<ToolEmbed src="https://my-project.pages.dev" title="KB search" height={640} />
+
+<ToolEmbed title="Calculator">
+  <Panel title="Policy"><div class="fields">…inputs…</div></Panel>
+  <StatCard slot="aside" … />
+</ToolEmbed>`}>
+      <Panel title="Policy">
+        <div class="fields">
+          <label>Daily points <input type="number" value="14" /></label>
+          <label>Repository <select><option>Hardened Linux</option><option>Object storage</option></select></label>
+        </div>
+      </Panel>
+    </Spec>
+
+    <Spec name="Steps" path="tools/Steps.astro" use="Numbered steps joined by a dashed line." props={[['steps', '{ title, text }[]']]} code={`<Steps steps={[{ title: 'Start with dailies', text: '…' }]} />`}>
+      <Steps steps={[{ title: 'Pick a tool', text: 'Find it on the hub.' }, { title: 'Run it', text: 'In your browser.' }, { title: 'Share it', text: 'Embed it in a post.' }]} />
+    </Spec>
+
+    <Spec name="FeatureBand & NumberedList" path="tools/FeatureBand.astro · tools/NumberedList.astro" use="Full-bleed colour band: centred heading, a visual and a numbered checklist." props={[['eyebrow / title / lede', 'string'], ['tone', 'Tone'], ['flip', 'boolean'], ['slot visual', 'Panel, image'], ['items (list)', '{ title, text (HTML) }[]']]}
+      code={`<FeatureBand title="What a good policy covers" tone="mint">
+  <Panel slot="visual">…</Panel>
+  <NumberedList items={items} />
+</FeatureBand>`}>
+      <NumberedList items={[{ title: 'A recovery point objective.', text: 'How much data can you lose?' }, { title: 'An immutable copy.', text: 'One copy ransomware can’t touch.' }]} />
+    </Spec>
+
+    <Spec name="LinkTile" path="tools/LinkTile.astro" use="Compact link: templates, related tools, cross-links. Put tiles in a Grid." props={[['href / title / text', 'string'], ['icon', 'IconName'], ['tone', 'Tone'], ['variant', "'paper' | 'surface'"]]}
+      code={`<Grid cols={3}><LinkTile href="/tools/kb" title="KB API" text="…" icon="search" tone="sky" /></Grid>`}>
+      <Grid cols={3}>
+        <LinkTile href="#" title="Veeam KB API" text="Search the KB programmatically" icon="search" tone="sky" />
+        <LinkTile href="#" title="Restore audit" text="Who restored what" icon="shield" tone="coral" />
+        <LinkTile href="#" title="Report exporter" text="Veeam ONE via REST" icon="server" tone="lime" variant="surface" />
+      </Grid>
+    </Spec>
+  </Section>
+
+  <Section id="recipes">
+    <SectionHeading title="Page recipes" lede="How the demo pages are assembled, top to bottom." />
+    <div class="recipes">
+      <div><h3><a class="link" href="/blog">Blog listing</a></h3><ol><li>Section › SectionHeading (level 1, display)</li><li>PostGrid — 3 featured</li><li>Section › SectionHeading “All posts”</li><li>PostBrowser</li></ol></div>
+      <div><h3><a class="link" href="/blog/the-mcp-backdoor">Post</a></h3><ol><li>PostHeader</li><li>ArticleLayout: PostCover · Prose (Callout + content) · Faq · AuthorCard</li><li>aside: AuthorMini · TableOfContents · CtaCard · LinkList</li><li>Section › PostGrid “Related posts”</li></ol></div>
+      <div><h3><a class="link" href="/tools">Tools hub</a></h3><ol><li>SplitHero + MetaList + StatCards</li><li>Section › SectionHeading “Pick a tool”</li><li>CategoryNav</li><li>ToolCategory × n</li></ol></div>
+      <div><h3><a class="link" href="/tools/veeam-intelligence-mcp">Tool template</a></h3><ol><li>CenteredHero + MetaList</li><li>Breadcrumbs</li><li>ToolEmbed (src = tool.embed, else Panel + Callout | StatCard, Button, CtaCard)</li><li>PostGrid “Related posts” (by tool.tags)</li><li>Grid › LinkTile “More in this category”</li></ol></div>
+      <div><h3><a class="link" href="/tags/ai">Tag page</a></h3><ol><li>Breadcrumbs + SectionHeading (display)</li><li>PostGrid</li><li>Grid › ToolCard (tools with the tag)</li><li>Chip row “Other topics”</li></ol></div>
+      <div><h3><a class="link" href="/about">About</a></h3><ol><li>Section (surface, dots): sticky profile card (Avatar, Badges, LinkList) | Prose bio</li><li>Chips with counts + CtaCard</li><li>PostGrid “Recent writing”</li></ol></div>
+      <div><h3><a class="link" href="/tools/retention-calculator">Tool page</a></h3><ol><li>CenteredHero + MetaList</li><li>ToolEmbed (Panels | StatCard, Button, CtaCard)</li><li>Steps</li><li>FeatureBand + NumberedList</li><li>Section (surface) › Grid › LinkTile</li></ol></div>
+    </div>
+  </Section>
+</BaseLayout>
+
+<style>
+  .sg-hero { padding-block: var(--s-8) var(--s-4); }
+  .sg-nav { display: flex; flex-wrap: wrap; gap: var(--s-2); }
+  .sg-h { font-size: var(--fs-h4); margin: var(--s-8) 0 var(--s-4); display: flex; flex-wrap: wrap; gap: var(--s-3); align-items: baseline; }
+  .sg-h span { font-family: var(--font-mono); font-size: var(--fs-xs); font-weight: 400; color: var(--ink-3); }
+  .note { color: var(--ink-2); font-size: var(--fs-sm); margin-top: var(--s-6); }
+  code { font-family: var(--font-mono); font-size: 0.85em; }
+
+  .rules { display: grid; gap: var(--s-4); max-width: 820px; padding-left: 1.4em; color: var(--ink-2); }
+  .rules strong { color: var(--ink); }
+  .rules code { background: var(--surface-2); padding: 0.1em 0.35em; border-radius: var(--r-sm); }
+
+  .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: var(--s-5); }
+  .tones { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: var(--s-4); }
+  .tone { display: grid; gap: 2px; font-size: var(--fs-xs); color: var(--ink-3); }
+  .tone__fill { display: flex; align-items: center; gap: var(--s-2); height: 72px; padding: var(--s-4); margin-bottom: var(--s-2); border-radius: var(--r-lg); background: var(--soft); color: var(--ink); font-size: var(--fs-sm); text-transform: capitalize; }
+  .tone__dot { width: 12px; height: 12px; border-radius: 50%; background: var(--deep); }
+
+  .faces { display: grid; gap: var(--s-6); grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); margin-bottom: var(--s-10); }
+  .face { font-size: 1.75rem; color: var(--ink); line-height: 1.2; margin-top: var(--s-2); }
+  .face--display { font-family: var(--font-display); font-weight: 750; letter-spacing: -0.03em; }
+  .face--body { font-family: var(--font-body); font-weight: 500; }
+  .face--mono { font-family: var(--font-mono); font-size: 1.5rem; }
+  .scale { display: grid; }
+  .scale > div { display: grid; gap: var(--s-2); padding-block: var(--s-4); border-top: 1px solid var(--line); }
+  @media (min-width: 820px) { .scale > div { grid-template-columns: 240px 1fr; align-items: baseline; } }
+  .scale dt { display: grid; font-size: var(--fs-xs); color: var(--ink-3); }
+  .scale dt code { color: var(--ink); font-size: 0.8rem; }
+  .scale dd { color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .t-display { font: 750 var(--fs-display)/1.05 var(--font-display); letter-spacing: -0.035em; }
+  .t-h1 { font: 750 var(--fs-h1)/1.1 var(--font-display); letter-spacing: -0.03em; }
+  .t-h2 { font: 700 var(--fs-h2)/1.15 var(--font-display); letter-spacing: -0.02em; }
+  .t-h3 { font: 700 var(--fs-h3)/1.25 var(--font-display); }
+  .t-h4 { font: 700 var(--fs-h4)/1.25 var(--font-display); }
+  .t-lede { font-size: var(--fs-lede); color: var(--ink-2) !important; }
+  .t-prose { font-size: var(--fs-prose); color: var(--ink-2) !important; }
+  .t-body { font-size: var(--fs-body); }
+  .t-sm { font-size: var(--fs-sm); }
+  .t-xs { font-size: var(--fs-xs); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+
+  .space { display: grid; gap: var(--s-2); }
+  .space__row { display: grid; grid-template-columns: 70px auto 1fr; align-items: center; gap: var(--s-4); font-size: var(--fs-xs); color: var(--ink-3); }
+  .space__row code { color: var(--ink); }
+  .space__bar { height: 14px; border-radius: 3px; background: var(--mint); }
+  .shapes { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: var(--s-5); margin-top: var(--s-10); }
+  .shape { display: grid; place-items: center; height: 96px; background: var(--paper); border: 1px solid var(--line); font-size: var(--fs-xs); }
+  .shape--shadow { border-radius: var(--r-lg); border-color: transparent; }
+
+  .row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-3); }
+  .icons span { display: grid; place-items: center; width: 44px; height: 44px; border-radius: var(--r-md); background: var(--surface); }
+  .two { display: grid; gap: var(--s-6); }
+  .three { display: grid; gap: var(--s-4); }
+  @media (min-width: 820px) { .two { grid-template-columns: 1fr 1fr; } .three { grid-template-columns: repeat(3, 1fr); } }
+  .bands > div { padding: var(--s-6) var(--s-8); font-family: var(--font-mono); font-size: var(--fs-xs); border-bottom: 1px solid var(--line); }
+  .cell { padding: var(--s-6); border-radius: var(--r-lg); font-size: var(--fs-sm); font-weight: 600; text-transform: capitalize; }
+  .al-diagram { display: grid; gap: var(--s-4); font-size: var(--fs-sm); color: var(--ink-2); }
+  .al-diagram div { padding: var(--s-8) var(--s-5); border-radius: var(--r-lg); background: var(--surface); border: 1px solid var(--line); }
+  .al-diagram div + div { background: var(--mint-soft); }
+  @media (min-width: 820px) { .al-diagram { grid-template-columns: 760fr 300fr; } }
+
+  .recipes { display: grid; gap: var(--s-8); grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+  .recipes h3 { font-size: var(--fs-h4); margin-bottom: var(--s-3); }
+  .recipes ol { padding-left: 1.2em; display: grid; gap: var(--s-2); color: var(--ink-2); font-size: var(--fs-sm); }
+</style>

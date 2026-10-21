@@ -1,0 +1,48 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Section from '@kit/layout/Section.astro';
+import SectionHeading from '@kit/layout/SectionHeading.astro';
+import PostGrid from '@kit/blog/PostGrid.astro';
+import PostBrowser from '@kit/blog/PostBrowser.astro';
+import VideoGrid from '../components/video/VideoGrid.astro';
+import { allPosts, toPost } from '@lib/content';
+import { getVideos } from '@lib/youtube';
+
+const [posts, videos] = await Promise.all([allPosts(Astro).then((e) => e.map(toPost)), getVideos(Astro)]);
+const latestVideos = videos.filter((v) => !v.short).slice(0, 3);
+---
+
+<BaseLayout title="Ben Young">
+  <Section space="sm">
+    <div class="intro">
+      <SectionHeading
+        level={1}
+        size="display"
+        title="Notes on backup data, APIs and the AI built on top"
+        lede="Practical write-ups from the field: Veeam APIs, MCP servers, security, and the people side of technology."
+      />
+    </div>
+    {posts.length ? <PostGrid posts={posts.slice(0, 3)} eagerFirst={3} /> : <p class="empty">No posts yet. Write one in the <a class="link" href="/_emdash/admin/content/posts/new">admin</a>.</p>}
+  </Section>
+
+  {latestVideos.length > 0 && (
+    <Section tone="surface" aria-labelledby="latest-videos">
+      <SectionHeading id="latest-videos" eyebrow="YouTube" title="Latest videos">
+        <a slot="actions" class="link" href="/videos/">All videos</a>
+      </SectionHeading>
+      <VideoGrid videos={latestVideos} />
+    </Section>
+  )}
+
+  {posts.length > 3 && (
+    <Section aria-labelledby="all-posts">
+      <SectionHeading id="all-posts" title="All posts" />
+      <PostBrowser posts={posts.slice(3)} pageSize={9} />
+    </Section>
+  )}
+</BaseLayout>
+
+<style>
+  .intro { padding-top: var(--s-8); }
+  .empty { color: var(--ink-3); }
+</style>

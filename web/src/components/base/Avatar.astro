@@ -1,0 +1,19 @@
+---
+interface Props {
+  src: string;
+  alt: string;
+  size?: number;
+}
+const { src, alt, size = 44 } = Astro.props;
+---
+
+<img class="avatar" src={src} alt={alt} width={size} height={size} loading="lazy" decoding="async" />
+
+<style>
+  .avatar {
+    border-radius: 50%;
+    object-fit: cover;
+    background: var(--surface-2);
+    box-shadow: 0 0 0 3px var(--paper), 0 0 0 4.5px var(--mint);
+  }
+</style>

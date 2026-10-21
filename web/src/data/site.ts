@@ -2,7 +2,7 @@ import type { Author } from './types';
 
 export const site = {
   name: 'Ben Young',
-  tagline: 'Notes on Veeam, data, automation and the AI that runs on top of it.',
+  tagline: 'Notes on AI, data resilience and the APIs that connect them.',
   logo: '/logo.svg',
 };
 
@@ -10,7 +10,7 @@ export const site = {
 export const nav = [
   { label: 'Blog', href: '/blog/' },
   { label: 'Videos', href: '/videos/' },
-  { label: 'Tools', href: '/tools/' },
+  { label: 'Tools and Explainers', href: '/tools/' },
   { label: 'Tags', href: '/tags/' },
   { label: 'About', href: '/about/' },
 ];

@@ -18,8 +18,8 @@ const latestVideos = videos.filter((v) => !v.short).slice(0, 3);
       <SectionHeading
         level={1}
         size="display"
-        title="Notes on backup data, APIs and the AI built on top"
-        lede="Practical write-ups from the field: Veeam APIs, MCP servers, security, and the people side of technology."
+        title="Notes on AI, data resilience and the APIs that connect them"
+        lede="I build things with AI on top of resilient data, and write about what I learn: APIs, MCP servers, security and the people side of tech."
       />
     </div>
     {posts.length ? <PostGrid posts={posts.slice(0, 3)} eagerFirst={3} /> : <p class="empty">No posts yet.</p>}

@@ -6,6 +6,7 @@
  *
  * part      open at that part (1-based) instead of the start
  * deeplink  follow #part-N in the page URL (tool pages)
+ * chapters  show the chapter list beside the player (default true; posts turn it off)
  * from, to  clip mode: play only the chapters from `from` to `to` (chapter labels, inclusive),
  *           with just a stage and play button, so a post can show one moment per section
  */
@@ -22,18 +23,20 @@ interface Props {
   /** Last chapter of a clip, inclusive; defaults to `from` */
   to?: string;
   caption?: string;
+  /** Chapter list beside the player; off in posts so the player stays compact */
+  chapters?: boolean;
   /** Makes the element ids unique when a page shows the same explainer more than once */
   instance?: string;
   class?: string;
 }
-const { id, part, deeplink, link = false, from, to, caption, instance, class: className } = Astro.props;
+const { id, part, deeplink, link = false, chapters = true, from, to, caption, instance, class: className } = Astro.props;
 const info = explainers[id];
 if (!info) return null;
 const domId = instance ? `xp-${id}-${instance}` : `xp-${id}`;
 const clip = Boolean(from);
 ---
 
-<figure class:list={['xp', { 'xp--clip': clip }, className]}>
+<figure class:list={['xp', { 'xp--clip': clip, 'xp--nolist': !clip && !chapters }, className]}>
   <div class="xp__box" id={domId} data-explainer={id} data-part={part} data-deeplink={deeplink ? '' : undefined} data-from={from} data-to={to ?? from}>
     <div class="xp__layout">
       <div class="xp__main">
@@ -65,7 +68,7 @@ const clip = Boolean(from);
   </div>
   {caption && <figcaption>{caption}</figcaption>}
   {!clip && link && info.href && (
-    <figcaption><a class="link" href={info.href}>Open the full-width version</a>, or turn on "Pause at each chapter" to click through it in a meeting.</figcaption>
+    <figcaption><a class="link" href={info.href}>Open the full-width version</a>{chapters ? ', or turn on "Pause at each chapter" to click through it in a meeting.' : ', with the chapter list, to jump to any part or present it in a meeting.'}</figcaption>
   )}
 </figure>
 
@@ -85,6 +88,10 @@ const clip = Boolean(from);
     .xp__panel { align-self: stretch; contain: size; }
   }
   .xp__main { min-width: 0; }
+
+  /* no chapter list: the player alone, full width */
+  .xp--nolist .xp__panel { display: none; }
+  .xp--nolist .xp__layout { grid-template-columns: minmax(0, 1fr); }
 
   /* clip: stage, play button and the chapter name only */
   .xp--clip .xp__panel, .xp--clip [data-prev], .xp--clip [data-next] { display: none; }

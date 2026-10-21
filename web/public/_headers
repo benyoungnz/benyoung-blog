@@ -1,0 +1,18 @@
+# Browser cache rules for files in public/ (Workers static assets apply these).
+# /_astro/* is fingerprinted and already served as immutable by the platform.
+
+/favicon.png
+  Cache-Control: public, max-age=604800, stale-while-revalidate=2592000
+
+/logo.svg
+  Cache-Control: public, max-age=604800, stale-while-revalidate=2592000
+
+/benyoung.jpg
+  Cache-Control: public, max-age=604800, stale-while-revalidate=2592000
+
+/og-default.png
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+# Images carried over from the old site; they never change
+/content/*
+  Cache-Control: public, max-age=2592000, stale-while-revalidate=31536000

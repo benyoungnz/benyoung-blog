@@ -7,8 +7,12 @@ import emdash from "emdash/astro";
 import { fileURLToPath } from "node:url";
 
 // Public pages are cached at Cloudflare's edge and purged by tag when EmDash publishes,
-// so a page view only costs Worker CPU (10 ms on the free plan) on a cache miss.
+// so a page view only runs the Worker on a cache miss.
 const page = { maxAge: 86400, swr: 604800 };
+// Media originals and resized renditions. Keys never change, but "Replace original" in the
+// admin can overwrite one in place and isn't purged, so the edge copy refreshes within a week
+// (or purge the URL in Cloudflare). Browsers still revalidate, and the edge answers that.
+const media = { maxAge: 604800, swr: 2592000 };
 
 export default defineConfig({
 	site: "https://benyoung.blog",
@@ -23,12 +27,18 @@ export default defineConfig({
 		"/about": page,
 		"/rss.xml": page,
 		"/sitemap.xml": page,
+		"/sitemap-[collection].xml": page,
 		"/videos/[...path]": page,
 		"/tools/[...path]": page,
+		"/_emdash/api/media/file/[...key]": media,
+		"/_image": media,
 	},
 	image: {
 		layout: "constrained",
 		responsiveStyles: true,
+		// Lets <Image> resize EmDash media through /_image (the Images binding). EmDash only adds
+		// this itself when its own `siteUrl` is set, which would also change passkey sign-in.
+		remotePatterns: [{ protocol: "https", hostname: "benyoung.blog", pathname: "/_emdash/api/media/file/**" }],
 	},
 	integrations: [
 		react(),

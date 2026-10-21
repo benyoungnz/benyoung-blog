@@ -38,7 +38,7 @@ Then open the admin at http://localhost:4321/_emdash/admin (or visit `/_emdash/a
 **Images.** Requests go through Astro's image endpoint. In production that uses the Cloudflare Images binding (`IMAGES`, free for 5,000 unique transformations a month), which serves resized WebP with a `srcset`. Covers and body images get width hints, so phones don't download desktop images.
 
 **Videos.** `/videos/` and `/videos/<slug>/` read the EmDash `videos` collection. Each entry is an editable copy of one YouTube upload.
-- `src/plugins/youtube-sync.ts` (a native EmDash plugin, so it works on the free plan) checks the channel's RSS feed every hour and adds new uploads. The hourly run comes from EmDash's scheduler, which the Worker's 15-minute cron drives.
+- `src/plugins/youtube-sync.ts` (a native EmDash plugin, so it needs no Worker Loader) checks the channel's RSS feed every hour and adds new uploads. The hourly run comes from EmDash's scheduler, which the Worker's 15-minute cron drives.
 - It never edits or removes existing videos: edits made in the admin stick, and unpublishing a video hides it for good.
 - Run a sync now (as an admin): `POST /_emdash/api/plugins/youtube-sync/sync`.
 - The feed only lists the latest 15 uploads, so anything older never gets added. To backfill, swap `fetchChannelFeed` in `src/lib/youtube-feed.ts` for the YouTube Data API.
@@ -46,7 +46,7 @@ Then open the admin at http://localhost:4321/_emdash/admin (or visit `/_emdash/a
 **SEO.**
 - `/sitemap.xml` replaces EmDash's posts-only sitemap: it lists every post, video, tag, category and static page, with trailing slashes and `lastmod`. The old `/sitemap-index.xml` and `/sitemap-0.xml` (and EmDash's `/sitemap-<collection>.xml`) all 301 to it.
 - Canonical URLs always use `benyoung.blog`.
-- Share images: posts use their hero image, and videos use the YouTube thumbnail. Every other page uses `public/og-default.png`, rendered offline by `node scripts/og-image.ts`, because rendering cards per request would blow the free plan's CPU budget.
+- Share images: posts use their hero image, and videos use the YouTube thumbnail. Every other page uses `public/og-default.png`, rendered offline by `node scripts/og-image.ts`, because rendering cards per request would cost CPU on every share-card fetch.
 - Structured data: EmDash emits `WebSite` and `BlogPosting`. The layout adds `BreadcrumbList` (posts, videos, tags, categories) and `VideoObject` on video pages.
 
 **AI (OpenRouter).** The `post-ai` plugin (`src/plugins/post-ai.ts`) runs when a post or video is saved in the admin. It never runs while a page is being viewed. It fills these fields:
@@ -61,14 +61,21 @@ Bulk tools, which work against the local site or a deployed one:
 
 Needs `OPENROUTER_API_KEY` (and optionally `OPENROUTER_MODEL`, default `~google/gemini-flash-latest`) in `web/.env` locally. In production it's a Worker secret: `npx wrangler secret put OPENROUTER_API_KEY`.
 
-**Caching.** The `cache` provider and `routeRules` in `astro.config.mjs` let Cloudflare's CDN hold public pages for a day, with stale-while-revalidate for a week. Responses carry EmDash cache tags, and publishing an entry purges exactly the pages that show it. A page view only costs Worker CPU on a cache miss, which matters on the free plan's 10 ms CPU limit. Search, admin and API routes are never cached.
+**Caching.** The site rarely changes, so it caches as much as it can at Cloudflare's edge:
 
-## Cloudflare (free plan)
+- **Pages**: the `cache` provider and `routeRules` in `astro.config.mjs` hold public pages for a day, with stale-while-revalidate for a week. Responses carry EmDash cache tags, and publishing an entry purges exactly the pages that show it. Browsers revalidate (`no-cache`), and the edge answers with a 304.
+- **Media**: originals (`/_emdash/api/media/file/*`) and resized renditions (`/_image`) are held at the edge for a week, stale-while-revalidate for 30 days. `image.remotePatterns` lets `<Image>` resize EmDash media through the `IMAGES` binding, so phones get small WebP files. "Replace original" in the admin overwrites a key in place and isn't purged, so purge that URL in Cloudflare if you need the new file sooner.
+- **Static files**: `/_astro/*` is fingerprinted and immutable. `public/_headers` gives the logo, favicon, photo and share card a week in the browser, and legacy `/content/*` images 30 days.
+- Search, admin and the rest of the API are never cached.
+
+## Cloudflare (Workers Paid, run conservatively)
+
+The account is on Workers Paid, but the site still avoids paid-only features and keeps per-request CPU low, so it would run on the free plan too.
 
 - **Worker**: about 20 MB uncompressed. Cloudflare's current limit is 64 MiB on both Free and Paid, with no compressed-size cap.
 - **D1** `benyoung-blog` and **R2** `benyoung-blog-media`: wrangler creates both on first deploy, so no ids are needed in `wrangler.jsonc`. It also creates the `SESSION` KV namespace that the adapter adds.
 - **Cron**: every 15 minutes, for scheduled publishing and maintenance. That's 96 runs a day, against the template's every-minute default of 1,440.
-- **Sandboxed plugins are off.** They need Worker Loader, which is Workers Paid ($5/mo). Config-defined plugins still work.
+- **Sandboxed plugins are off.** They need Worker Loader (Workers Paid). Uncomment `worker_loaders` in `wrangler.jsonc` to use them. Config-defined plugins work either way.
 
 ### Deploying from a laptop: `npm run ship`
 
@@ -80,7 +87,7 @@ npm run ship                     # the real thing
 ```
 
 `scripts/deploy.ts` runs in this order:
-1. **Preflight:** git branch/commit (asks before deploying uncommitted changes), free-plan config (no Worker Loader, no every-minute cron), Cloudflare login and account.
+1. **Preflight:** git branch/commit (asks before deploying uncommitted changes), paid-only features in use (Worker Loader) and an every-minute cron, Cloudflare login and account.
 2. **Secrets:** compares `wrangler secret list` with what the site needs (`EMDASH_ENCRYPTION_KEY`, `OPENROUTER_API_KEY`, optional `OPENROUTER_MODEL`). It uploads only the missing ones, with the deploy itself (`wrangler deploy --secrets-file`), so the very first deploy works too.
    - Values come from `web/.env.production` (gitignored).
    - Production gets its **own** `EMDASH_ENCRYPTION_KEY`, generated on first run. Back that file up: D1 backups don't include it.

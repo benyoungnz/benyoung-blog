@@ -17,10 +17,10 @@
 			"bucket_name": "benyoung-blog-media",
 		},
 	],
-	// Sandboxed plugins need Worker Loader (Workers Paid). Left off to stay on the free plan:
+	// Sandboxed plugins need Worker Loader (Workers Paid). Off until a sandboxed plugin is needed:
 	// "worker_loaders": [{ "binding": "LOADER" }],
 	// Maintenance + scheduled publishing. Every 15 min keeps cron at 96 runs/day
-	// (the template's every-minute default costs 1,440/day against the free plan).
+	// (the template's every-minute default runs 1,440 times a day).
 	"triggers": {
 		"crons": ["*/15 * * * *"],
 	},

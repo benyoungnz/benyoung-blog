@@ -5,7 +5,7 @@
 //   npm run ship -- --yes        # don't prompt (CI / when you've done it before)
 //
 // Steps:
-//   1. Preflight: git state, wrangler.jsonc stays on the free plan, Cloudflare login.
+//   1. Preflight: git state, which paid-only features wrangler.jsonc uses, Cloudflare login.
 //   2. Secrets: works out which Worker secrets are missing and uploads only those with the
 //      deploy (wrangler deploy --secrets-file), so the very first deploy works too.
 //      Values come from web/.env.production (gitignored). EMDASH_ENCRYPTION_KEY is generated
@@ -82,10 +82,10 @@ const config = JSON.parse(stripJsonc(readFileSync(join(root, "wrangler.jsonc"), 
 	routes?: { pattern?: string; custom_domain?: boolean }[];
 };
 ok(`Worker: ${config.name}`);
-if (config.worker_loaders?.length) warn("worker_loaders is enabled: sandboxed plugins need Workers Paid ($5/mo)");
-else ok("Free-plan config (no Worker Loader)");
+if (config.worker_loaders?.length) ok("worker_loaders on: sandboxed plugins (Workers Paid)");
+else ok("No paid-only features (Worker Loader off)");
 const everyMinute = config.triggers?.crons?.some((cron) => cron.trim() === "* * * * *");
-if (everyMinute) warn("A cron runs every minute: 1,440 of the free plan's 100k daily requests");
+if (everyMinute) warn("A cron runs every minute: 1,440 Worker runs a day");
 
 let dirty: string | undefined;
 try {

@@ -36,8 +36,7 @@ const crumbs = [{ label: 'Tools', href: '/tools/' }, { label: tool.title }];
       align="center"
       items={[
         ...(tool.footnote ? [{ icon: 'play' as const, text: tool.footnote }] : []),
-        { icon: 'lock' as const, text: 'Runs in your browser' },
-        ...(writeUp ? [{ icon: 'book' as const, text: 'Write-up on the blog' }] : []),
+        ...(writeUp ? [{ icon: 'book' as const, text: 'Write-up on the blog', href: postHref(writeUp.id) }] : []),
       ]}
     />
   </CenteredHero>

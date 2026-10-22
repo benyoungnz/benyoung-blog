@@ -281,7 +281,7 @@ F2.scene=function(t){
     F2.hit.forEach(h=>{const a=clamp((t-h.back+.35)/.35,0,1)*(1-clamp((t-h.back-.6)/.7,0,1));if(a>0){const [x,y]=tilePos(h.i);drawEdge(bx+44,by,x+15,y+15,C.green,1.8,a*.9,clamp((t-h.back+.35)/.35,0,1),.08);}});
     ctx.globalAlpha=bk;rrect(bx-40,by-40,80,80,14);ctx.fillStyle='#0E2A1C';ctx.fill();ctx.strokeStyle=C.green;ctx.lineWidth=2.5;ctx.stroke();
     ctx.fillStyle=C.green;for(let k=0;k<3;k++){rrect(bx-22,by-22+k*16,44,10,5);ctx.fill();}ctx.globalAlpha=1;
-    text('Veeam Backup for Microsoft 365',bx,by+72,18,C.ink,600,'center',bk);
+    text('Veeam Data Cloud for Microsoft 365',bx,by+72,18,C.ink,600,'center',bk);
     text('Offsite, independent of the tenant',bx,by+96,15,C.muted,400,'center',bk);}
 
   const ub=prog(t,22.5,23.2);

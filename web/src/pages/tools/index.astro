@@ -20,7 +20,7 @@ const count = allTools.length;
     lede="Interactive pieces that go with the write-ups. Play them, present them in a meeting, or send a team the link. Each one links back to the post with the detail."
     tone="violet"
   >
-    <MetaList items={[{ icon: 'play', text: `${count} ${count === 1 ? 'tool' : 'tools'}` }, { icon: 'lock', text: 'Runs in your browser' }, { icon: 'book', text: 'Each with a write-up' }]} />
+    <MetaList items={[{ icon: 'play', text: `${count} ${count === 1 ? 'tool' : 'tools'}` }, { icon: 'book', text: 'Each with a write-up', href: '/blog/' }]} />
     <Fragment slot="visual">
       <div class="collage">
         <StatCard class="c1" label="AI agents found" value="62" sub="in one demo tenant" tilt={-3}>

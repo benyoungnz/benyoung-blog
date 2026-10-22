@@ -1,16 +1,16 @@
 ---
 import Icon, { type IconName } from '../base/Icon.astro';
 
-/** Row of small icon + text facts ("No sign-up", "Runs in your browser"). */
+/** Row of small icon + text facts ("No sign-up", "Write-up on the blog"), optionally linked. */
 interface Props {
-  items: { icon: IconName; text: string }[];
+  items: { icon: IconName; text: string; href?: string }[];
   align?: 'start' | 'center';
 }
 const { items, align = 'start' } = Astro.props;
 ---
 
 <ul class:list={['meta', `meta--${align}`]}>
-  {items.map((i) => <li><Icon name={i.icon} size={16} />{i.text}</li>)}
+  {items.map((i) => <li><Icon name={i.icon} size={16} />{i.href ? <a href={i.href}>{i.text}</a> : i.text}</li>)}
 </ul>
 
 <style>
@@ -18,4 +18,6 @@ const { items, align = 'start' } = Astro.props;
   .meta--center { justify-content: center; }
   li { display: inline-flex; align-items: center; gap: var(--s-2); }
   li :global(svg) { color: var(--brand); }
+  a { color: inherit; text-underline-offset: 3px; }
+  a:hover { color: var(--ink); }
 </style>

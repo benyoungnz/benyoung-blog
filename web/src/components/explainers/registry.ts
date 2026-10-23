@@ -36,7 +36,7 @@ export const explainers: Record<string, ExplainerInfo> = {
   },
   'iresops-classification': {
     title: 'Scanning and classifying data with Veeam Intelligent ResOps for Microsoft 365',
-    tagline: 'Your agents are only as safe as your labels',
+    tagline: 'Labels you can trust, for people and AI agents',
     href: '/tools/iresops-classification/',
     load: () => import('./iresops-classification/film.js'),
   },

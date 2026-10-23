@@ -301,7 +301,7 @@ F5.render=function(t){backdrop();
     ctx.globalAlpha=fb;rrect(x,y,w,h,14);ctx.fillStyle='#0E2A1C';ctx.fill();ctx.strokeStyle=C.green;ctx.lineWidth=2;ctx.stroke();
     ctx.save();rrect(x,y,w,h,14);ctx.clip();const sx=x-300+frac(t/5)*(w+600);const gr=ctx.createLinearGradient(sx-220,0,sx+220,0);gr.addColorStop(0,'rgba(0,179,54,0)');gr.addColorStop(.5,'rgba(0,179,54,.22)');gr.addColorStop(1,'rgba(0,179,54,0)');ctx.fillStyle=gr;ctx.fillRect(x,y,w,h);ctx.restore();ctx.globalAlpha=1;
     text('Veeam Intelligent ResOps for Microsoft 365',800,y+53,30,C.ink,700,'center',fb);}
-  caption(t,[[.3,1e9,'Your agents are only as safe as your labels.']]);
+  caption(t,[[.3,1e9,'Labels you can trust, for people and AI agents.']]);
 };
 F5.beats=[[0,'Labels you can trust']];
 

@@ -68,9 +68,9 @@ export const toolCategories: ToolCategory[] = [
         href: '/tools/iresops-classification/',
         tags: ['iresops', 'microsoft365', 'ai'],
         explainer: 'iresops-classification',
-        post: 'ai-agents-only-as-safe-as-your-labels',
+        post: 'labels-you-can-trust-classification',
         about: [
-          'Sensitivity labels keep AI agents away from the files they should not read, but only when the labels are right. Miss a sensitive file and an agent reads it anyway. Over-label and people stop trusting the labels.',
+          'Sensitivity labels are only useful when people trust them, and that comes down to the classification behind them. AI agents raise the stakes. Miss a sensitive file and an agent reads it anyway. Over-label and people stop trusting the labels.',
           'This explainer walks through how iResOps scans Microsoft 365, why patterns on their own produce false positives and false negatives, how data elements, exact data profiles, document types and content profiles build up a classification, and how policy and Purview DLP act on it.',
           'Play it end to end, or turn on "Pause at each chapter" and click through it in a meeting. Northwind Group is a fictional company, and the people, numbers and file counts are illustrative.',
         ],

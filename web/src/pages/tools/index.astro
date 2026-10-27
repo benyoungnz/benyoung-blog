@@ -27,13 +27,15 @@ const count = allTools.length;
           <Badge tone="violet">iResOps explainer</Badge>
         </StatCard>
         <StatCard class="c2" label="Files flagged as ROT" value="12 / 20" sub="before the agent answers" tone="sky" tilt={2.5} />
-        <StatCard class="c3" label="Changes undone" value="1 agent" sub="everything else kept" tone="mint" tilt={-1.5} />
+        <StatCard class="c3" label="Reads granted" value="1 of 59" sub="at the start of a session" tone="mint" tilt={-1.5}>
+          <Badge tone="sky">AI explainer</Badge>
+        </StatCard>
       </div>
     </Fragment>
   </SplitHero>
 
   <Section aria-labelledby="pick">
-    <SectionHeading id="pick" eyebrow="All tools" title="Pick a tool" lede="Grouped by what they help with." />
+    <SectionHeading id="pick" eyebrow="All tools" title="Pick a tool" lede="Grouped by topic. Veeam Intelligent ResOps for Microsoft 365, and AI more broadly." />
     {toolCategories.length > 1 && <CategoryNav categories={toolCategories} />}
     <div class="cats">
       {toolCategories.map((c, i) => <ToolCategory category={c} index={i + 1} />)}

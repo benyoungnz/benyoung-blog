@@ -40,4 +40,16 @@ export const explainers: Record<string, ExplainerInfo> = {
     href: '/tools/iresops-classification/',
     load: () => import('./iresops-classification/film.js'),
   },
+  'ag-ui': {
+    title: 'How AG-UI works',
+    tagline: 'The protocol between an agent and the person using it',
+    href: '/tools/ag-ui/',
+    load: () => import('./ag-ui/film.js'),
+  },
+  'agent-interface': {
+    title: 'Building a better agent interface',
+    tagline: 'My UI, driven by the agent',
+    href: '/tools/agent-interface/',
+    load: () => import('./agent-interface/film.js'),
+  },
 };
